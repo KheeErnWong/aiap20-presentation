@@ -52,40 +52,12 @@ body {
     transition: var(--transition);
     min-height: 0; /* Remove flex: 1 constraint */
     overflow: visible; /* Changed from hidden */
-    display: grid;
-}
-
-/* LEFT SECTION - Career Journey */
-.career-section {
-    grid-template-rows: auto 1fr auto;
-    gap: 1.5rem;
-}
-
-/* RIGHT SECTION - Personal */
-.personal-section {
-    grid-template-rows: auto auto auto auto;
-    gap: 1.5rem;
-    align-content: start;
 }
 
 .section-title {
     font-size: 2.2rem; /* Increased from 1.8rem */
     color: var(--accent-blue);
     margin-bottom: 1.5rem; /* Increased spacing */
-    font-weight: 600;
-    border-bottom: 2px solid var(--accent-blue);
-    padding-bottom: 0.5rem;
-}
-
-/* ALIGNED BOTTOM SECTIONS */
-.bottom-section {
-    align-self: end;
-}
-
-.bottom-section h3 {
-    font-size: 2.2rem;
-    color: var(--accent-blue);
-    margin-bottom: 1.5rem;
     font-weight: 600;
     border-bottom: 2px solid var(--accent-blue);
     padding-bottom: 0.5rem;
@@ -133,6 +105,20 @@ body {
 }
 
 /* Why ML section */
+.why-ml-section {
+    margin-top: auto;
+    margin-bottom: 20px; /* Add this to shift Why ML up */
+}
+
+.why-ml-section h3 {
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-blue);
+    padding-bottom: 0.5rem;
+}
+
 .why-ml-text {
     font-size: 1.3rem; /* Increased from 1.1rem */
     line-height: 1.6; /* Increased line height */
@@ -164,8 +150,12 @@ body {
     font-size: 1.05rem; /* Increased from 0.95rem */
 }
 
-/* What to expect section */
-.what-to-expect h3 {
+/* What to expect section - MANUALLY ALIGNED */
+.expectations-content {
+    margin-top: 80px; /* Adjust this value to align with "Why ML?" */
+}
+
+.expectations-content h3 {
     font-size: 2.2rem;
     color: var(--accent-blue);
     margin-bottom: 1.5rem;
@@ -174,7 +164,7 @@ body {
     padding-bottom: 0.5rem;
 }
 
-.what-to-expect p {
+.expectations-content p {
     color: var(--text-secondary);
     line-height: 1.6;
     font-size: 1.3rem; /* Increased from 1.1rem */
@@ -192,13 +182,14 @@ body {
     .header .quote { font-size: 1.3rem; }
     .section-title { font-size: 1.8rem; }
     .why-ml-text { font-size: 1.1rem; }
-    .what-to-expect p { font-size: 1.1rem; }
+    .expectations-content p { font-size: 1.1rem; }
 
-    .career-section,
-    .personal-section {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+    .why-ml-section {
+        margin-bottom: 0;
+    }
+
+    .expectations-content {
+        margin-top: 0;
     }
 }
 

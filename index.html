@@ -5,63 +5,304 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AIAP Term Deposit Prediction - Presentation</title>
     <link rel="stylesheet" href="css/presentation.css">
+    <style>
+        /* Index page specific styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .index-container {
+            width: 1024px;
+            height: 768px;
+            background: white;
+            margin: 0 auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 60px;
+            text-align: center;
+        }
+
+        .presentation-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0 0 10px 0;
+            line-height: 1.2;
+        }
+
+        .presentation-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin: 0 0 20px 0;
+            font-weight: 300;
+        }
+
+        .presenter-info {
+            font-size: 16px;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        .content-section {
+            flex: 1;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slides-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .slide-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px 15px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+            background: #ffffff;
+        }
+
+        .slide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .slide-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .slide-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+            position: static;
+        }
+
+        .slide-title-text {
+            font-size: 13px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #333;
+        }
+
+        .slide-card:hover .slide-title-text {
+            color: #667eea;
+        }
+
+        .navigation-help {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #666;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 30px auto 0 auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .index-container {
+                width: 95vw;
+                height: 95vh;
+                top: 2.5vh;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+            }
+
+            .index-container {
+                width: 100vw;
+                height: 100vh;
+                top: 0;
+                border-radius: 0;
+            }
+
+            .header-section {
+                padding: 30px 20px;
+            }
+
+            .presentation-title {
+                font-size: 24px;
+            }
+
+            .presentation-subtitle {
+                font-size: 16px;
+            }
+
+            .content-section {
+                padding: 20px;
+                overflow-y: auto;
+            }
+
+            .slides-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                gap: 15px;
+            }
+
+            .slide-card {
+                height: 100px;
+                padding: 15px 10px;
+            }
+
+            .slide-number {
+                font-size: 20px;
+            }
+
+            .slide-title-text {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="nav-container">
-        <h1 style="text-align: center; margin-bottom: 30px; color: #1f1f1f;">
-            AIAP Term Deposit Prediction Presentation
-        </h1>
-        <p style="text-align: center; margin-bottom: 40px; color: #666; font-size: 18px;">
-            McKinsey-Style Business Presentation | Wong Khee Ern
-        </p>
-        
-        <a href="slide1.html" class="slide-link">
-            <span class="slide-number">Slide 1:</span> Title Slide
-        </a>
-        
-        <a href="slide2.html" class="slide-link">
-            <span class="slide-number">Slide 2:</span> Executive Summary
-        </a>
-        
-        <a href="slide3.html" class="slide-link">
-            <span class="slide-number">Slide 3:</span> Business Problem
-        </a>
-        
-        <a href="slide4.html" class="slide-link">
-            <span class="slide-number">Slide 4:</span> Key Data Insights
-        </a>
-        
-        <a href="slide5.html" class="slide-link">
-            <span class="slide-number">Slide 5:</span> Model Architecture & Approach
-        </a>
-        
-        <a href="slide6.html" class="slide-link">
-            <span class="slide-number">Slide 6:</span> Model Performance Results
-        </a>
-        
-        <a href="slide7.html" class="slide-link">
-            <span class="slide-number">Slide 7:</span> Business Impact Simulation
-        </a>
-        
-        <a href="slide8.html" class="slide-link">
-            <span class="slide-number">Slide 8:</span> Feature Importance & Insights
-        </a>
-        
-        <a href="slide9.html" class="slide-link">
-            <span class="slide-number">Slide 9:</span> Strategic Recommendations
-        </a>
-        
-        <a href="slide10.html" class="slide-link">
-            <span class="slide-number">Slide 10:</span> Next Steps & Implementation
-        </a>
-        
-        <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: center;">
-            <p style="color: #666; font-size: 14px; margin: 0;">
-                <strong>Navigation Tips:</strong> Use arrow keys (← →) or spacebar to navigate between slides
+    <div class="index-container">
+        <div class="header-section">
+            <h1 class="presentation-title">
+                Term Deposit Prediction
+            </h1>
+            <p class="presentation-subtitle">
+                A Data-Driven Approach for Al-Vive Banking
+            </p>
+            <p class="presenter-info">
+                AIAP® Batch 20 | Wong Khee Ern | McKinsey-Style Presentation
             </p>
         </div>
+        
+        <div class="content-section">
+            <div class="slides-grid">
+                <a href="slide1.html" class="slide-card">
+                    <div class="slide-number">01</div>
+                    <div class="slide-title-text">Title Slide</div>
+                </a>
+                
+                <a href="slide2.html" class="slide-card">
+                    <div class="slide-number">02</div>
+                    <div class="slide-title-text">Executive Summary</div>
+                </a>
+                
+                <a href="slide3.html" class="slide-card">
+                    <div class="slide-number">03</div>
+                    <div class="slide-title-text">Business Problem</div>
+                </a>
+                
+                <a href="slide4.html" class="slide-card">
+                    <div class="slide-number">04</div>
+                    <div class="slide-title-text">Key Data Insights</div>
+                </a>
+                
+                <a href="slide5.html" class="slide-card">
+                    <div class="slide-number">05</div>
+                    <div class="slide-title-text">Model Architecture</div>
+                </a>
+                
+                <a href="slide6.html" class="slide-card">
+                    <div class="slide-number">06</div>
+                    <div class="slide-title-text">Performance Results</div>
+                </a>
+                
+                <a href="slide7.html" class="slide-card">
+                    <div class="slide-number">07</div>
+                    <div class="slide-title-text">Business Impact</div>
+                </a>
+                
+                <a href="slide8.html" class="slide-card">
+                    <div class="slide-number">08</div>
+                    <div class="slide-title-text">Feature Importance</div>
+                </a>
+                
+                <a href="slide9.html" class="slide-card">
+                    <div class="slide-number">09</div>
+                    <div class="slide-title-text">Recommendations</div>
+                </a>
+                
+                <a href="slide10.html" class="slide-card">
+                    <div class="slide-number">10</div>
+                    <div class="slide-title-text">Next Steps</div>
+                </a>
+            </div>
+            
+            <a href="slide1.html" class="start-button">
+                Start Presentation →
+            </a>
+        </div>
+        
+        <div class="navigation-help">
+            💡 Use arrow keys (← →) or spacebar to navigate between slides
+        </div>
     </div>
-    
-    <script src="js/navigation.js"></script>
 </body>
 </html>

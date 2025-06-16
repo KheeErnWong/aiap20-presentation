@@ -127,15 +127,6 @@
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
-          justify-content: space-between;
-      }
-
-      .personal-section .section-content {
-          justify-content: flex-start;
-      }
-
-      .personal-section .section-content > *:last-child {
-          margin-top: auto;
       }
 
       /* Education Section */
@@ -289,9 +280,15 @@
       .timeline-step:nth-child(5) { animation-delay: 3.5s; }
       .timeline-step:nth-child(6) { animation-delay: 4s; }
 
-      /* Why ML Section */
-      .why-ml-section {
+      /* Bottom sections - aligned at same level */
+      .bottom-sections {
+          display: flex;
+          gap: 1.5rem;
           margin-top: auto;
+      }
+
+      .why-ml-section {
+          flex: 1;
       }
 
       .why-ml-section h3 {
@@ -378,11 +375,11 @@
 
       /* What to Expect Section */
       .expectations-content h3 {
-          color: var(--accent-light);
-          margin-bottom: 1.2rem;
-          font-size: 2rem;
+          font-size: 2.2rem;
+          color: var(--accent-blue);
+          margin-bottom: 1.5rem;
           font-weight: 600;
-          border-bottom: 2px solid var(--accent-light);
+          border-bottom: 2px solid var(--accent-blue);
           padding-bottom: 0.5rem;
       }
 
@@ -518,6 +515,11 @@
               padding: 0.6rem 1.2rem;
               font-size: 0.9rem;
           }
+
+          .bottom-sections {
+              flex-direction: column;
+              gap: 1.5rem;
+          }
       }
 
       @media (max-height: 900px) {
@@ -612,7 +614,7 @@
               </div>
           </div>
 
-          <div class="section personal-section">
+          <div class="section">
               <h2 class="section-title">When I'm Not Coding</h2>
               <div class="section-content">
                   <div class="hobbies-section">

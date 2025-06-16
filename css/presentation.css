@@ -41,6 +41,23 @@ body {
     gap: 2rem; /* Increased gap */
     animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
     min-height: 0;
+    align-items: start; /* Important: align to start instead of stretch */
+}
+
+/* Left and right halves use CSS Grid for better content distribution */
+.left-half, .right-half {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+}
+
+/* Specific grid layouts for slide1 */
+.left-half {
+    grid-template-rows: 2fr 1fr; /* Career section gets more space */
+}
+
+.right-half {
+    grid-template-rows: 1.5fr 0.8fr; /* Personal section gets more space */
 }
 
 .section {
@@ -50,8 +67,9 @@ body {
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border-blue);
     transition: var(--transition);
-    min-height: 0; /* Remove flex: 1 constraint */
+    min-height: fit-content; /* Changed from flex: 1 */
     overflow: visible; /* Changed from hidden */
+    height: fit-content; /* Ensure height fits content */
 }
 
 .section-title {
@@ -94,6 +112,7 @@ body {
     min-height: 2.6rem; /* Increased min-height */
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .step-company-line {
@@ -159,6 +178,10 @@ body {
         padding: 1.5rem;
     }
     
+    .left-half, .right-half {
+        grid-template-rows: auto auto; /* Reset to auto for mobile */
+    }
+    
     .header h1 { font-size: 3rem; }
     .header .quote { font-size: 1.3rem; }
     .section-title { font-size: 1.8rem; }
@@ -169,4 +192,11 @@ body {
 @media (max-height: 900px) {
     .header { padding: 1.5rem 2rem; }
     .content { padding: 1.8rem; }
+    .left-half { grid-template-rows: 1.8fr 1fr; }
+    .right-half { grid-template-rows: 1.3fr 0.7fr; }
+}
+
+@media (max-height: 800px) {
+    .left-half { grid-template-rows: 1.6fr 1fr; }
+    .right-half { grid-template-rows: 1.2fr 0.8fr; }
 }

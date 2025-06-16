@@ -234,8 +234,19 @@
            transform: scale(1.15);
        }
 
+       .step-year {
+           font-size: 1.1rem;
+           color: var(--accent-light);
+           line-height: 1.2;
+           margin-bottom: 0.3rem;
+           font-weight: 700;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+       }
+
        .step-title {
-           font-size: 0.95rem;
+           font-size: 0.85rem;
            color: var(--text-secondary);
            line-height: 1.2;
            margin-bottom: 0.3rem;
@@ -247,11 +258,12 @@
        }
 
        .step-company {
-           font-size: 0.85rem;
+           font-size: 0.75rem;
            color: var(--text-muted);
            font-weight: 500;
        }
 
+       .timeline-step.current .step-year,
        .timeline-step.current .step-title,
        .timeline-step.current .step-company {
            color: var(--accent-light);
@@ -544,32 +556,38 @@
                        <div class="timeline-steps">
                            <div class="timeline-step">
                                <div class="step-circle">⚡</div>
-                               <div class="step-title">Electrical Engineer 2017</div>
+                               <div class="step-year">2017</div>
+                               <div class="step-title">Electrical Engineer</div>
                                <div class="step-company">Keppel FELS</div>
                            </div>
                            <div class="timeline-step">
                                <div class="step-circle">💡</div>
-                               <div class="step-title">Intrapreneur 2018</div>
+                               <div class="step-year">2018</div>
+                               <div class="step-title">Intrapreneur</div>
                                <div class="step-company">Keppel FELS</div>
                            </div>
                            <div class="timeline-step">
                                <div class="step-circle">🏥</div>
-                               <div class="step-title">Healthcare IT Manager 2019</div>
+                               <div class="step-year">2019</div>
+                               <div class="step-title">Project Manager</div>
                                <div class="step-company">Synapxe</div>
                            </div>
                            <div class="timeline-step">
                                <div class="step-circle">📈</div>
-                               <div class="step-title">Algorithmic Trader 2021</div>
+                               <div class="step-year">2021</div>
+                               <div class="step-title">Algorithmic Trader</div>
                                <div class="step-company">Grasshopper</div>
                            </div>
                            <div class="timeline-step">
                                <div class="step-circle">📋</div>
-                               <div class="step-title">ISO Quality Rep 2023</div>
+                               <div class="step-year">2023</div>
+                               <div class="step-title">ISO Quality Rep</div>
                                <div class="step-company">Thai Eastern Wire</div>
                            </div>
                            <div class="timeline-step current">
                                <div class="step-circle">🤖</div>
-                               <div class="step-title">AI/ML Engineer 2025</div>
+                               <div class="step-year">2025</div>
+                               <div class="step-title">AI/ML Engineer</div>
                                <div class="step-company">AIAP Program</div>
                            </div>
                        </div>
@@ -590,16 +608,6 @@
                <div class="section">
                    <h2 class="section-title">When I'm Not Coding</h2>
                    
-                   <div class="fun-fact-card">
-                       <div class="fun-fact-title">
-                           🐘 Survival Story
-                       </div>
-                       <p class="fun-fact-content">
-                           Got chased by elephants in Khao Yai, Thailand. 
-                           If I can handle charging elephants, no other problem is too big for me!
-                       </p>
-                   </div>
-
                    <div class="hobbies-section">
                        <h3>My Hobbies</h3>
                        <div class="hobbies-grid">
@@ -620,6 +628,16 @@
                                <div class="hobby-text">Beginner cook</div>
                            </div>
                        </div>
+                   </div>
+
+                   <div class="fun-fact-card">
+                       <div class="fun-fact-title">
+                           🐘 Funny Story
+                       </div>
+                       <p class="fun-fact-content">
+                           Got chased by elephants in Khao Yai, Thailand. 
+                           If I can handle charging elephants, no other problem is too big for me!
+                       </p>
                    </div>
                </div>
 

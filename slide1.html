@@ -30,40 +30,31 @@
             box-sizing: border-box;
         }
 
-        /* Header specific styling */
-        .header {
-            background: var(--secondary-bg);
-            padding: 1.5rem 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        html {
+            height: 100%;
+            overflow: hidden;
         }
 
         .education-content {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
+            gap: 0.8rem;
+            padding: 0.8rem;
             background: var(--card-bg);
             border-radius: 8px;
             border: 1px solid rgba(59, 130, 246, 0.15);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .education-icon {
-            font-size: 2.2rem;
+            font-size: 2rem;
             color: var(--accent-light);
             flex-shrink: 0;
         }
 
         .education-year {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
         }
 
@@ -76,6 +67,7 @@
             background: rgba(59, 130, 246, 0.2);
             border-radius: 2px;
             transform: translateY(-50%);
+            z-index: 1;
         }
 
         .progress-fill {
@@ -93,6 +85,7 @@
             position: relative;
             z-index: 2;
             padding: 0 2%;
+            align-items: center;
         }
 
         .step {
@@ -100,7 +93,7 @@
             flex: 1;
             opacity: 0;
             transform: translateY(20px);
-            max-width: 140px; /* Reduced for better fit */
+            max-width: 130px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -113,17 +106,19 @@
         }
 
         .step-icon {
-            width: 40px; /* Slightly smaller */
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--secondary-bg);
             border: 2px solid var(--border-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.7rem;
-            font-size: 1.3rem;
+            margin-bottom: 0.6rem;
+            font-size: 1.2rem;
             transition: var(--transition);
+            position: relative;
+            z-index: 3;
         }
 
         .step-icon.active {
@@ -134,7 +129,7 @@
         }
 
         .step-content {
-            margin-top: 0.7rem;
+            margin-top: 0.6rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -151,23 +146,23 @@
 
         .fun-fact {
             background: var(--card-bg);
-            padding: 1.2rem;
+            padding: 1rem;
             border-radius: 8px;
             border-left: 3px solid var(--accent-light);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .hobbies-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.7rem;
+            gap: 0.6rem;
         }
 
         .hobby-item {
             display: flex;
             align-items: center;
-            gap: 0.7rem;
-            padding: 0.8rem;
+            gap: 0.6rem;
+            padding: 0.7rem;
             background: var(--card-bg);
             border-radius: 6px;
             border: 1px solid rgba(59, 130, 246, 0.1);
@@ -180,18 +175,18 @@
         }
 
         .hobby-icon {
-            font-size: 1.4rem;
-            width: 28px;
+            font-size: 1.3rem;
+            width: 26px;
             text-align: center;
             flex-shrink: 0;
         }
 
         .navigation {
             position: absolute;
-            bottom: 1.5rem;
-            right: 2rem;
+            bottom: 1rem;
+            right: 1.5rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
         }
 
@@ -199,10 +194,10 @@
             background: var(--blue-gradient);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 500;
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
@@ -243,7 +238,7 @@
         @media (max-width: 768px) {
             .journey-steps {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.8rem;
                 padding: 0;
             }
             
@@ -253,7 +248,7 @@
                 max-width: none;
                 flex-direction: row;
                 align-items: center;
-                gap: 1rem;
+                gap: 0.8rem;
             }
             
             .step-icon { margin-bottom: 0; }
@@ -267,11 +262,19 @@
         }
 
         /* Additional height-specific adjustments */
+        @media (max-height: 750px) {
+            .education-content { padding: 0.7rem; margin-bottom: 0.8rem; }
+            .fun-fact { padding: 0.8rem; margin-bottom: 0.8rem; }
+            .hobby-item { padding: 0.6rem; }
+            .step-icon { width: 32px; height: 32px; font-size: 1.1rem; }
+        }
+
         @media (max-height: 700px) {
-            .education-content { padding: 0.8rem; margin-bottom: 1rem; }
-            .fun-fact { padding: 1rem; margin-bottom: 1rem; }
-            .hobby-item { padding: 0.7rem; }
-            .step-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+            .education-content { padding: 0.6rem; margin-bottom: 0.7rem; }
+            .fun-fact { padding: 0.7rem; margin-bottom: 0.7rem; }
+            .hobby-item { padding: 0.5rem; }
+            .step-icon { width: 30px; height: 30px; font-size: 1rem; }
+            .hobbies-list { gap: 0.5rem; }
         }
     </style>
 </head>

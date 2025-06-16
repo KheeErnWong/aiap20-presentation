@@ -127,6 +127,15 @@
           display: flex;
           flex-direction: column;
           gap: 1.5rem;
+          justify-content: space-between;
+      }
+
+      .personal-section .section-content {
+          justify-content: flex-start;
+      }
+
+      .personal-section .section-content > *:last-child {
+          margin-top: auto;
       }
 
       /* Education Section */
@@ -281,6 +290,19 @@
       .timeline-step:nth-child(6) { animation-delay: 4s; }
 
       /* Why ML Section */
+      .why-ml-section {
+          margin-top: auto;
+      }
+
+      .why-ml-section h3 {
+          font-size: 2.2rem;
+          color: var(--accent-blue);
+          margin-bottom: 1.5rem;
+          font-weight: 600;
+          border-bottom: 2px solid var(--accent-blue);
+          padding-bottom: 0.5rem;
+      }
+
       .why-ml-content {
           font-size: 1.3rem;
           line-height: 1.6;
@@ -580,7 +602,7 @@
                   </div>
 
                   <div class="why-ml-section">
-                      <h3 style="color: var(--accent-light); margin-bottom: 1rem; font-size: 1.6rem; font-weight: 600;">Why ML?</h3>
+                      <h3>Why ML?</h3>
                       <p class="why-ml-content">
                           I'm passionate about solving business problems through technology and data-driven insights. 
                           ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
@@ -590,7 +612,7 @@
               </div>
           </div>
 
-          <div class="section">
+          <div class="section personal-section">
               <h2 class="section-title">When I'm Not Coding</h2>
               <div class="section-content">
                   <div class="hobbies-section">

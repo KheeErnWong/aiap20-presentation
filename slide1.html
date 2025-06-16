@@ -20,7 +20,14 @@
           --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
           --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
           --border-blue: rgba(59, 130, 246, 0.2);
-          --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          
+          /* 🎯 UNIFIED TIMING SYSTEM */
+          --timing-fast: 0.3s;
+          --timing-medium: 0.6s;
+          --timing-slow: 1.2s;
+          --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+          --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+          --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       }
 
       * {
@@ -56,15 +63,60 @@
           color: var(--text-secondary);
           border: 1px solid var(--border-blue);
           z-index: 100;
+          opacity: 0;
+          animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
       }
 
+      /* 🎯 1. SEQUENTIAL REVEAL SYSTEM */
       .header {
           background: var(--secondary-bg);
           padding: 2rem 2rem 1.5rem 2rem;
           text-align: center;
           box-shadow: var(--shadow-sm);
-          animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
           flex-shrink: 0;
+          opacity: 0;
+          transform: translateY(-50px);
+          animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
+      }
+
+      .content {
+          flex: 1;
+          padding: 2rem;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2rem;
+          opacity: 0;
+          animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+      }
+
+      .section {
+          background: var(--secondary-bg);
+          padding: 2rem;
+          border-radius: 12px;
+          box-shadow: var(--shadow-md);
+          border: 1px solid var(--border-blue);
+          transition: all var(--timing-fast) var(--easing-smooth);
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          transform: translateY(30px);
+          opacity: 0;
+      }
+
+      .section.career {
+          animation: revealSection var(--timing-medium) var(--easing-smooth) 1.8s forwards;
+      }
+
+      .section.personal {
+          animation: revealSection var(--timing-medium) var(--easing-smooth) 2.1s forwards;
+      }
+
+      /* 🎯 3. CONSISTENT POLISH - Enhanced Hover Effects */
+      .section:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--shadow-lg);
+          border-color: rgba(59, 130, 246, 0.6);
+          background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
       }
 
       .header h1 {
@@ -73,6 +125,9 @@
           color: var(--accent-light);
           margin-bottom: 0.6rem;
           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+          opacity: 0;
+          transform: translateY(20px);
+          animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
       }
 
       .header .quote {
@@ -82,33 +137,9 @@
           font-weight: 300;
           max-width: 800px;
           margin: 0 auto;
-      }
-
-      .content {
-          flex: 1;
-          padding: 2rem;
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 2rem;
-          animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
-      }
-
-      .section {
-          background: var(--secondary-bg);
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: var(--shadow-md);
-          border: 1px solid var(--border-blue);
-          transition: var(--transition);
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-      }
-
-      .section:hover {
-          transform: translateY(-5px);
-          box-shadow: var(--shadow-lg);
-          border-color: rgba(59, 130, 246, 0.4);
+          opacity: 0;
+          transform: translateY(15px);
+          animation: revealQuote var(--timing-medium) var(--easing-smooth) 1s forwards;
       }
 
       .section-title {
@@ -118,6 +149,20 @@
           font-weight: 600;
           border-bottom: 2px solid var(--accent-blue);
           padding-bottom: 0.5rem;
+          position: relative;
+          overflow: hidden;
+      }
+
+      /* ✨ Enhanced section title animation */
+      .section-title::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: -100%;
+          width: 100%;
+          height: 2px;
+          background: var(--blue-gradient);
+          animation: underlineSlide var(--timing-slow) var(--easing-tech) 0.5s forwards;
       }
 
       .section-content {
@@ -136,12 +181,27 @@
           background: var(--card-bg);
           border-radius: 10px;
           border: 2px solid rgba(59, 130, 246, 0.2);
+          opacity: 0;
+          transform: translateX(-30px);
+          animation: slideInFromLeft var(--timing-medium) var(--easing-smooth) 2.4s forwards;
+          transition: all var(--timing-fast) var(--easing-smooth);
+      }
+
+      .education-card:hover {
+          border-color: var(--accent-light);
+          transform: translateX(5px);
+          background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       }
 
       .education-icon {
           font-size: 2.5rem;
           color: var(--accent-light);
           min-width: 50px;
+          transition: transform var(--timing-fast) var(--easing-bounce);
+      }
+
+      .education-card:hover .education-icon {
+          transform: rotate(10deg) scale(1.1);
       }
 
       .education-details h4 {
@@ -165,7 +225,7 @@
           margin-top: 0.3rem;
       }
 
-      /* Career Timeline */
+      /* 🎯 2. ENHANCED TIMELINE ANIMATION */
       .timeline-container {
           flex: 1;
           position: relative;
@@ -180,6 +240,7 @@
           height: 4px;
           background: rgba(59, 130, 246, 0.2);
           border-radius: 2px;
+          overflow: hidden;
       }
 
       .timeline-progress {
@@ -187,8 +248,24 @@
           background: var(--blue-gradient);
           width: 0%;
           border-radius: 2px;
-          animation: timelineProgress 3s ease-in-out 1s forwards;
+          position: relative;
+          animation: timelineProgress 3s var(--easing-tech) 2.8s forwards;
           box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+      }
+
+      /* ✨ Glowing progress indicator */
+      .timeline-progress::after {
+          content: '';
+          position: absolute;
+          right: -8px;
+          top: -4px;
+          width: 12px;
+          height: 12px;
+          background: var(--accent-light);
+          border-radius: 50%;
+          box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+          opacity: 0;
+          animation: showProgressDot var(--timing-fast) var(--easing-smooth) 4s forwards;
       }
 
       .timeline-steps {
@@ -208,7 +285,28 @@
           max-width: 140px;
           opacity: 0;
           transform: translateY(30px);
-          animation: stepAppear 0.6s ease forwards;
+      }
+
+      /* ✨ Enhanced step animations with connecting lines */
+      .timeline-step::before {
+          content: '';
+          position: absolute;
+          top: 22px;
+          left: -50%;
+          width: 100%;
+          height: 2px;
+          background: rgba(59, 130, 246, 0.3);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform var(--timing-medium) var(--easing-smooth);
+      }
+
+      .timeline-step:first-child::before {
+          display: none;
+      }
+
+      .timeline-step.connected::before {
+          transform: scaleX(1);
       }
 
       .step-circle {
@@ -222,15 +320,22 @@
           justify-content: center;
           font-size: 1.4rem;
           margin-bottom: 0.8rem;
-          transition: var(--transition);
+          transition: all var(--timing-fast) var(--easing-smooth);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          position: relative;
+          z-index: 3;
       }
 
       .step-circle.active {
           background: var(--blue-gradient);
           border-color: var(--accent-light);
-          box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+          box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
           transform: scale(1.15);
+      }
+
+      /* ✨ Pulse effect for current step */
+      .step-circle.current {
+          animation: pulseGlow 2s ease-in-out infinite;
       }
 
       .step-year {
@@ -270,18 +375,21 @@
           font-weight: 700;
       }
 
-      /* Animation delays for timeline steps */
-      .timeline-step:nth-child(1) { animation-delay: 1.5s; }
-      .timeline-step:nth-child(2) { animation-delay: 2s; }
-      .timeline-step:nth-child(3) { animation-delay: 2.5s; }
-      .timeline-step:nth-child(4) { animation-delay: 3s; }
-      .timeline-step:nth-child(5) { animation-delay: 3.5s; }
-      .timeline-step:nth-child(6) { animation-delay: 4s; }
+      /* ✨ Sequential step reveals */
+      .timeline-step:nth-child(1) { animation: stepReveal var(--timing-medium) var(--easing-bounce) 3.2s forwards; }
+      .timeline-step:nth-child(2) { animation: stepReveal var(--timing-medium) var(--easing-bounce) 3.6s forwards; }
+      .timeline-step:nth-child(3) { animation: stepReveal var(--timing-medium) var(--easing-bounce) 4.0s forwards; }
+      .timeline-step:nth-child(4) { animation: stepReveal var(--timing-medium) var(--easing-bounce) 4.4s forwards; }
+      .timeline-step:nth-child(5) { animation: stepReveal var(--timing-medium) var(--easing-bounce) 4.8s forwards; }
+      .timeline-step:nth-child(6) { animation: stepReveal var(--timing-medium) var(--easing-bounce) 5.2s forwards; }
 
       /* Why ML Section */
       .why-ml-section {
           margin-top: auto;
           margin-bottom: 25px;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: revealWhyML var(--timing-medium) var(--easing-smooth) 5.8s forwards;
       }
 
       .why-ml-section h3 {
@@ -306,6 +414,16 @@
           border-radius: 10px;
           border-left: 4px solid var(--accent-light);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          opacity: 0;
+          transform: translateX(30px);
+          animation: slideInFromRight var(--timing-medium) var(--easing-smooth) 6.2s forwards;
+          transition: all var(--timing-fast) var(--easing-smooth);
+      }
+
+      .fun-fact-card:hover {
+          transform: translateX(-5px);
+          border-left-color: #93c5fd;
+          box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
       }
 
       .fun-fact-title {
@@ -324,6 +442,12 @@
           color: var(--text-secondary);
       }
 
+      .hobbies-section {
+          opacity: 0;
+          transform: translateY(20px);
+          animation: revealHobbies var(--timing-medium) var(--easing-smooth) 6.8s forwards;
+      }
+
       .hobbies-section h3 {
           color: var(--accent-light);
           margin-bottom: 1.2rem;
@@ -337,7 +461,6 @@
           gap: 1rem;
       }
 
-      /* ANIMATED HOBBY ITEMS */
       .hobby-item {
           display: flex;
           align-items: center;
@@ -346,17 +469,16 @@
           background: var(--card-bg);
           border-radius: 8px;
           border: 1px solid rgba(59, 130, 246, 0.15);
-          transition: var(--transition);
+          transition: all var(--timing-fast) var(--easing-smooth);
           opacity: 0;
           transform: translateY(20px);
-          animation: hobbyFadeIn 0.6s ease forwards;
       }
 
-      /* Staggered animation delays for hobby items */
-      .hobby-item:nth-child(1) { animation-delay: 5s; }
-      .hobby-item:nth-child(2) { animation-delay: 5.2s; }
-      .hobby-item:nth-child(3) { animation-delay: 5.4s; }
-      .hobby-item:nth-child(4) { animation-delay: 5.6s; }
+      /* ✨ Staggered hobby reveals */
+      .hobby-item:nth-child(1) { animation: hobbyReveal var(--timing-fast) var(--easing-smooth) 7.2s forwards; }
+      .hobby-item:nth-child(2) { animation: hobbyReveal var(--timing-fast) var(--easing-smooth) 7.4s forwards; }
+      .hobby-item:nth-child(3) { animation: hobbyReveal var(--timing-fast) var(--easing-smooth) 7.6s forwards; }
+      .hobby-item:nth-child(4) { animation: hobbyReveal var(--timing-fast) var(--easing-smooth) 7.8s forwards; }
 
       .hobby-item:hover {
           border-color: rgba(59, 130, 246, 0.5);
@@ -369,7 +491,7 @@
           font-size: 1.6rem;
           width: 30px;
           text-align: center;
-          transition: var(--transition);
+          transition: all var(--timing-fast) var(--easing-bounce);
       }
 
       .hobby-item:hover .hobby-icon {
@@ -381,7 +503,7 @@
           color: var(--text-secondary);
           font-size: 1.05rem;
           font-weight: 500;
-          transition: var(--transition);
+          transition: all var(--timing-fast) var(--easing-smooth);
       }
 
       .hobby-item:hover .hobby-text {
@@ -389,9 +511,12 @@
           font-weight: 600;
       }
 
-      /* What to Expect Section - MANUALLY ALIGNED */
+      /* What to Expect Section */
       .expectations-content {
-          margin-top: 80px; /* Adjust this value to align with "Why ML?" */
+          margin-top: 80px;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: revealExpectations var(--timing-medium) var(--easing-smooth) 8.2s forwards;
       }
 
       .expectations-content h3 {
@@ -416,8 +541,10 @@
           right: 2rem;
           display: flex;
           gap: 1rem;
-          animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
           z-index: 100;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: revealNavigation var(--timing-medium) var(--easing-smooth) 8.8s forwards;
       }
 
       .nav-btn {
@@ -429,8 +556,21 @@
           cursor: pointer;
           font-size: 1rem;
           font-weight: 600;
-          transition: var(--transition);
+          transition: all var(--timing-fast) var(--easing-smooth);
           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+          position: relative;
+          overflow: hidden;
+      }
+
+      .nav-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left var(--timing-medium) var(--easing-smooth);
       }
 
       .nav-btn:hover {
@@ -439,20 +579,54 @@
           background: var(--blue-light);
       }
 
-      /* Animations */
-      @keyframes slideDown {
-          from { transform: translateY(-100%); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
+      .nav-btn:hover::before {
+          left: 100%;
       }
 
-      @keyframes fadeInUp {
-          from { transform: translateY(50px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
+      /* ✨ KEYFRAME ANIMATIONS */
+      @keyframes slideHeader {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
       }
 
-      @keyframes fadeIn {
+      @keyframes revealHeader {
+          from { opacity: 0; transform: translateY(-50px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes revealTitle {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes revealQuote {
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes revealContent {
           from { opacity: 0; }
           to { opacity: 1; }
+      }
+
+      @keyframes revealSection {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes underlineSlide {
+          from { left: -100%; }
+          to { left: 0; }
+      }
+
+      @keyframes slideInFromLeft {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+      }
+
+      @keyframes slideInFromRight {
+          from { opacity: 0; transform: translateX(30px); }
+          to { opacity: 1; transform: translateX(0); }
       }
 
       @keyframes timelineProgress {
@@ -460,21 +634,44 @@
           to { width: 100%; }
       }
 
-      @keyframes stepAppear {
+      @keyframes showProgressDot {
+          from { opacity: 0; transform: scale(0); }
+          to { opacity: 1; transform: scale(1); }
+      }
+
+      @keyframes stepReveal {
           from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
       }
 
-      /* NEW HOBBY ANIMATION */
-      @keyframes hobbyFadeIn {
-          from { 
-              opacity: 0; 
-              transform: translateY(20px); 
-          }
-          to { 
-              opacity: 1; 
-              transform: translateY(0); 
-          }
+      @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.7); }
+          50% { box-shadow: 0 0 35px rgba(59, 130, 246, 1), 0 0 50px rgba(96, 165, 250, 0.5); }
+      }
+
+      @keyframes revealWhyML {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes revealHobbies {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes hobbyReveal {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes revealExpectations {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes revealNavigation {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
       }
 
       /* Responsive Design */
@@ -562,6 +759,15 @@
               padding: 1.8rem; 
           }
       }
+
+      /* ✨ Accessibility - Respect reduced motion preferences */
+      @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after {
+              animation-duration: 0.01ms !important;
+              animation-iteration-count: 1 !important;
+              transition-duration: 0.01ms !important;
+          }
+      }
   </style>
 </head>
 <body>
@@ -576,7 +782,7 @@
       </header>
 
       <main class="content">
-          <div class="section">
+          <div class="section career">
               <h2 class="section-title">Career Journey</h2>
               <div class="section-content">
                   <div class="education-card">
@@ -626,7 +832,7 @@
                               <div class="step-company">Thai Eastern Wire</div>
                           </div>
                           <div class="timeline-step current">
-                              <div class="step-circle">🤖</div>
+                              <div class="step-circle current">🤖</div>
                               <div class="step-year">2025</div>
                               <div class="step-title">AI/ML Engineer</div>
                               <div class="step-company">AIAP Program</div>
@@ -645,7 +851,7 @@
               </div>
           </div>
 
-          <div class="section">
+          <div class="section personal">
               <h2 class="section-title">When I'm Not Coding</h2>
               <div class="section-content">
                   <div class="hobbies-section">
@@ -702,22 +908,31 @@
           window.location.href = url;
       }
 
-      // Animate timeline steps
+      // ✨ Enhanced timeline animation with connecting lines and step activation
       function animateTimeline() {
+          const steps = document.querySelectorAll('.timeline-step');
+          const circles = document.querySelectorAll('.step-circle');
+          
+          // Activate circles in sequence after timeline progress completes
           setTimeout(() => {
-              document.querySelectorAll('.step-circle').forEach((circle, index) => {
+              circles.forEach((circle, index) => {
                   setTimeout(() => {
                       circle.classList.add('active');
-                      // Special highlight for current position
-                      if (index === 5) {
-                          setTimeout(() => {
-                              circle.style.background = 'var(--blue-light)';
-                              circle.style.transform = 'scale(1.25)';
-                          }, 300);
+                      
+                      // Add connecting line animation
+                      if (index > 0) {
+                          steps[index].classList.add('connected');
                       }
-                  }, index * 400);
+                      
+                      // Special highlight for current position (last step)
+                      if (index === circles.length - 1) {
+                          setTimeout(() => {
+                              circle.classList.add('current');
+                          }, 200);
+                      }
+                  }, index * 200); // Faster sequence
               });
-          }, 4500);
+          }, 5800); // Start after timeline progress animation
       }
 
       // Keyboard navigation

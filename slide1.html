@@ -56,14 +56,14 @@
             flex: 1;
             padding: 2rem;
             display: grid;
-            grid-template-columns: 65fr 35fr;
+            grid-template-columns: 1fr 1fr;
             gap: 2rem;
             align-items: start;
             animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
-            min-height: 0; /* Important for proper grid sizing */
+            min-height: 0;
         }
 
-        .left-column {
+        .left-half {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
@@ -71,21 +71,45 @@
             min-height: 0;
         }
 
-        .bio-section {
+        .right-half {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: 100%;
+            min-height: 0;
+        }
+
+        .section {
             background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
             padding: 1.8rem;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(59, 130, 246, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            flex: 1;
-            min-height: 0;
         }
 
-        .bio-section:hover {
+        .section:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .professional-journey {
+            flex: 1.2;
+        }
+
+        .why-ml {
+            flex: 0.8;
+        }
+
+        .personal-section {
+            flex: 1.3;
+        }
+
+        .what-to-expect {
+            flex: 0.7;
+            background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .section-title {
@@ -191,28 +215,11 @@
         .step:nth-child(4) { animation: stepFadeIn 0.5s ease 3s forwards; }
         .step:nth-child(5) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
 
-        .why-ml {
+        .why-ml-text {
             font-size: 1rem;
-            line-height: 1.5;
+            line-height: 1.6;
             color: #cbd5e0;
             margin-bottom: 0;
-        }
-
-        .personal-section {
-            background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
-            padding: 1.8rem;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(59, 130, 246, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            flex: 1.2;
-            min-height: 0;
-        }
-
-        .personal-section:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(59, 130, 246, 0.3);
         }
 
         .fun-fact {
@@ -274,24 +281,6 @@
             font-size: 0.85rem;
         }
 
-        .what-to-expect {
-            padding: 1.8rem;
-            background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-            border-radius: 12px;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .what-to-expect:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
         .what-to-expect h3 {
             color: #60a5fa;
             margin-bottom: 1rem;
@@ -302,7 +291,7 @@
 
         .what-to-expect p {
             color: #cbd5e0;
-            line-height: 1.5;
+            line-height: 1.6;
             font-size: 1rem;
         }
 
@@ -397,11 +386,7 @@
                 gap: 1.5rem;
             }
             
-            .bio-section, .personal-section {
-                padding: 1.5rem;
-            }
-            
-            .what-to-expect {
+            .section {
                 padding: 1.5rem;
             }
         }
@@ -438,7 +423,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .left-column {
+            .left-half, .right-half {
                 gap: 1rem;
             }
         }
@@ -453,7 +438,7 @@
                 gap: 1rem;
             }
             
-            .bio-section, .personal-section, .what-to-expect {
+            .section {
                 padding: 1.2rem;
             }
             
@@ -472,8 +457,8 @@
         </header>
 
         <main class="content">
-            <div class="left-column">
-                <div class="bio-section">
+            <div class="left-half">
+                <div class="section professional-journey">
                     <h2 class="section-title">Professional Journey</h2>
                     <div class="journey-container">
                         <div class="progress-timeline">
@@ -511,16 +496,18 @@
                     </div>
                 </div>
 
-                <div class="bio-section">
+                <div class="section why-ml">
                     <h2 class="section-title">Why ML?</h2>
-                    <p class="why-ml">
+                    <p class="why-ml-text">
                         I'm passionate about solving business problems through technology and data-driven insights. 
                         ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
                         and hands-on engineering—allowing me to build solutions that uncover patterns humans might miss and bring value to businesses.
                     </p>
                 </div>
+            </div>
 
-                <div class="personal-section">
+            <div class="right-half">
+                <div class="section personal-section">
                     <h2 class="section-title">When I'm Not Coding</h2>
                     
                     <div class="fun-fact">
@@ -551,14 +538,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="what-to-expect">
-                <h3>What to Expect</h3>
-                <p>
-                    A hands-on, problem-solving approach to ML implementation. 
-                    We'll dive deep into practical solutions while maintaining strategic business perspective.
-                </p>
+                <div class="section what-to-expect">
+                    <h3>What to Expect</h3>
+                    <p>
+                        A hands-on, problem-solving approach to ML implementation. 
+                        We'll dive deep into practical solutions while maintaining strategic business perspective.
+                    </p>
+                </div>
             </div>
         </main>
 

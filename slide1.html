@@ -102,9 +102,21 @@
           box-shadow: var(--shadow-md);
           border: 1px solid var(--border-blue);
           transition: var(--transition);
-          display: flex;
-          flex-direction: column;
+          display: grid;
           height: 100%;
+      }
+
+      /* LEFT SECTION - Career Journey */
+      .career-section {
+          grid-template-rows: auto 1fr auto;
+          gap: 1.5rem;
+      }
+
+      /* RIGHT SECTION - Personal */
+      .personal-section {
+          grid-template-rows: auto auto auto auto;
+          gap: 1.5rem;
+          align-content: start;
       }
 
       .section:hover {
@@ -120,34 +132,6 @@
           font-weight: 600;
           border-bottom: 2px solid var(--accent-blue);
           padding-bottom: 0.5rem;
-      }
-
-      .section-content {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 1.5rem;
-      }
-
-      /* Left section - Career Journey */
-      .career-section .section-content {
-          justify-content: space-between;
-      }
-
-      .career-section .why-ml-section {
-          margin-top: auto;
-      }
-
-      /* Right section - Personal */
-      .personal-section .section-content {
-          display: grid;
-          grid-template-rows: auto auto 1fr;
-          gap: 1.5rem;
-          align-items: start;
-      }
-
-      .personal-section .expectations-content {
-          align-self: end;
       }
 
       /* Education Section */
@@ -190,9 +174,9 @@
 
       /* Career Timeline */
       .timeline-container {
-          flex: 1;
           position: relative;
           padding: 2rem 0;
+          align-self: center;
       }
 
       .timeline-line {
@@ -301,8 +285,12 @@
       .timeline-step:nth-child(5) { animation-delay: 3.5s; }
       .timeline-step:nth-child(6) { animation-delay: 4s; }
 
-      /* Why ML Section */
-      .why-ml-section h3 {
+      /* ALIGNED BOTTOM SECTIONS */
+      .bottom-section {
+          align-self: end;
+      }
+
+      .bottom-section h3 {
           font-size: 2.2rem;
           color: var(--accent-blue);
           margin-bottom: 1.5rem;
@@ -317,7 +305,13 @@
           color: var(--text-secondary);
       }
 
-      /* Personal Section */
+      .expectations-content p {
+          color: var(--text-secondary);
+          line-height: 1.6;
+          font-size: 1.3rem;
+      }
+
+      /* Personal Section Items */
       .fun-fact-card {
           background: var(--card-bg);
           padding: 1.5rem;
@@ -382,22 +376,6 @@
           color: var(--text-secondary);
           font-size: 1.05rem;
           font-weight: 500;
-      }
-
-      /* What to Expect Section */
-      .expectations-content h3 {
-          font-size: 2.2rem;
-          color: var(--accent-blue);
-          margin-bottom: 1.5rem;
-          font-weight: 600;
-          border-bottom: 2px solid var(--accent-blue);
-          padding-bottom: 0.5rem;
-      }
-
-      .expectations-content p {
-          color: var(--text-secondary);
-          line-height: 1.6;
-          font-size: 1.3rem;
       }
 
       /* Navigation */
@@ -527,9 +505,11 @@
               font-size: 0.9rem;
           }
 
-          .personal-section .section-content {
+          .career-section,
+          .personal-section {
               display: flex;
               flex-direction: column;
+              gap: 1.5rem;
           }
       }
 
@@ -558,115 +538,113 @@
       <main class="content">
           <div class="section career-section">
               <h2 class="section-title">Career Journey</h2>
-              <div class="section-content">
-                  <div class="education-card">
-                      <div class="education-icon">🎓</div>
-                      <div class="education-details">
-                          <h4>Education</h4>
-                          <p>Degree in Engineering Science (EEE)</p>
-                          <p>Masters in Technology</p>
-                          <p>Nanyang Technological University (NTU)</p>
-                          <div class="education-year">2016</div>
-                      </div>
+              
+              <div class="education-card">
+                  <div class="education-icon">🎓</div>
+                  <div class="education-details">
+                      <h4>Education</h4>
+                      <p>Degree in Engineering Science (EEE)</p>
+                      <p>Masters in Technology</p>
+                      <p>Nanyang Technological University (NTU)</p>
+                      <div class="education-year">2016</div>
                   </div>
+              </div>
 
-                  <div class="timeline-container">
-                      <div class="timeline-line">
-                          <div class="timeline-progress"></div>
+              <div class="timeline-container">
+                  <div class="timeline-line">
+                      <div class="timeline-progress"></div>
+                  </div>
+                  <div class="timeline-steps">
+                      <div class="timeline-step">
+                          <div class="step-circle">⚡</div>
+                          <div class="step-year">2017</div>
+                          <div class="step-title">Electrical Engineer</div>
+                          <div class="step-company">Keppel FELS</div>
                       </div>
-                      <div class="timeline-steps">
-                          <div class="timeline-step">
-                              <div class="step-circle">⚡</div>
-                              <div class="step-year">2017</div>
-                              <div class="step-title">Electrical Engineer</div>
-                              <div class="step-company">Keppel FELS</div>
-                          </div>
-                          <div class="timeline-step">
-                              <div class="step-circle">💡</div>
-                              <div class="step-year">2018</div>
-                              <div class="step-title">Intrapreneur</div>
-                              <div class="step-company">Keppel FELS</div>
-                          </div>
-                          <div class="timeline-step">
-                              <div class="step-circle">🏥</div>
-                              <div class="step-year">2019</div>
-                              <div class="step-title">Project Manager</div>
-                              <div class="step-company">Synapxe</div>
-                          </div>
-                          <div class="timeline-step">
-                              <div class="step-circle">📈</div>
-                              <div class="step-year">2021</div>
-                              <div class="step-title">Algorithmic Trader</div>
-                              <div class="step-company">Grasshopper</div>
-                          </div>
-                          <div class="timeline-step">
-                              <div class="step-circle">📋</div>
-                              <div class="step-year">2023</div>
-                              <div class="step-title">ISO Quality Rep</div>
-                              <div class="step-company">Thai Eastern Wire</div>
-                          </div>
-                          <div class="timeline-step current">
-                              <div class="step-circle">🤖</div>
-                              <div class="step-year">2025</div>
-                              <div class="step-title">AI/ML Engineer</div>
-                              <div class="step-company">AIAP Program</div>
-                          </div>
+                      <div class="timeline-step">
+                          <div class="step-circle">💡</div>
+                          <div class="step-year">2018</div>
+                          <div class="step-title">Intrapreneur</div>
+                          <div class="step-company">Keppel FELS</div>
+                      </div>
+                      <div class="timeline-step">
+                          <div class="step-circle">🏥</div>
+                          <div class="step-year">2019</div>
+                          <div class="step-title">Project Manager</div>
+                          <div class="step-company">Synapxe</div>
+                      </div>
+                      <div class="timeline-step">
+                          <div class="step-circle">📈</div>
+                          <div class="step-year">2021</div>
+                          <div class="step-title">Algorithmic Trader</div>
+                          <div class="step-company">Grasshopper</div>
+                      </div>
+                      <div class="timeline-step">
+                          <div class="step-circle">📋</div>
+                          <div class="step-year">2023</div>
+                          <div class="step-title">ISO Quality Rep</div>
+                          <div class="step-company">Thai Eastern Wire</div>
+                      </div>
+                      <div class="timeline-step current">
+                          <div class="step-circle">🤖</div>
+                          <div class="step-year">2025</div>
+                          <div class="step-title">AI/ML Engineer</div>
+                          <div class="step-company">AIAP Program</div>
                       </div>
                   </div>
+              </div>
 
-                  <div class="why-ml-section">
-                      <h3>Why ML?</h3>
-                      <p class="why-ml-content">
-                          I'm passionate about solving business problems through technology and data-driven insights. 
-                          ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
-                          and hands-on engineering.
-                      </p>
-                  </div>
+              <div class="bottom-section">
+                  <h3>Why ML?</h3>
+                  <p class="why-ml-content">
+                      I'm passionate about solving business problems through technology and data-driven insights. 
+                      ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
+                      and hands-on engineering.
+                  </p>
               </div>
           </div>
 
           <div class="section personal-section">
               <h2 class="section-title">When I'm Not Coding</h2>
-              <div class="section-content">
-                  <div class="hobbies-section">
-                      <h3>My Hobbies</h3>
-                      <div class="hobbies-grid">
-                          <div class="hobby-item">
-                              <div class="hobby-icon">⛳</div>
-                              <div class="hobby-text">Passionate golfer</div>
-                          </div>
-                          <div class="hobby-item">
-                              <div class="hobby-icon">🗺️</div>
-                              <div class="hobby-text">Avid travel planner</div>
-                          </div>
-                          <div class="hobby-item">
-                              <div class="hobby-icon">🏠</div>
-                              <div class="hobby-text">Home automation hobbyist</div>
-                          </div>
-                          <div class="hobby-item">
-                              <div class="hobby-icon">👨‍🍳</div>
-                              <div class="hobby-text">Beginner cook</div>
-                          </div>
+              
+              <div class="hobbies-section">
+                  <h3>My Hobbies</h3>
+                  <div class="hobbies-grid">
+                      <div class="hobby-item">
+                          <div class="hobby-icon">⛳</div>
+                          <div class="hobby-text">Passionate golfer</div>
+                      </div>
+                      <div class="hobby-item">
+                          <div class="hobby-icon">🗺️</div>
+                          <div class="hobby-text">Avid travel planner</div>
+                      </div>
+                      <div class="hobby-item">
+                          <div class="hobby-icon">🏠</div>
+                          <div class="hobby-text">Home automation hobbyist</div>
+                      </div>
+                      <div class="hobby-item">
+                          <div class="hobby-icon">👨‍🍳</div>
+                          <div class="hobby-text">Beginner cook</div>
                       </div>
                   </div>
+              </div>
 
-                  <div class="fun-fact-card">
-                      <div class="fun-fact-title">
-                          🐘 Funny Story
-                      </div>
-                      <p class="fun-fact-content">
-                          Got chased by elephants in Khao Yai, Thailand. 
-                          If I can handle charging elephants, no other problem is too big for me!
-                      </p>
+              <div class="fun-fact-card">
+                  <div class="fun-fact-title">
+                      🐘 Funny Story
                   </div>
+                  <p class="fun-fact-content">
+                      Got chased by elephants in Khao Yai, Thailand. 
+                      If I can handle charging elephants, no other problem is too big for me!
+                  </p>
+              </div>
 
-                  <div class="expectations-content">
-                      <h3>What to Expect</h3>
-                      <p>
-                          A hands-on, problem-solving approach to ML implementation. 
-                          We'll dive deep into practical solutions while maintaining strategic business perspective.
-                      </p>
-                  </div>
+              <div class="bottom-section">
+                  <h3>What to Expect</h3>
+                  <p>
+                      A hands-on, problem-solving approach to ML implementation. 
+                      We'll dive deep into practical solutions while maintaining strategic business perspective.
+                  </p>
               </div>
           </div>
       </main>

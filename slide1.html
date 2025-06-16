@@ -1,454 +1,561 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>About Me - Wong Khee Ern</title>
-   <style>
-       * {
-           margin: 0;
-           padding: 0;
-           box-sizing: border-box;
-       }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Wong Khee Ern</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-       body {
-           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-           background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-           color: #ffffff;
-           min-height: 100vh;
-           overflow: hidden;
-       }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
 
-       .slide-container {
-           width: 100vw;
-           height: 100vh;
-           display: flex;
-           flex-direction: column;
-           position: relative;
-       }
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
 
-       .header {
-           background: linear-gradient(135deg, #0c1429 0%, #1e2a3a 100%);
-           padding: 2rem;
-           text-align: center;
-           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-           animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-       }
+        .header {
+            background: linear-gradient(135deg, #0c1429 0%, #1e2a3a 100%);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-       .header h1 {
-           font-size: 3.5rem;
-           font-weight: 700;
-           color: #60a5fa;
-           margin-bottom: 1rem;
-           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
-       }
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+        }
 
-       .header .quote {
-           font-size: 1.3rem;
-           color: #cbd5e0;
-           font-style: italic;
-           font-weight: 300;
-       }
+        .header .quote {
+            font-size: 1.3rem;
+            color: #cbd5e0;
+            font-style: italic;
+            font-weight: 300;
+        }
 
-       .content {
-           flex: 1;
-           padding: 3rem;
-           display: grid;
-           grid-template-columns: 2fr 1fr;
-           gap: 3rem;
-           align-items: start;
-           animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
-       }
+        .content {
+            flex: 1;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: 65fr 35fr;
+            gap: 3rem;
+            align-items: start;
+            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+        }
 
-       .left-column {
-           display: flex;
-           flex-direction: column;
-           gap: 2rem;
-       }
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
 
-       .bio-section {
-           background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
-           padding: 2.5rem;
-           border-radius: 12px;
-           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-           border: 1px solid rgba(59, 130, 246, 0.1);
-           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-       }
+        .bio-section {
+            background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-       .bio-section:hover {
-           transform: translateY(-5px);
-           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-           border-color: rgba(59, 130, 246, 0.3);
-       }
+        .bio-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
 
-       .section-title {
-           font-size: 1.8rem;
-           color: #3b82f6;
-           margin-bottom: 1.5rem;
-           font-weight: 600;
-           border-bottom: 2px solid #3b82f6;
-           padding-bottom: 0.5rem;
-       }
+        .section-title {
+            font-size: 1.8rem;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 0.5rem;
+        }
 
-       .journey-container {
-           margin-bottom: 0;
-       }
+        .journey-container {
+            margin-bottom: 0;
+        }
 
-       .progress-timeline {
-           position: relative;
-           padding: 2rem 0;
-       }
+        .progress-timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
 
-       .progress-bar {
-           position: absolute;
-           top: 50%;
-           left: 0;
-           right: 0;
-           height: 4px;
-           background: rgba(59, 130, 246, 0.2);
-           border-radius: 2px;
-           overflow: hidden;
-       }
+        .progress-bar {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
 
-       .progress-fill {
-           height: 100%;
-           background: linear-gradient(90deg, #3b82f6, #60a5fa);
-           width: 0%;
-           border-radius: 2px;
-           animation: progressFill 4s ease-in-out 1s forwards;
-           box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-       }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            width: 0%;
+            border-radius: 2px;
+            animation: progressFill 4s ease-in-out 1s forwards;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
 
-       .journey-steps {
-           display: flex;
-           justify-content: space-between;
-           position: relative;
-           z-index: 2;
-       }
+        .journey-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
 
-       .step {
-           text-align: center;
-           flex: 1;
-           opacity: 0;
-           transform: translateY(20px);
-       }
+        .step {
+            text-align: center;
+            flex: 1;
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-       .step-icon {
-           width: 50px;
-           height: 50px;
-           border-radius: 50%;
-           background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
-           border: 3px solid rgba(59, 130, 246, 0.3);
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           margin: 0 auto 0.5rem;
-           font-size: 1.5rem;
-           transition: all 0.5s ease;
-       }
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
+            border: 3px solid rgba(59, 130, 246, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-size: 1.5rem;
+            transition: all 0.5s ease;
+        }
 
-       .step-icon.active {
-           background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-           border-color: #60a5fa;
-           box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-           transform: scale(1.1);
-       }
+        .step-icon.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transform: scale(1.1);
+        }
 
-       .step-label {
-           font-size: 0.85rem;
-           color: #cbd5e0;
-           max-width: 120px;
-           line-height: 1.3;
-           margin: 0 auto;
-       }
+        .step-label {
+            font-size: 0.85rem;
+            color: #cbd5e0;
+            max-width: 120px;
+            line-height: 1.3;
+            margin: 0 auto;
+        }
 
-       .step-year {
-           font-size: 0.75rem;
-           color: #94a3b8;
-           margin-top: 0.25rem;
-           font-weight: 500;
-       }
+        .step-year {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
 
-       .step.current .step-label {
-           color: #60a5fa;
-           font-weight: 600;
-       }
+        .step.current .step-label {
+            color: #60a5fa;
+            font-weight: 600;
+        }
 
-       .step.current .step-year {
-           color: #60a5fa;
-       }
+        .step.current .step-year {
+            color: #60a5fa;
+        }
 
-       .step:nth-child(1) { animation: stepFadeIn 0.5s ease 1.5s forwards; }
-       .step:nth-child(2) { animation: stepFadeIn 0.5s ease 2s forwards; }
-       .step:nth-child(3) { animation: stepFadeIn 0.5s ease 2.5s forwards; }
-       .step:nth-child(4) { animation: stepFadeIn 0.5s ease 3s forwards; }
-       .step:nth-child(5) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
+        .step:nth-child(1) { animation: stepFadeIn 0.5s ease 1.5s forwards; }
+        .step:nth-child(2) { animation: stepFadeIn 0.5s ease 2s forwards; }
+        .step:nth-child(3) { animation: stepFadeIn 0.5s ease 2.5s forwards; }
+        .step:nth-child(4) { animation: stepFadeIn 0.5s ease 3s forwards; }
+        .step:nth-child(5) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
 
-       .why-ml {
-           font-size: 1.1rem;
-           line-height: 1.6;
-           color: #cbd5e0;
-           margin-bottom: 0;
-       }
+        .why-ml {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cbd5e0;
+            margin-bottom: 0;
+        }
 
-       .fun-fact {
-           background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-           padding: 1.5rem;
-           border-radius: 8px;
-           border-left: 4px solid #60a5fa;
-           margin-bottom: 1.5rem;
-       }
+        .personal-section {
+            background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-       .fun-fact-title {
-           color: #60a5fa;
-           font-weight: 600;
-           margin-bottom: 0.5rem;
-       }
+        .personal-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
 
-       .what-to-expect {
-           padding: 1.5rem;
-           background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-           border-radius: 8px;
-           border: 1px solid rgba(59, 130, 246, 0.2);
-       }
+        .fun-fact {
+            background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #60a5fa;
+            margin-bottom: 2rem;
+        }
 
-       .what-to-expect h3 {
-           color: #60a5fa;
-           margin-bottom: 1rem;
-           font-size: 1.5rem;
-       }
+        .fun-fact-title {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
 
-       .what-to-expect p {
-           color: #cbd5e0;
-           line-height: 1.6;
-       }
+        .hobbies-section h3 {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
 
-       .navigation {
-           position: absolute;
-           bottom: 2rem;
-           right: 2rem;
-           display: flex;
-           gap: 1rem;
-           animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
-       }
+        .hobbies-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
 
-       .nav-btn {
-           background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-           color: white;
-           border: none;
-           padding: 0.8rem 1.5rem;
-           border-radius: 8px;
-           cursor: pointer;
-           font-size: 1rem;
-           font-weight: 500;
-           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-           box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-       }
+        .hobby-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+            border-radius: 6px;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            transition: all 0.3s ease;
+        }
 
-       .nav-btn:hover {
-           transform: translateY(-2px);
-           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
-           background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-       }
+        .hobby-item:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
+        }
 
-       @keyframes slideDown {
-           from {
-               transform: translateY(-100%);
-               opacity: 0;
-           }
-           to {
-               transform: translateY(0);
-               opacity: 1;
-           }
-       }
+        .hobby-icon {
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
 
-       @keyframes fadeInUp {
-           from {
-               transform: translateY(50px);
-               opacity: 0;
-           }
-           to {
-               transform: translateY(0);
-               opacity: 1;
-           }
-       }
+        .hobby-text {
+            color: #cbd5e0;
+            font-size: 0.95rem;
+        }
 
-       @keyframes fadeIn {
-           from { opacity: 0; }
-           to { opacity: 1; }
-       }
+        .what-to-expect {
+            padding: 2rem;
+            background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            height: fit-content;
+        }
 
-       @keyframes progressFill {
-           from { width: 0%; }
-           to { width: 100%; }
-       }
+        .what-to-expect h3 {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
 
-       @keyframes stepFadeIn {
-           from {
-               opacity: 0;
-               transform: translateY(20px);
-           }
-           to {
-               opacity: 1;
-               transform: translateY(0);
-           }
-       }
+        .what-to-expect p {
+            color: #cbd5e0;
+            line-height: 1.6;
+        }
 
-       @media (max-width: 768px) {
-           .content {
-               grid-template-columns: 1fr;
-               gap: 2rem;
-               padding: 2rem;
-           }
-           
-           .header h1 {
-               font-size: 2.5rem;
-           }
-           
-           .header .quote {
-               font-size: 1.1rem;
-           }
-           
-           .journey-steps {
-               flex-direction: column;
-               gap: 1rem;
-           }
-           
-           .progress-bar {
-               display: none;
-           }
-           
-           .step-label {
-               max-width: none;
-           }
-       }
-   </style>
+        .navigation {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes progressFill {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        @keyframes stepFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header .quote {
+                font-size: 1.1rem;
+            }
+            
+            .journey-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .progress-bar {
+                display: none;
+            }
+            
+            .step-label {
+                max-width: none;
+            }
+            
+            .hobbies-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-   <div class="slide-container">
-       <header class="header">
-           <h1>Wong Khee Ern</h1>
-           <p class="quote">A ship is safe in harbor, but that's not what ships are for.</p>
-       </header>
+    <div class="slide-container">
+        <header class="header">
+            <h1>Wong Khee Ern</h1>
+            <p class="quote">A ship is safe in harbor, but that's not what ships are for.</p>
+        </header>
 
-       <main class="content">
-           <div class="left-column">
-               <div class="bio-section">
-                   <h2 class="section-title">Professional Journey</h2>
-                   <div class="journey-container">
-                       <div class="progress-timeline">
-                           <div class="progress-bar">
-                               <div class="progress-fill"></div>
-                           </div>
-                           <div class="journey-steps">
-                               <div class="step">
-                                   <div class="step-icon">⚡</div>
-                                   <div class="step-label">Electrical Engineer</div>
-                                   <div class="step-year">2017</div>
-                               </div>
-                               <div class="step">
-                                   <div class="step-icon">🏥</div>
-                                   <div class="step-label">Healthcare IT Project Manager</div>
-                                   <div class="step-year">2019</div>
-                               </div>
-                               <div class="step">
-                                   <div class="step-icon">📈</div>
-                                   <div class="step-label">Algorithmic Trader</div>
-                                   <div class="step-year">2021</div>
-                               </div>
-                               <div class="step">
-                                   <div class="step-icon">📋</div>
-                                   <div class="step-label">ISO Quality Representative</div>
-                                   <div class="step-year">2023</div>
-                               </div>
-                               <div class="step current">
-                                   <div class="step-icon">🤖</div>
-                                   <div class="step-label">AI/ML Engineer</div>
-                                   <div class="step-year">Starting 2025</div>
-                               </div>
-                           </div>
-                       </div>
-                   </div>
-               </div>
+        <main class="content">
+            <div class="left-column">
+                <div class="bio-section">
+                    <h2 class="section-title">Professional Journey</h2>
+                    <div class="journey-container">
+                        <div class="progress-timeline">
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="journey-steps">
+                                <div class="step">
+                                    <div class="step-icon">⚡</div>
+                                    <div class="step-label">Electrical Engineer</div>
+                                    <div class="step-year">2017</div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-icon">🏥</div>
+                                    <div class="step-label">Healthcare IT Project Manager</div>
+                                    <div class="step-year">2019</div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-icon">📈</div>
+                                    <div class="step-label">Algorithmic Trader</div>
+                                    <div class="step-year">2021</div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-icon">📋</div>
+                                    <div class="step-label">ISO Quality Representative</div>
+                                    <div class="step-year">2023</div>
+                                </div>
+                                <div class="step current">
+                                    <div class="step-icon">🤖</div>
+                                    <div class="step-label">AI/ML Engineer</div>
+                                    <div class="step-year">Starting 2025</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-               <div class="bio-section">
-                   <h2 class="section-title">Why ML?</h2>
-                   <p class="why-ml">
-                       I'm passionate about solving business problems through technology and data-driven insights. 
-                       ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
-                       and hands-on engineering—allowing me to build solutions that uncover patterns humans might miss and bring value to businesses.
-                   </p>
-               </div>
-           </div>
+                <div class="bio-section">
+                    <h2 class="section-title">Why ML?</h2>
+                    <p class="why-ml">
+                        I'm passionate about solving business problems through technology and data-driven insights. 
+                        ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
+                        and hands-on engineering—allowing me to build solutions that uncover patterns humans might miss and bring value to businesses.
+                    </p>
+                </div>
 
-           <div class="bio-section">
-               <div class="fun-fact">
-                   <div class="fun-fact-title">🐘 Survival Story</div>
-                   <p>Got chased by elephants in Khao Yai, Thailand. 
-                   If I can handle charging elephants, no other problem is too big for me!</p>
-               </div>
+                <div class="personal-section">
+                    <h2 class="section-title">When I'm Not Coding</h2>
+                    
+                    <div class="fun-fact">
+                        <div class="fun-fact-title">🐘 Survival Story</div>
+                        <p>Got chased by elephants in Khao Yai, Thailand. 
+                        If I can handle charging elephants, no other problem is too big for me!</p>
+                    </div>
 
-               <div class="what-to-expect">
-                   <h3>What to Expect</h3>
-                   <p>
-                       A hands-on, problem-solving approach to ML implementation. 
-                       We'll dive deep into practical solutions while maintaining strategic business perspective.
-                   </p>
-               </div>
-           </div>
-       </main>
+                    <div class="hobbies-section">
+                        <h3>My Hobbies</h3>
+                        <div class="hobbies-list">
+                            <div class="hobby-item">
+                                <div class="hobby-icon">⛳</div>
+                                <div class="hobby-text">Passionate golfer</div>
+                            </div>
+                            <div class="hobby-item">
+                                <div class="hobby-icon">🗺️</div>
+                                <div class="hobby-text">Avid travel planner</div>
+                            </div>
+                            <div class="hobby-item">
+                                <div class="hobby-icon">🏠</div>
+                                <div class="hobby-text">Home automation hobbyist</div>
+                            </div>
+                            <div class="hobby-item">
+                                <div class="hobby-icon">👨‍🍳</div>
+                                <div class="hobby-text">Beginner cook</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-       <nav class="navigation">
-           <button class="nav-btn" onclick="window.location.href='index.html'">← Home</button>
-           <button class="nav-btn" onclick="window.location.href='slide2.html'">Next →</button>
-       </nav>
-   </div>
+            <div class="what-to-expect">
+                <h3>What to Expect</h3>
+                <p>
+                    A hands-on, problem-solving approach to ML implementation. 
+                    We'll dive deep into practical solutions while maintaining strategic business perspective.
+                </p>
+            </div>
+        </main>
 
-   <script>
-       // Animate step icons when progress bar completes
-       function animateSteps() {
-           setTimeout(() => {
-               const steps = document.querySelectorAll('.step');
-               steps.forEach((step, index) => {
-                   setTimeout(() => {
-                       const icon = step.querySelector('.step-icon');
-                       icon.classList.add('active');
-                       if (index === steps.length - 1) {
-                           // Highlight current step
-                           setTimeout(() => {
-                               icon.style.background = 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)';
-                               icon.style.transform = 'scale(1.2)';
-                           }, 200);
-                       }
-                   }, index * 500);
-               });
-           }, 4000);
-       }
+        <nav class="navigation">
+            <button class="nav-btn" onclick="navigateToSlide('index.html')">← Home</button>
+            <button class="nav-btn" onclick="navigateToSlide('slide2.html')">Next →</button>
+        </nav>
+    </div>
 
-       // Initialize animations
-       window.addEventListener('load', () => {
-           animateSteps();
-       });
+    <script>
+        // Safe navigation function with error handling
+        function navigateToSlide(url) {
+            try {
+                window.location.href = url;
+            } catch (error) {
+                console.log('Navigation error:', error);
+                // Fallback: try relative path
+                window.location.href = './' + url;
+            }
+        }
 
-       // Keyboard navigation
-       document.addEventListener('keydown', function(e) {
-           if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
-               window.location.href = 'index.html';
-           } else if (e.key === 'ArrowRight' || e.key === ' ') {
-               window.location.href = 'slide2.html';
-           }
-       });
+        // Animate step icons when progress bar completes
+        function animateSteps() {
+            setTimeout(() => {
+                const steps = document.querySelectorAll('.step');
+                steps.forEach((step, index) => {
+                    setTimeout(() => {
+                        const icon = step.querySelector('.step-icon');
+                        icon.classList.add('active');
+                        if (index === steps.length - 1) {
+                            // Highlight current step
+                            setTimeout(() => {
+                                icon.style.background = 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)';
+                                icon.style.transform = 'scale(1.2)';
+                            }, 200);
+                        }
+                    }, index * 500);
+                });
+            }, 4000);
+        }
 
-       // Fullscreen toggle
-       document.addEventListener('keydown', function(e) {
-           if (e.key === 'f' || e.key === 'F') {
-               if (!document.fullscreenElement) {
-                   document.documentElement.requestFullscreen();
-               } else {
-                   document.exitFullscreen();
-               }
-           }
-       });
-   </script>
+        // Initialize animations
+        window.addEventListener('load', () => {
+            animateSteps();
+        });
+
+        // Keyboard navigation with error handling
+        document.addEventListener('keydown', function(e) {
+            try {
+                if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                    navigateToSlide('index.html');
+                } else if (e.key === 'ArrowRight' || e.key === ' ') {
+                    navigateToSlide('slide2.html');
+                } else if (e.key === 'f' || e.key === 'F') {
+                    // Fullscreen toggle
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            console.log('Fullscreen error:', err);
+                        });
+                    } else {
+                        document.exitFullscreen();
+                    }
+                } else if (e.key >= '1' && e.key <= '9') {
+                    // Navigate directly to slide number
+                    const slideNum = e.key;
+                    navigateToSlide(`slide${slideNum}.html`);
+                } else if (e.key === '0') {
+                    // Navigate to slide 10
+                    navigateToSlide('slide10.html');
+                } else if (e.key.toLowerCase() === 'h') {
+                    // Navigate to home/index
+                    navigateToSlide('index.html');
+                }
+            } catch (error) {
+                console.log('Keyboard navigation error:', error);
+            }
+        });
+    </script>
 </body>
 </html>

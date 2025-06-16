@@ -48,25 +48,22 @@
            color: #cbd5e0;
            font-style: italic;
            font-weight: 300;
-           opacity: 0;
-           animation: fadeIn 0.8s ease 1.5s forwards;
-       }
-
-       .typewriter {
-           border-right: 2px solid #60a5fa;
-           white-space: nowrap;
-           overflow: hidden;
-           animation: typewriter 3s steps(50, end) 2s forwards, blink 1s infinite 2s;
        }
 
        .content {
            flex: 1;
            padding: 3rem;
            display: grid;
-           grid-template-columns: 1fr 1fr;
+           grid-template-columns: 2fr 1fr;
            gap: 3rem;
            align-items: start;
            animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+       }
+
+       .left-column {
+           display: flex;
+           flex-direction: column;
+           gap: 2rem;
        }
 
        .bio-section {
@@ -94,7 +91,7 @@
        }
 
        .journey-container {
-           margin-bottom: 2rem;
+           margin-bottom: 0;
        }
 
        .progress-timeline {
@@ -118,7 +115,7 @@
            background: linear-gradient(90deg, #3b82f6, #60a5fa);
            width: 0%;
            border-radius: 2px;
-           animation: progressFill 4s ease-in-out 3s forwards;
+           animation: progressFill 4s ease-in-out 1s forwards;
            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
        }
 
@@ -158,11 +155,18 @@
        }
 
        .step-label {
-           font-size: 0.9rem;
+           font-size: 0.85rem;
            color: #cbd5e0;
            max-width: 120px;
            line-height: 1.3;
            margin: 0 auto;
+       }
+
+       .step-year {
+           font-size: 0.75rem;
+           color: #94a3b8;
+           margin-top: 0.25rem;
+           font-weight: 500;
        }
 
        .step.current .step-label {
@@ -170,17 +174,21 @@
            font-weight: 600;
        }
 
-       .step:nth-child(1) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
-       .step:nth-child(2) { animation: stepFadeIn 0.5s ease 4s forwards; }
-       .step:nth-child(3) { animation: stepFadeIn 0.5s ease 4.5s forwards; }
-       .step:nth-child(4) { animation: stepFadeIn 0.5s ease 5s forwards; }
-       .step:nth-child(5) { animation: stepFadeIn 0.5s ease 5.5s forwards; }
+       .step.current .step-year {
+           color: #60a5fa;
+       }
+
+       .step:nth-child(1) { animation: stepFadeIn 0.5s ease 1.5s forwards; }
+       .step:nth-child(2) { animation: stepFadeIn 0.5s ease 2s forwards; }
+       .step:nth-child(3) { animation: stepFadeIn 0.5s ease 2.5s forwards; }
+       .step:nth-child(4) { animation: stepFadeIn 0.5s ease 3s forwards; }
+       .step:nth-child(5) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
 
        .why-ml {
            font-size: 1.1rem;
            line-height: 1.6;
            color: #cbd5e0;
-           margin-bottom: 1.5rem;
+           margin-bottom: 0;
        }
 
        .fun-fact {
@@ -270,16 +278,6 @@
            to { opacity: 1; }
        }
 
-       @keyframes typewriter {
-           from { width: 0; }
-           to { width: 100%; }
-       }
-
-       @keyframes blink {
-           0%, 50% { border-color: #60a5fa; }
-           51%, 100% { border-color: transparent; }
-       }
-
        @keyframes progressFill {
            from { width: 0%; }
            to { width: 100%; }
@@ -330,57 +328,66 @@
    <div class="slide-container">
        <header class="header">
            <h1>Wong Khee Ern</h1>
-           <p class="quote typewriter" id="typewriter-quote"></p>
+           <p class="quote">A ship is safe in harbor, but that's not what ships are for.</p>
        </header>
 
        <main class="content">
-           <div class="bio-section">
-               <h2 class="section-title">Professional Journey</h2>
-               <div class="journey-container">
-                   <div class="progress-timeline">
-                       <div class="progress-bar">
-                           <div class="progress-fill"></div>
-                       </div>
-                       <div class="journey-steps">
-                           <div class="step">
-                               <div class="step-icon">⚡</div>
-                               <div class="step-label">Electrical Engineer</div>
+           <div class="left-column">
+               <div class="bio-section">
+                   <h2 class="section-title">Professional Journey</h2>
+                   <div class="journey-container">
+                       <div class="progress-timeline">
+                           <div class="progress-bar">
+                               <div class="progress-fill"></div>
                            </div>
-                           <div class="step">
-                               <div class="step-icon">🏥</div>
-                               <div class="step-label">Pharmacy Automation PM</div>
-                           </div>
-                           <div class="step">
-                               <div class="step-icon">📈</div>
-                               <div class="step-label">Algorithmic Trader</div>
-                           </div>
-                           <div class="step">
-                               <div class="step-icon">📋</div>
-                               <div class="step-label">ISO Quality Representative</div>
-                           </div>
-                           <div class="step current">
-                               <div class="step-icon">🤖</div>
-                               <div class="step-label">AI/ML Engineer<br><small>(Starting Now)</small></div>
+                           <div class="journey-steps">
+                               <div class="step">
+                                   <div class="step-icon">⚡</div>
+                                   <div class="step-label">Electrical Engineer</div>
+                                   <div class="step-year">2017</div>
+                               </div>
+                               <div class="step">
+                                   <div class="step-icon">🏥</div>
+                                   <div class="step-label">Healthcare IT Project Manager</div>
+                                   <div class="step-year">2019</div>
+                               </div>
+                               <div class="step">
+                                   <div class="step-icon">📈</div>
+                                   <div class="step-label">Algorithmic Trader</div>
+                                   <div class="step-year">2021</div>
+                               </div>
+                               <div class="step">
+                                   <div class="step-icon">📋</div>
+                                   <div class="step-label">ISO Quality Representative</div>
+                                   <div class="step-year">2023</div>
+                               </div>
+                               <div class="step current">
+                                   <div class="step-icon">🤖</div>
+                                   <div class="step-label">AI/ML Engineer</div>
+                                   <div class="step-year">Starting 2025</div>
+                               </div>
                            </div>
                        </div>
                    </div>
                </div>
 
-               <h3 class="section-title">Why ML?</h3>
-               <p class="why-ml">
-                   I'm passionate about solving business problems through technology and data-driven insights. 
-                   ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
-                   and hands-on engineering—allowing me to build solutions that uncover patterns humans might miss and bring value to businesses.
-               </p>
+               <div class="bio-section">
+                   <h2 class="section-title">Why ML?</h2>
+                   <p class="why-ml">
+                       I'm passionate about solving business problems through technology and data-driven insights. 
+                       ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
+                       and hands-on engineering—allowing me to build solutions that uncover patterns humans might miss and bring value to businesses.
+                   </p>
+               </div>
+           </div>
 
+           <div class="bio-section">
                <div class="fun-fact">
                    <div class="fun-fact-title">🐘 Survival Story</div>
                    <p>Got chased by elephants in Khao Yai, Thailand. 
                    If I can handle charging elephants, no other problem is too big for me!</p>
                </div>
-           </div>
 
-           <div class="bio-section">
                <div class="what-to-expect">
                    <h3>What to Expect</h3>
                    <p>
@@ -398,29 +405,6 @@
    </div>
 
    <script>
-       // Typewriter effect for quote
-       const quote = "A ship is safe in harbor, but that's not what ships are for.";
-       const typewriterElement = document.getElementById('typewriter-quote');
-       
-       function typeWriter() {
-           setTimeout(() => {
-               let i = 0;
-               function type() {
-                   if (i < quote.length) {
-                       typewriterElement.textContent += quote.charAt(i);
-                       i++;
-                       setTimeout(type, 60);
-                   } else {
-                       // Remove cursor after typing is complete
-                       setTimeout(() => {
-                           typewriterElement.style.borderRight = 'none';
-                       }, 1000);
-                   }
-               }
-               type();
-           }, 2000);
-       }
-
        // Animate step icons when progress bar completes
        function animateSteps() {
            setTimeout(() => {
@@ -438,12 +422,11 @@
                        }
                    }, index * 500);
                });
-           }, 6000);
+           }, 4000);
        }
 
        // Initialize animations
        window.addEventListener('load', () => {
-           typeWriter();
            animateSteps();
        });
 

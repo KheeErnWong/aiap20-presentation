@@ -60,7 +60,7 @@
 
         .left-half, .right-half {
             display: grid;
-            gap: 1rem;
+            gap: 1.2rem; /* Fixed: made same spacing for both halves */
             align-content: start;
             min-height: 0;
             overflow: hidden;
@@ -94,7 +94,7 @@
         }
 
         .section-title {
-            font-size: 1.7rem;
+            font-size: 1.9rem; /* Increased font size */
             color: var(--accent-blue);
             margin-bottom: 1rem;
             font-weight: 600;
@@ -124,19 +124,19 @@
             color: var(--accent-light);
             font-weight: 600;
             margin-bottom: 0.2rem;
-            font-size: 1.1rem;
+            font-size: 1.3rem; /* Increased font size */
         }
 
         .education-details p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.2;
-            margin-bottom: 0.1rem;
+            font-size: 1.1rem; /* Increased font size */
+            line-height: 1.3;
+            margin-bottom: 0.2rem;
         }
 
         .education-year {
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 1rem; /* Increased font size */
             font-weight: 500;
         }
 
@@ -148,13 +148,12 @@
 
         .progress-bar {
             position: absolute;
-            top: 50%;
+            top: calc(50% + 18px); /* Fixed: positioned to align with center of icons */
             left: 5%;
             right: 5%;
             height: 3px;
             background: rgba(59, 130, 246, 0.2);
             border-radius: 2px;
-            transform: translateY(-50%);
             z-index: 1;
         }
 
@@ -173,7 +172,6 @@
             position: relative;
             z-index: 2;
             padding: 0 2%;
-            align-items: center;
         }
 
         .step {
@@ -224,9 +222,9 @@
         }
 
         .step-title-line {
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* Increased font size */
             color: var(--text-secondary);
-            line-height: 1.1;
+            line-height: 1.2;
             margin-bottom: 0.3rem;
             font-weight: 600;
             text-align: center;
@@ -237,9 +235,9 @@
         }
 
         .step-company-line {
-            font-size: 0.75rem;
+            font-size: 0.8rem; /* Increased font size */
             color: var(--text-muted);
-            line-height: 1.1;
+            line-height: 1.2;
             text-align: center;
             font-weight: 500;
         }
@@ -255,8 +253,8 @@
 
         /* Why ML section */
         .why-ml-text {
-            font-size: 1rem;
-            line-height: 1.4;
+            font-size: 1.2rem; /* Increased font size */
+            line-height: 1.5;
             color: var(--text-secondary);
         }
 
@@ -273,18 +271,18 @@
             color: var(--accent-light);
             font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            font-size: 1.3rem; /* Increased font size */
         }
 
         .fun-fact p {
-            font-size: 0.95rem;
-            line-height: 1.3;
+            font-size: 1.1rem; /* Increased font size */
+            line-height: 1.4;
         }
 
         .hobbies-section h3 {
             color: var(--accent-light);
             margin-bottom: 0.8rem;
-            font-size: 1.4rem;
+            font-size: 1.6rem; /* Increased font size */
         }
 
         .hobbies-list {
@@ -318,22 +316,22 @@
 
         .hobby-text {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1rem; /* Increased font size */
         }
 
         /* What to expect section */
         .what-to-expect h3 {
             color: var(--accent-light);
             margin-bottom: 0.8rem;
-            font-size: 1.5rem;
+            font-size: 1.7rem; /* Increased font size */
             border-bottom: 2px solid var(--accent-light);
             padding-bottom: 0.3rem;
         }
 
         .what-to-expect p {
             color: var(--text-secondary);
-            line-height: 1.4;
-            font-size: 1rem;
+            line-height: 1.5;
+            font-size: 1.2rem; /* Increased font size */
         }
 
         /* Navigation */
@@ -391,9 +389,9 @@
             
             .header h1 { font-size: 2.5rem; }
             .header .quote { font-size: 1.1rem; }
-            .section-title { font-size: 1.5rem; }
-            .why-ml-text { font-size: 0.95rem; }
-            .what-to-expect p { font-size: 0.95rem; }
+            .section-title { font-size: 1.6rem; }
+            .why-ml-text { font-size: 1rem; }
+            .what-to-expect p { font-size: 1rem; }
 
             .journey-steps {
                 flex-direction: column;
@@ -433,8 +431,10 @@
             .header h1 { font-size: 2.5rem; margin-bottom: 0.2rem; }
             .header .quote { font-size: 1.1rem; }
             .section { padding: 0.9rem; }
-            .section-title { font-size: 1.5rem; margin-bottom: 0.8rem; }
+            .section-title { font-size: 1.7rem; margin-bottom: 0.8rem; }
             .progress-timeline { padding: 1rem 0; }
+            .why-ml-text { font-size: 1.1rem; }
+            .what-to-expect p { font-size: 1.1rem; }
         }
 
         @media (max-height: 750px) {
@@ -443,12 +443,12 @@
             .header .quote { font-size: 1rem; }
             .content { padding: 0.8rem; gap: 0.8rem; }
             .section { padding: 0.8rem; }
-            .section-title { font-size: 1.4rem; margin-bottom: 0.7rem; }
-            .why-ml-text { font-size: 0.95rem; }
-            .what-to-expect h3 { font-size: 1.4rem; }
-            .what-to-expect p { font-size: 0.95rem; }
-            .step-title-line { font-size: 0.75rem; min-height: 1.6rem; }
-            .step-company-line { font-size: 0.7rem; }
+            .section-title { font-size: 1.6rem; margin-bottom: 0.7rem; }
+            .why-ml-text { font-size: 1rem; }
+            .what-to-expect h3 { font-size: 1.5rem; }
+            .what-to-expect p { font-size: 1rem; }
+            .step-title-line { font-size: 0.8rem; min-height: 1.6rem; }
+            .step-company-line { font-size: 0.75rem; }
             .left-half { grid-template-rows: 2.2fr 1fr; }
             .right-half { grid-template-rows: 1.6fr 0.7fr; }
 
@@ -464,7 +464,7 @@
             .header .quote { font-size: 0.95rem; }
             .content { padding: 0.7rem; gap: 0.7rem; }
             .section { padding: 0.7rem; }
-            .section-title { font-size: 1.3rem; margin-bottom: 0.6rem; }
+            .section-title { font-size: 1.4rem; margin-bottom: 0.6rem; }
             .progress-timeline { padding: 0.8rem 0; }
             .left-half { grid-template-rows: 2fr 1fr; }
             .right-half { grid-template-rows: 1.5fr 0.8fr; }
@@ -474,6 +474,8 @@
             .hobby-item { padding: 0.5rem; }
             .step-icon { width: 30px; height: 30px; font-size: 1rem; }
             .hobbies-list { gap: 0.5rem; }
+            .why-ml-text { font-size: 0.95rem; }
+            .what-to-expect p { font-size: 0.95rem; }
         }
     </style>
 </head>

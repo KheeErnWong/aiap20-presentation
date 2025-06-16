@@ -1,45 +1,36 @@
-/* AI Singapore Theme Updates - Add to your existing presentation.css */
+/* Add these updates to your existing presentation.css */
 
-/* Update gradient backgrounds */
-.nav-bar {
-    background: rgba(255,255,255,0.95);
-    border: 1px solid rgba(229, 62, 62, 0.1);
+/* Fullscreen compatibility for slides */
+.slide {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(145deg, #1e2a3a 0%, #2d3748 100%);
+    margin: 0;
+    padding: 60px;
+    box-sizing: border-box;
+    border: none;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-radius: 0;
 }
 
-.nav-bar a:hover {
-    background: #ffe8e8;
-    color: #e53e3e;
+/* Responsive padding for different screen sizes */
+@media (max-width: 1600px) {
+    .slide {
+        padding: 50px;
+    }
 }
 
-/* Update metric boxes */
-.metric-box {
-    border-left: 4px solid #e53e3e;
+@media (max-width: 1200px) {
+    .slide {
+        padding: 40px;
+    }
 }
 
-/* Update highlight boxes */
-.highlight-box {
-    background: #ffe8e8;
-    border-left: 4px solid #e53e3e;
-}
-
-.highlight-box h3 {
-    color: #c53030;
-}
-
-/* Update table headers */
-th {
-    background-color: #ffe8e8;
-    color: #c53030;
-}
-
-/* Update hover effects */
-tr:hover {
-    background-color: #fff5f5;
-}
-
-/* Update any blue references to red theme */
-.slide-title {
-    color: #1f1f1f;
-    border-bottom: 3px solid #e53e3e;
-    padding-bottom: 10px;
+@media (max-width: 768px) {
+    .slide {
+        padding: 30px 20px;
+    }
 }

@@ -150,14 +150,14 @@
 
         .progress-timeline {
             position: relative;
-            padding: 2rem 0;
+            padding: 2.5rem 0; /* Increased padding for better spacing */
         }
 
         .progress-bar {
             position: absolute;
             top: 50%;
-            left: 0;
-            right: 0;
+            left: 5%; /* Added margins to prevent overlap */
+            right: 5%;
             height: 3px;
             background: rgba(59, 130, 246, 0.2);
             border-radius: 2px;
@@ -178,6 +178,7 @@
             justify-content: space-between;
             position: relative;
             z-index: 2;
+            padding: 0 2%; /* Added padding to prevent edge clipping */
         }
 
         .step {
@@ -185,6 +186,8 @@
             flex: 1;
             opacity: 0;
             transform: translateY(20px);
+            max-width: 140px; /* Limit width to prevent overlap */
+            margin: 0 auto;
         }
 
         .step-icon {
@@ -196,7 +199,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.5rem;
+            margin: 0 auto 0.6rem; /* Increased margin */
             font-size: 1.2rem;
             transition: all 0.5s ease;
         }
@@ -209,26 +212,25 @@
         }
 
         .step-label {
-            font-size: 0.75rem;
+            font-size: 0.72rem; /* Slightly smaller for better fit */
             color: #cbd5e0;
-            max-width: 120px;
-            line-height: 1.2;
-            margin: 0 auto 0.2rem;
+            line-height: 1.1;
+            margin: 0 auto 0.4rem; /* Increased margin */
             font-weight: 500;
+            word-wrap: break-word;
         }
 
         .step-company {
-            font-size: 0.65rem;
+            font-size: 0.62rem; /* Slightly smaller */
             color: #94a3b8;
-            max-width: 120px;
-            margin: 0 auto 0.3rem;
+            margin: 0 auto 0.4rem; /* Increased margin */
             font-style: italic;
+            line-height: 1.1;
         }
 
         .step-year {
             font-size: 0.65rem;
             color: #94a3b8;
-            margin-top: 0.2rem;
             font-weight: 500;
         }
 
@@ -428,7 +430,7 @@
             }
             
             .progress-timeline {
-                padding: 1.5rem 0;
+                padding: 2rem 0;
             }
         }
 
@@ -449,11 +451,16 @@
             
             .journey-steps {
                 flex-direction: column;
-                gap: 0.8rem;
+                gap: 1rem;
+                padding: 0;
             }
             
             .progress-bar {
                 display: none;
+            }
+            
+            .step {
+                max-width: none;
             }
             
             .step-label, .step-company {
@@ -499,15 +506,15 @@
 
         <main class="content">
             <div class="left-half">
-                <div class="section professional-journey">
-                    <h2 class="section-title">Professional Journey</h2>
+                <div class="section career-section">
+                    <h2 class="section-title">Career Journey</h2>
                     
                     <!-- Education Section -->
                     <div class="education-section">
                         <div class="education-content">
                             <div class="education-icon">🎓</div>
                             <div class="education-details">
-                                <h4>Education Foundation</h4>
+                                <h4>Education</h4>
                                 <p>Degree in Engineering Science (EEE)</p>
                                 <p>Masters in Technology</p>
                                 <p>Nanyang Technological University (NTU)</p>

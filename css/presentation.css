@@ -63,6 +63,27 @@ body {
     padding-bottom: 0.5rem;
 }
 
+/* Left section - Career Journey */
+.career-section .section-content {
+    justify-content: space-between;
+}
+
+.career-section .why-ml-section {
+    margin-top: auto;
+}
+
+/* Right section - Personal */
+.personal-section .section-content {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.personal-section .expectations-content {
+    align-self: end;
+}
+
 /* Education section improvements */
 .education-details h4 {
     color: var(--accent-light);
@@ -174,6 +195,11 @@ body {
     .section-title { font-size: 1.8rem; }
     .why-ml-text { font-size: 1.1rem; }
     .what-to-expect p { font-size: 1.1rem; }
+
+    .personal-section .section-content {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 @media (max-height: 900px) {

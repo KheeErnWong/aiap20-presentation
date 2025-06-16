@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>About Me - Wong Khee Ern</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           color: #ffffff;
+           min-height: 100vh;
+           overflow: hidden;
+       }
+
+       .slide-container {
+           width: 100vw;
+           height: 100vh;
+           display: flex;
+           flex-direction: column;
+           position: relative;
+       }
+
+       .header {
+           background: linear-gradient(135deg, #0c1429 0%, #1e2a3a 100%);
+           padding: 2rem;
+           text-align: center;
+           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+           animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+       }
+
+       .header h1 {
+           font-size: 3.5rem;
+           font-weight: 700;
+           color: #60a5fa;
+           margin-bottom: 0.5rem;
+           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+       }
+
+       .header .subtitle {
+           font-size: 1.5rem;
+           color: #cbd5e0;
+           font-weight: 300;
+       }
+
+       .content {
+           flex: 1;
+           padding: 3rem;
+           display: grid;
+           grid-template-columns: 1fr 1fr;
+           gap: 3rem;
+           align-items: start;
+           animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+       }
+
+       .bio-section {
+           background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
+           padding: 2.5rem;
+           border-radius: 12px;
+           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+           border: 1px solid rgba(59, 130, 246, 0.1);
+           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       }
+
+       .bio-section:hover {
+           transform: translateY(-5px);
+           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+           border-color: rgba(59, 130, 246, 0.3);
+       }
+
+       .section-title {
+           font-size: 1.8rem;
+           color: #3b82f6;
+           margin-bottom: 1.5rem;
+           font-weight: 600;
+           border-bottom: 2px solid #3b82f6;
+           padding-bottom: 0.5rem;
+       }
+
+       .professional-path {
+           display: flex;
+           align-items: center;
+           gap: 1rem;
+           margin-bottom: 2rem;
+           flex-wrap: wrap;
+       }
+
+       .path-item {
+           background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+           padding: 0.8rem 1.2rem;
+           border-radius: 8px;
+           font-size: 1rem;
+           color: #cbd5e0;
+           border: 1px solid rgba(59, 130, 246, 0.2);
+           transition: all 0.3s ease;
+       }
+
+       .path-item:hover {
+           background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+           color: #ffffff;
+           transform: scale(1.05);
+       }
+
+       .arrow {
+           color: #60a5fa;
+           font-size: 1.5rem;
+           font-weight: bold;
+       }
+
+       .why-ml {
+           font-size: 1.1rem;
+           line-height: 1.6;
+           color: #cbd5e0;
+           margin-bottom: 1.5rem;
+       }
+
+       .fun-fact {
+           background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+           padding: 1.5rem;
+           border-radius: 8px;
+           border-left: 4px solid #60a5fa;
+           margin-bottom: 1.5rem;
+       }
+
+       .fun-fact-title {
+           color: #60a5fa;
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+       }
+
+       .quote {
+           font-style: italic;
+           font-size: 1.2rem;
+           color: #60a5fa;
+           text-align: center;
+           padding: 1.5rem;
+           background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+           border-radius: 8px;
+           border: 1px solid rgba(96, 165, 250, 0.3);
+           position: relative;
+       }
+
+       .quote::before,
+       .quote::after {
+           content: '"';
+           font-size: 2rem;
+           color: #3b82f6;
+           font-weight: bold;
+       }
+
+       .navigation {
+           position: absolute;
+           bottom: 2rem;
+           right: 2rem;
+           display: flex;
+           gap: 1rem;
+           animation: fadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+       }
+
+       .nav-btn {
+           background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+           color: white;
+           border: none;
+           padding: 0.8rem 1.5rem;
+           border-radius: 8px;
+           cursor: pointer;
+           font-size: 1rem;
+           font-weight: 500;
+           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+           box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+       }
+
+       .nav-btn:hover {
+           transform: translateY(-2px);
+           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+           background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+       }
+
+       @keyframes slideDown {
+           from {
+               transform: translateY(-100%);
+               opacity: 0;
+           }
+           to {
+               transform: translateY(0);
+               opacity: 1;
+           }
+       }
+
+       @keyframes fadeInUp {
+           from {
+               transform: translateY(50px);
+               opacity: 0;
+           }
+           to {
+               transform: translateY(0);
+               opacity: 1;
+           }
+       }
+
+       @keyframes fadeIn {
+           from {
+               opacity: 0;
+           }
+           to {
+               opacity: 1;
+           }
+       }
+
+       @media (max-width: 768px) {
+           .content {
+               grid-template-columns: 1fr;
+               gap: 2rem;
+               padding: 2rem;
+           }
+           
+           .header h1 {
+               font-size: 2.5rem;
+           }
+           
+           .professional-path {
+               flex-direction: column;
+               align-items: stretch;
+           }
+           
+           .arrow {
+               transform: rotate(90deg);
+           }
+       }
+   </style>
+</head>
+<body>
+   <div class="slide-container">
+       <header class="header">
+           <h1>Wong Khee Ern</h1>
+           <p class="subtitle">AI/ML Engineer</p>
+       </header>
+
+       <main class="content">
+           <div class="bio-section">
+               <h2 class="section-title">Professional Journey</h2>
+               <div class="professional-path">
+                   <div class="path-item">Electrical Engineer</div>
+                   <div class="arrow">→</div>
+                   <div class="path-item">Project Manager</div>
+                   <div class="arrow">→</div>
+                   <div class="path-item">Algorithmic Trader</div>
+                   <div class="arrow">→</div>
+                   <div class="path-item">AI/ML Engineer</div>
+               </div>
+
+               <h3 class="section-title">Why ML?</h3>
+               <p class="why-ml">
+                   I'm passionate about solving business problems through technology and data-driven insights. 
+                   ML represents the perfect intersection of systematic problem-solving, strategic thinking, 
+                   and hands-on engineering—allowing me to build solutions that uncover patterns humans might miss.
+               </p>
+
+               <div class="fun-fact">
+                   <div class="fun-fact-title">🐘 Survival Story</div>
+                   <p>Survived an elephant chase in Khao Yai, Thailand. If I can handle charging elephants, 
+                   I can definitely handle model training!</p>
+               </div>
+           </div>
+
+           <div class="bio-section">
+               <h2 class="section-title">Philosophy</h2>
+               <div class="quote">
+                   A ship is safe in harbor, but that's not what ships are for.
+               </div>
+               
+               <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%); border-radius: 8px;">
+                   <h3 style="color: #60a5fa; margin-bottom: 1rem;">What to Expect</h3>
+                   <p style="color: #cbd5e0; line-height: 1.6;">
+                       A hands-on, problem-solving approach to ML implementation. 
+                       We'll dive deep into practical solutions while maintaining strategic business perspective.
+                   </p>
+               </div>
+           </div>
+       </main>
+
+       <nav class="navigation">
+           <button class="nav-btn" onclick="window.location.href='index.html'">← Home</button>
+           <button class="nav-btn" onclick="window.location.href='slide2.html'">Next →</button>
+       </nav>
+   </div>
+
+   <script>
+       // Keyboard navigation
+       document.addEventListener('keydown', function(e) {
+           if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+               window.location.href = 'index.html';
+           } else if (e.key === 'ArrowRight' || e.key === ' ') {
+               window.location.href = 'slide2.html';
+           }
+       });
+
+       // Fullscreen toggle
+       document.addEventListener('keydown', function(e) {
+           if (e.key === 'f' || e.key === 'F') {
+               if (!document.fullscreenElement) {
+                   document.documentElement.requestFullscreen();
+               } else {
+                   document.exitFullscreen();
+               }
+           }
+       });
+   </script>
+</body>
+</html>

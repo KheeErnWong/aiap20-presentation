@@ -15,7 +15,8 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #ffffff;
-            min-height: 100vh;
+            height: 100vh;
+            width: 100vw;
             overflow: hidden;
         }
 
@@ -29,22 +30,23 @@
 
         .header {
             background: linear-gradient(135deg, #0c1429 0%, #1e2a3a 100%);
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             text-align: center;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
         }
 
         .header h1 {
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
             color: #60a5fa;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
         }
 
         .header .quote {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             color: #cbd5e0;
             font-style: italic;
             font-weight: 300;
@@ -52,42 +54,47 @@
 
         .content {
             flex: 1;
-            padding: 3rem;
+            padding: 2rem;
             display: grid;
             grid-template-columns: 65fr 35fr;
-            gap: 3rem;
+            gap: 2rem;
             align-items: start;
             animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+            min-height: 0; /* Important for proper grid sizing */
         }
 
         .left-column {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
+            height: 100%;
+            min-height: 0;
         }
 
         .bio-section {
             background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
-            padding: 2.5rem;
+            padding: 1.8rem;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(59, 130, 246, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1;
+            min-height: 0;
         }
 
         .bio-section:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             border-color: rgba(59, 130, 246, 0.3);
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: #3b82f6;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             font-weight: 600;
             border-bottom: 2px solid #3b82f6;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.3rem;
         }
 
         .journey-container {
@@ -96,7 +103,7 @@
 
         .progress-timeline {
             position: relative;
-            padding: 2rem 0;
+            padding: 1.5rem 0;
         }
 
         .progress-bar {
@@ -104,7 +111,7 @@
             top: 50%;
             left: 0;
             right: 0;
-            height: 4px;
+            height: 3px;
             background: rgba(59, 130, 246, 0.2);
             border-radius: 2px;
             overflow: hidden;
@@ -134,38 +141,38 @@
         }
 
         .step-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
-            border: 3px solid rgba(59, 130, 246, 0.3);
+            border: 2px solid rgba(59, 130, 246, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.5rem;
-            font-size: 1.5rem;
+            margin: 0 auto 0.3rem;
+            font-size: 1.2rem;
             transition: all 0.5s ease;
         }
 
         .step-icon.active {
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             border-color: #60a5fa;
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
             transform: scale(1.1);
         }
 
         .step-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #cbd5e0;
-            max-width: 120px;
-            line-height: 1.3;
+            max-width: 100px;
+            line-height: 1.2;
             margin: 0 auto;
         }
 
         .step-year {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: #94a3b8;
-            margin-top: 0.25rem;
+            margin-top: 0.2rem;
             font-weight: 500;
         }
 
@@ -185,59 +192,66 @@
         .step:nth-child(5) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
 
         .why-ml {
-            font-size: 1.1rem;
-            line-height: 1.6;
+            font-size: 1rem;
+            line-height: 1.5;
             color: #cbd5e0;
             margin-bottom: 0;
         }
 
         .personal-section {
             background: linear-gradient(135deg, #2d3748 0%, #374151 100%);
-            padding: 2.5rem;
+            padding: 1.8rem;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(59, 130, 246, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 1.2;
+            min-height: 0;
         }
 
         .personal-section:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             border-color: rgba(59, 130, 246, 0.3);
         }
 
         .fun-fact {
             background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: 8px;
-            border-left: 4px solid #60a5fa;
-            margin-bottom: 2rem;
+            border-left: 3px solid #60a5fa;
+            margin-bottom: 1.5rem;
         }
 
         .fun-fact-title {
             color: #60a5fa;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
+        }
+
+        .fun-fact p {
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
         .hobbies-section h3 {
             color: #60a5fa;
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
 
         .hobbies-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
+            gap: 0.6rem;
         }
 
         .hobby-item {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem;
+            gap: 0.6rem;
+            padding: 0.6rem;
             background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
             border-radius: 6px;
             border: 1px solid rgba(59, 130, 246, 0.1);
@@ -250,38 +264,51 @@
         }
 
         .hobby-icon {
-            font-size: 1.5rem;
-            width: 30px;
+            font-size: 1.3rem;
+            width: 25px;
             text-align: center;
         }
 
         .hobby-text {
             color: #cbd5e0;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         .what-to-expect {
-            padding: 2rem;
+            padding: 1.8rem;
             background: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-            border-radius: 8px;
+            border-radius: 12px;
             border: 1px solid rgba(59, 130, 246, 0.2);
-            height: fit-content;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .what-to-expect:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
         .what-to-expect h3 {
             color: #60a5fa;
             margin-bottom: 1rem;
             font-size: 1.5rem;
+            border-bottom: 2px solid #60a5fa;
+            padding-bottom: 0.3rem;
         }
 
         .what-to-expect p {
             color: #cbd5e0;
-            line-height: 1.6;
+            line-height: 1.5;
+            font-size: 1rem;
         }
 
         .navigation {
             position: absolute;
-            bottom: 2rem;
+            bottom: 1.5rem;
             right: 2rem;
             display: flex;
             gap: 1rem;
@@ -292,10 +319,10 @@
             background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.3rem;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
@@ -350,24 +377,53 @@
             }
         }
 
-        @media (max-width: 768px) {
-            .content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 2rem;
+        /* Responsive adjustments */
+        @media (max-height: 800px) {
+            .header {
+                padding: 1rem 2rem;
             }
             
             .header h1 {
-                font-size: 2.5rem;
+                font-size: 2.4rem;
+                margin-bottom: 0.3rem;
             }
             
             .header .quote {
-                font-size: 1.1rem;
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+            
+            .bio-section, .personal-section {
+                padding: 1.5rem;
+            }
+            
+            .what-to-expect {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header .quote {
+                font-size: 0.9rem;
             }
             
             .journey-steps {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.8rem;
             }
             
             .progress-bar {
@@ -380,6 +436,30 @@
             
             .hobbies-list {
                 grid-template-columns: 1fr;
+            }
+            
+            .left-column {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) and (max-height: 800px) {
+            .header {
+                padding: 0.8rem 1rem;
+            }
+            
+            .content {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .bio-section, .personal-section, .what-to-expect {
+                padding: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
             }
         }
     </style>
@@ -495,7 +575,6 @@
                 window.location.href = url;
             } catch (error) {
                 console.log('Navigation error:', error);
-                // Fallback: try relative path
                 window.location.href = './' + url;
             }
         }
@@ -509,7 +588,6 @@
                         const icon = step.querySelector('.step-icon');
                         icon.classList.add('active');
                         if (index === steps.length - 1) {
-                            // Highlight current step
                             setTimeout(() => {
                                 icon.style.background = 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)';
                                 icon.style.transform = 'scale(1.2)';
@@ -520,12 +598,11 @@
             }, 4000);
         }
 
-        // Initialize animations
         window.addEventListener('load', () => {
             animateSteps();
         });
 
-        // Keyboard navigation with error handling
+        // Keyboard navigation
         document.addEventListener('keydown', function(e) {
             try {
                 if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
@@ -533,7 +610,6 @@
                 } else if (e.key === 'ArrowRight' || e.key === ' ') {
                     navigateToSlide('slide2.html');
                 } else if (e.key === 'f' || e.key === 'F') {
-                    // Fullscreen toggle
                     if (!document.fullscreenElement) {
                         document.documentElement.requestFullscreen().catch(err => {
                             console.log('Fullscreen error:', err);
@@ -542,14 +618,11 @@
                         document.exitFullscreen();
                     }
                 } else if (e.key >= '1' && e.key <= '9') {
-                    // Navigate directly to slide number
                     const slideNum = e.key;
                     navigateToSlide(`slide${slideNum}.html`);
                 } else if (e.key === '0') {
-                    // Navigate to slide 10
                     navigateToSlide('slide10.html');
                 } else if (e.key.toLowerCase() === 'h') {
-                    // Navigate to home/index
                     navigateToSlide('index.html');
                 }
             } catch (error) {

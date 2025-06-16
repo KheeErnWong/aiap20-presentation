@@ -129,6 +129,27 @@
           gap: 1.5rem;
       }
 
+      /* Left section - Career Journey */
+      .career-section .section-content {
+          justify-content: space-between;
+      }
+
+      .career-section .why-ml-section {
+          margin-top: auto;
+      }
+
+      /* Right section - Personal */
+      .personal-section .section-content {
+          display: grid;
+          grid-template-rows: auto auto 1fr;
+          gap: 1.5rem;
+          align-items: start;
+      }
+
+      .personal-section .expectations-content {
+          align-self: end;
+      }
+
       /* Education Section */
       .education-card {
           display: flex;
@@ -280,17 +301,7 @@
       .timeline-step:nth-child(5) { animation-delay: 3.5s; }
       .timeline-step:nth-child(6) { animation-delay: 4s; }
 
-      /* Bottom sections - aligned at same level */
-      .bottom-sections {
-          display: flex;
-          gap: 1.5rem;
-          margin-top: auto;
-      }
-
-      .why-ml-section {
-          flex: 1;
-      }
-
+      /* Why ML Section */
       .why-ml-section h3 {
           font-size: 2.2rem;
           color: var(--accent-blue);
@@ -516,9 +527,9 @@
               font-size: 0.9rem;
           }
 
-          .bottom-sections {
+          .personal-section .section-content {
+              display: flex;
               flex-direction: column;
-              gap: 1.5rem;
           }
       }
 
@@ -545,7 +556,7 @@
       </header>
 
       <main class="content">
-          <div class="section">
+          <div class="section career-section">
               <h2 class="section-title">Career Journey</h2>
               <div class="section-content">
                   <div class="education-card">
@@ -614,7 +625,7 @@
               </div>
           </div>
 
-          <div class="section">
+          <div class="section personal-section">
               <h2 class="section-title">When I'm Not Coding</h2>
               <div class="section-content">
                   <div class="hobbies-section">

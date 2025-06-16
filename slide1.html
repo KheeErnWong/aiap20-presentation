@@ -30,25 +30,40 @@
             box-sizing: border-box;
         }
 
+        /* Header specific styling */
+        .header {
+            background: var(--secondary-bg);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            animation: slideDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
         .education-content {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1.2rem;
+            padding: 1rem;
             background: var(--card-bg);
             border-radius: 8px;
             border: 1px solid rgba(59, 130, 246, 0.15);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .education-icon {
-            font-size: 2.4rem;
+            font-size: 2.2rem;
             color: var(--accent-light);
+            flex-shrink: 0;
         }
 
         .education-year {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
         }
 
@@ -85,7 +100,7 @@
             flex: 1;
             opacity: 0;
             transform: translateY(20px);
-            max-width: 160px;
+            max-width: 140px; /* Reduced for better fit */
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -98,16 +113,16 @@
         }
 
         .step-icon {
-            width: 45px;
-            height: 45px;
+            width: 40px; /* Slightly smaller */
+            height: 40px;
             border-radius: 50%;
             background: var(--secondary-bg);
             border: 2px solid var(--border-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.8rem;
-            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+            font-size: 1.3rem;
             transition: var(--transition);
         }
 
@@ -119,7 +134,7 @@
         }
 
         .step-content {
-            margin-top: 0.8rem;
+            margin-top: 0.7rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -136,23 +151,23 @@
 
         .fun-fact {
             background: var(--card-bg);
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: 8px;
             border-left: 3px solid var(--accent-light);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .hobbies-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
+            gap: 0.7rem;
         }
 
         .hobby-item {
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            padding: 1rem;
+            gap: 0.7rem;
+            padding: 0.8rem;
             background: var(--card-bg);
             border-radius: 6px;
             border: 1px solid rgba(59, 130, 246, 0.1);
@@ -165,9 +180,10 @@
         }
 
         .hobby-icon {
-            font-size: 1.6rem;
-            width: 30px;
+            font-size: 1.4rem;
+            width: 28px;
             text-align: center;
+            flex-shrink: 0;
         }
 
         .navigation {
@@ -227,7 +243,7 @@
         @media (max-width: 768px) {
             .journey-steps {
                 flex-direction: column;
-                gap: 1.2rem;
+                gap: 1rem;
                 padding: 0;
             }
             
@@ -248,6 +264,14 @@
             }
             
             .hobbies-list { grid-template-columns: 1fr; }
+        }
+
+        /* Additional height-specific adjustments */
+        @media (max-height: 700px) {
+            .education-content { padding: 0.8rem; margin-bottom: 1rem; }
+            .fun-fact { padding: 1rem; margin-bottom: 1rem; }
+            .hobby-item { padding: 0.7rem; }
+            .step-icon { width: 36px; height: 36px; font-size: 1.2rem; }
         }
     </style>
 </head>

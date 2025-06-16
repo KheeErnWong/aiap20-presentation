@@ -94,23 +94,6 @@
             border-color: rgba(59, 130, 246, 0.3);
         }
 
-        /* Remove flex sizing - let content determine height */
-        .professional-journey {
-            /* Content-based sizing */
-        }
-
-        .why-ml {
-            /* Content-based sizing */
-        }
-
-        .personal-section {
-            /* Content-based sizing */
-        }
-
-        .what-to-expect {
-            /* Content-based sizing */
-        }
-
         .section-title {
             font-size: 1.5rem;
             color: #3b82f6;
@@ -120,13 +103,54 @@
             padding-bottom: 0.3rem;
         }
 
+        /* Education Section */
+        .education-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .education-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
+        .education-icon {
+            font-size: 2rem;
+            color: #60a5fa;
+        }
+
+        .education-details h4 {
+            color: #60a5fa;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .education-details p {
+            color: #cbd5e0;
+            font-size: 0.9rem;
+            line-height: 1.3;
+            margin-bottom: 0.2rem;
+        }
+
+        .education-year {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Journey Timeline */
         .journey-container {
             margin-bottom: 0;
         }
 
         .progress-timeline {
             position: relative;
-            padding: 2rem 0; /* Increased from 1.5rem to 2rem */
+            padding: 2rem 0;
         }
 
         .progress-bar {
@@ -172,7 +196,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 0.5rem; /* Increased from 0.3rem to 0.5rem */
+            margin: 0 auto 0.5rem;
             font-size: 1.2rem;
             transition: all 0.5s ease;
         }
@@ -187,21 +211,34 @@
         .step-label {
             font-size: 0.75rem;
             color: #cbd5e0;
-            max-width: 100px;
+            max-width: 120px;
             line-height: 1.2;
-            margin: 0 auto 0.3rem; /* Added margin-bottom for more space */
+            margin: 0 auto 0.2rem;
+            font-weight: 500;
+        }
+
+        .step-company {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            max-width: 120px;
+            margin: 0 auto 0.3rem;
+            font-style: italic;
         }
 
         .step-year {
             font-size: 0.65rem;
             color: #94a3b8;
-            margin-top: 0.3rem; /* Increased from 0.2rem to 0.3rem */
+            margin-top: 0.2rem;
             font-weight: 500;
         }
 
         .step.current .step-label {
             color: #60a5fa;
             font-weight: 600;
+        }
+
+        .step.current .step-company {
+            color: #60a5fa;
         }
 
         .step.current .step-year {
@@ -213,6 +250,7 @@
         .step:nth-child(3) { animation: stepFadeIn 0.5s ease 2.5s forwards; }
         .step:nth-child(4) { animation: stepFadeIn 0.5s ease 3s forwards; }
         .step:nth-child(5) { animation: stepFadeIn 0.5s ease 3.5s forwards; }
+        .step:nth-child(6) { animation: stepFadeIn 0.5s ease 4s forwards; }
 
         .why-ml-text {
             font-size: 1rem;
@@ -418,7 +456,7 @@
                 display: none;
             }
             
-            .step-label {
+            .step-label, .step-company {
                 max-width: none;
             }
             
@@ -463,6 +501,22 @@
             <div class="left-half">
                 <div class="section professional-journey">
                     <h2 class="section-title">Professional Journey</h2>
+                    
+                    <!-- Education Section -->
+                    <div class="education-section">
+                        <div class="education-content">
+                            <div class="education-icon">🎓</div>
+                            <div class="education-details">
+                                <h4>Education Foundation</h4>
+                                <p>Degree in Engineering Science (EEE)</p>
+                                <p>Masters in Technology</p>
+                                <p>Nanyang Technological University (NTU)</p>
+                                <div class="education-year">2016</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Career Timeline -->
                     <div class="journey-container">
                         <div class="progress-timeline">
                             <div class="progress-bar">
@@ -472,26 +526,37 @@
                                 <div class="step">
                                     <div class="step-icon">⚡</div>
                                     <div class="step-label">Electrical Engineer</div>
+                                    <div class="step-company">Keppel FELS</div>
                                     <div class="step-year">2017</div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-icon">💡</div>
+                                    <div class="step-label">Intrapreneur</div>
+                                    <div class="step-company">Keppel FELS</div>
+                                    <div class="step-year">2018</div>
                                 </div>
                                 <div class="step">
                                     <div class="step-icon">🏥</div>
                                     <div class="step-label">Healthcare IT Project Manager</div>
+                                    <div class="step-company">Synapxe</div>
                                     <div class="step-year">2019</div>
                                 </div>
                                 <div class="step">
                                     <div class="step-icon">📈</div>
                                     <div class="step-label">Algorithmic Trader</div>
+                                    <div class="step-company">Grasshopper</div>
                                     <div class="step-year">2021</div>
                                 </div>
                                 <div class="step">
                                     <div class="step-icon">📋</div>
                                     <div class="step-label">ISO Quality Representative</div>
+                                    <div class="step-company">Thai Eastern Wire Mesh</div>
                                     <div class="step-year">2023</div>
                                 </div>
                                 <div class="step current">
                                     <div class="step-icon">🤖</div>
                                     <div class="step-label">AI/ML Engineer</div>
+                                    <div class="step-company">AIAP Program</div>
                                     <div class="step-year">Starting 2025</div>
                                 </div>
                             </div>

@@ -53,7 +53,7 @@
         }
 
         .header h1 {
-            font-size: 2.8rem;
+            font-size: 4rem; /* Increased from 2.8rem for projector visibility */
             font-weight: 700;
             color: var(--accent-light);
             margin-bottom: 0.5rem;
@@ -61,7 +61,7 @@
         }
 
         .header .quote {
-            font-size: 1.1rem;
+            font-size: 1.5rem; /* Increased from 1.1rem */
             color: var(--text-secondary);
             font-style: italic;
             font-weight: 300;
@@ -79,7 +79,7 @@
         .left-half, .right-half {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem; /* This creates the space between sections */
+            gap: 1.5rem;
         }
 
         .section {
@@ -98,7 +98,7 @@
         }
 
         .section-title {
-            font-size: 1.5rem;
+            font-size: 2.5rem; /* Increased from 1.5rem for projector visibility */
             color: var(--accent-blue);
             margin-bottom: 1rem;
             font-weight: 600;
@@ -118,7 +118,7 @@
         }
 
         .education-icon {
-            font-size: 2rem;
+            font-size: 3rem; /* Increased from 2rem */
             color: var(--accent-light);
         }
 
@@ -126,32 +126,33 @@
             color: var(--accent-light);
             font-weight: 600;
             margin-bottom: 0.3rem;
+            font-size: 1.5rem; /* Added explicit size for projector */
         }
 
         .education-details p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1.2rem; /* Increased from 0.9rem */
             line-height: 1.3;
             margin-bottom: 0.2rem;
         }
 
         .education-year {
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 1.1rem; /* Increased from 0.8rem */
             font-weight: 500;
         }
 
         .progress-timeline {
             position: relative;
-            padding: 2rem 0; /* Reduced from 3rem */
+            padding: 2rem 0;
         }
 
         .progress-bar {
             position: absolute;
-            top: 30%; /* Moved up from 40% */
+            top: 35%; /* Adjusted for two-line format */
             left: 5%;
             right: 5%;
-            height: 3px;
+            height: 4px; /* Slightly thicker for projector visibility */
             background: rgba(59, 130, 246, 0.2);
             border-radius: 2px;
         }
@@ -178,7 +179,7 @@
             flex: 1;
             opacity: 0;
             transform: translateY(20px);
-            max-width: 140px;
+            max-width: 150px; /* Slightly wider for more text */
             margin: 0 auto;
             display: flex;
             flex-direction: column;
@@ -191,16 +192,16 @@
         }
 
         .step-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px; /* Increased from 40px */
+            height: 50px;
             border-radius: 50%;
             background: var(--secondary-bg);
             border: 2px solid var(--border-blue);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 0.8rem; /* Reduced from 1.8rem */
-            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.8rem; /* Increased from 1.2rem */
             transition: var(--transition);
         }
 
@@ -212,49 +213,45 @@
         }
 
         .step-content {
-            margin-top: 0.5rem; /* Reduced from 1.2rem */
+            margin-top: 0.8rem;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 0.3rem;
         }
 
-        .step-label {
-            font-size: 0.72rem;
+        /* Two-line format: Title + Year on first line, Company on second line */
+        .step-title-year {
+            font-size: 1.1rem; /* Increased from 0.72rem for projector visibility */
             color: var(--text-secondary);
-            line-height: 1.1;
-            margin-bottom: 0.3rem;
-            font-weight: 500;
+            line-height: 1.2;
+            font-weight: 600;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
         }
 
         .step-company {
-            font-size: 0.62rem;
+            font-size: 1rem; /* Increased from 0.62rem for projector visibility */
             color: var(--text-muted);
-            margin-bottom: 0.3rem;
             font-style: italic;
-            line-height: 1.1;
+            line-height: 1.2;
             text-align: center;
+            margin-top: 0.2rem;
         }
 
-        .step-year {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .step.current .step-label,
-        .step.current .step-company,
-        .step.current .step-year {
+        .step.current .step-title-year,
+        .step.current .step-company {
             color: var(--accent-light);
         }
 
-        .step.current .step-label {
-            font-weight: 600;
+        .step.current .step-title-year {
+            font-weight: 700;
         }
 
         .why-ml-text {
-            font-size: 1rem;
+            font-size: 1.4rem; /* Increased from 1rem for projector visibility */
             line-height: 1.6;
             color: var(--text-secondary);
         }
@@ -271,30 +268,31 @@
             color: var(--accent-light);
             font-weight: 600;
             margin-bottom: 0.5rem;
+            font-size: 1.4rem; /* Increased for projector */
         }
 
         .fun-fact p {
-            font-size: 0.9rem;
+            font-size: 1.2rem; /* Increased from 0.9rem */
             line-height: 1.4;
         }
 
         .hobbies-section h3 {
             color: var(--accent-light);
             margin-bottom: 1rem;
-            font-size: 1.2rem;
+            font-size: 1.8rem; /* Increased from 1.2rem */
         }
 
         .hobbies-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.6rem;
+            gap: 0.8rem; /* Slightly larger gap */
         }
 
         .hobby-item {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.6rem;
+            gap: 0.8rem;
+            padding: 0.8rem;
             background: var(--card-bg);
             border-radius: 6px;
             border: 1px solid rgba(59, 130, 246, 0.1);
@@ -307,20 +305,20 @@
         }
 
         .hobby-icon {
-            font-size: 1.3rem;
-            width: 25px;
+            font-size: 1.8rem; /* Increased from 1.3rem */
+            width: 30px; /* Increased from 25px */
             text-align: center;
         }
 
         .hobby-text {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 1.1rem; /* Increased from 0.85rem */
         }
 
         .what-to-expect h3 {
             color: var(--accent-light);
             margin-bottom: 1rem;
-            font-size: 1.5rem;
+            font-size: 2.2rem; /* Increased from 1.5rem */
             border-bottom: 2px solid var(--accent-light);
             padding-bottom: 0.3rem;
         }
@@ -328,7 +326,7 @@
         .what-to-expect p {
             color: var(--text-secondary);
             line-height: 1.6;
-            font-size: 1rem;
+            font-size: 1.4rem; /* Increased from 1rem */
         }
 
         .navigation {
@@ -344,10 +342,10 @@
             background: var(--blue-gradient);
             color: white;
             border: none;
-            padding: 0.7rem 1.3rem;
+            padding: 1rem 1.8rem; /* Increased padding */
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1.2rem; /* Increased from 0.9rem */
             font-weight: 500;
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
@@ -393,11 +391,12 @@
             }
             
             .left-half, .right-half {
-                gap: 1rem; /* Reduced gap for mobile */
+                gap: 1rem;
             }
             
-            .header h1 { font-size: 2rem; }
-            .header .quote { font-size: 0.9rem; }
+            .header h1 { font-size: 2.5rem; }
+            .header .quote { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; }
             
             .journey-steps {
                 flex-direction: column;
@@ -426,11 +425,13 @@
 
         @media (max-height: 800px) {
             .header { padding: 1rem 2rem; }
-            .header h1 { font-size: 2.4rem; margin-bottom: 0.3rem; }
+            .header h1 { font-size: 3.2rem; margin-bottom: 0.3rem; }
+            .header .quote { font-size: 1.3rem; }
             .content { padding: 1.5rem; }
             .section { padding: 1.5rem; }
-            .progress-timeline { padding: 1.5rem 0; } /* Further reduced for smaller screens */
-            .left-half, .right-half { gap: 1rem; } /* Tighter spacing on short screens */
+            .section-title { font-size: 2.2rem; }
+            .progress-timeline { padding: 1.5rem 0; }
+            .left-half, .right-half { gap: 1rem; }
         }
     </style>
 </head>
@@ -465,49 +466,61 @@
                             <div class="step" style="--step-index: 0">
                                 <div class="step-icon">⚡</div>
                                 <div class="step-content">
-                                    <div class="step-label">Electrical Engineer</div>
+                                    <div class="step-title-year">
+                                        <div>Electrical Engineer</div>
+                                        <div>2017</div>
+                                    </div>
                                     <div class="step-company">Keppel FELS</div>
-                                    <div class="step-year">2017</div>
                                 </div>
                             </div>
                             <div class="step" style="--step-index: 1">
                                 <div class="step-icon">💡</div>
                                 <div class="step-content">
-                                    <div class="step-label">Intrapreneur</div>
+                                    <div class="step-title-year">
+                                        <div>Intrapreneur</div>
+                                        <div>2018</div>
+                                    </div>
                                     <div class="step-company">Keppel FELS</div>
-                                    <div class="step-year">2018</div>
                                 </div>
                             </div>
                             <div class="step" style="--step-index: 2">
                                 <div class="step-icon">🏥</div>
                                 <div class="step-content">
-                                    <div class="step-label">Healthcare IT Project Manager</div>
+                                    <div class="step-title-year">
+                                        <div>Healthcare IT Manager</div>
+                                        <div>2019</div>
+                                    </div>
                                     <div class="step-company">Synapxe</div>
-                                    <div class="step-year">2019</div>
                                 </div>
                             </div>
                             <div class="step" style="--step-index: 3">
                                 <div class="step-icon">📈</div>
                                 <div class="step-content">
-                                    <div class="step-label">Algorithmic Trader</div>
+                                    <div class="step-title-year">
+                                        <div>Algorithmic Trader</div>
+                                        <div>2021</div>
+                                    </div>
                                     <div class="step-company">Grasshopper</div>
-                                    <div class="step-year">2021</div>
                                 </div>
                             </div>
                             <div class="step" style="--step-index: 4">
                                 <div class="step-icon">📋</div>
                                 <div class="step-content">
-                                    <div class="step-label">ISO Quality Representative</div>
-                                    <div class="step-company">Thai Eastern Wire Mesh</div>
-                                    <div class="step-year">2023</div>
+                                    <div class="step-title-year">
+                                        <div>ISO Quality Rep</div>
+                                        <div>2023</div>
+                                    </div>
+                                    <div class="step-company">Thai Eastern Wire</div>
                                 </div>
                             </div>
                             <div class="step current" style="--step-index: 5">
                                 <div class="step-icon">🤖</div>
                                 <div class="step-content">
-                                    <div class="step-label">AI/ML Engineer</div>
+                                    <div class="step-title-year">
+                                        <div>AI/ML Engineer</div>
+                                        <div>Starting 2025</div>
+                                    </div>
                                     <div class="step-company">AIAP Program</div>
-                                    <div class="step-year">Starting 2025</div>
                                 </div>
                             </div>
                         </div>
@@ -583,7 +596,7 @@
                 document.querySelectorAll('.step-icon').forEach((icon, index) => {
                     setTimeout(() => {
                         icon.classList.add('active');
-                        if (index === 5) { // Last step gets special treatment
+                        if (index === 5) {
                             setTimeout(() => {
                                 icon.style.background = 'var(--blue-light)';
                                 icon.style.transform = 'scale(1.2)';

@@ -206,3 +206,7 @@ body {
     .header { padding: 1.5rem 2rem; }
     .content { padding: 1.8rem; }
 }
+
+.expectations-content {
+    margin-top: 80px; /* Adjust this value to move it down more or less */
+}

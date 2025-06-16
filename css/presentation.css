@@ -52,6 +52,20 @@ body {
     transition: var(--transition);
     min-height: 0; /* Remove flex: 1 constraint */
     overflow: visible; /* Changed from hidden */
+    display: grid;
+}
+
+/* LEFT SECTION - Career Journey */
+.career-section {
+    grid-template-rows: auto 1fr auto;
+    gap: 1.5rem;
+}
+
+/* RIGHT SECTION - Personal */
+.personal-section {
+    grid-template-rows: auto auto auto auto;
+    gap: 1.5rem;
+    align-content: start;
 }
 
 .section-title {
@@ -63,25 +77,18 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* Left section - Career Journey */
-.career-section .section-content {
-    justify-content: space-between;
-}
-
-.career-section .why-ml-section {
-    margin-top: auto;
-}
-
-/* Right section - Personal */
-.personal-section .section-content {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    gap: 1.5rem;
-    align-items: start;
-}
-
-.personal-section .expectations-content {
+/* ALIGNED BOTTOM SECTIONS */
+.bottom-section {
     align-self: end;
+}
+
+.bottom-section h3 {
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-blue);
+    padding-bottom: 0.5rem;
 }
 
 /* Education section improvements */
@@ -126,15 +133,6 @@ body {
 }
 
 /* Why ML section */
-.why-ml-section h3 {
-    font-size: 2.2rem;
-    color: var(--accent-blue);
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    border-bottom: 2px solid var(--accent-blue);
-    padding-bottom: 0.5rem;
-}
-
 .why-ml-text {
     font-size: 1.3rem; /* Increased from 1.1rem */
     line-height: 1.6; /* Increased line height */
@@ -196,9 +194,11 @@ body {
     .why-ml-text { font-size: 1.1rem; }
     .what-to-expect p { font-size: 1.1rem; }
 
-    .personal-section .section-content {
+    .career-section,
+    .personal-section {
         display: flex;
         flex-direction: column;
+        gap: 1.5rem;
     }
 }
 

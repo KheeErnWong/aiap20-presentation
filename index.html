@@ -384,7 +384,7 @@
             <div class="slides-grid">
                 <a href="slide1.html" class="slide-card">
                     <div class="slide-number">01</div>
-                    <div class="slide-title-text">Title Slide</div>
+                    <div class="slide-title-text">About Me</div>
                 </a>
                 
                 <a href="slide2.html" class="slide-card">
@@ -440,7 +440,7 @@
     </div>
     
     <div class="navigation-help">
-        💡 Use arrow keys (← →) or spacebar to navigate between slides
+        💡 Use arrow keys (← →) or spacebar to navigate between slides | Number keys (1-9, 0) for direct access
     </div>
 
     <script>
@@ -454,11 +454,23 @@
             }
         }
 
-        // Auto-enter fullscreen on F11 or when requested
+        // Keyboard navigation for index page
         document.addEventListener('keydown', function(e) {
             if (e.key === 'F11') {
                 e.preventDefault();
                 toggleFullscreen();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'ArrowRight' || e.key === ' ') {
+                // Navigate to first slide
+                window.location.href = 'slide1.html';
+            } else if (e.key >= '1' && e.key <= '9') {
+                // Navigate directly to slide number
+                const slideNum = e.key;
+                window.location.href = `slide${slideNum}.html`;
+            } else if (e.key === '0') {
+                // Navigate to slide 10
+                window.location.href = 'slide10.html';
             }
         });
 

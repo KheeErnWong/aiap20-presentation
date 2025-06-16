@@ -63,23 +63,6 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* Section content layout changes */
-.section-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    justify-content: space-between;
-}
-
-.personal-section .section-content {
-    justify-content: flex-start;
-}
-
-.personal-section .section-content > *:last-child {
-    margin-top: auto;
-}
-
 /* Education section improvements */
 .education-details h4 {
     color: var(--accent-light);
@@ -122,10 +105,6 @@ body {
 }
 
 /* Why ML section */
-.why-ml-section {
-    margin-top: auto;
-}
-
 .why-ml-section h3 {
     font-size: 2.2rem;
     color: var(--accent-blue);
@@ -168,10 +147,11 @@ body {
 
 /* What to expect section */
 .what-to-expect h3 {
-    color: var(--accent-light);
-    margin-bottom: 1.2rem;
-    font-size: 2rem; /* Increased from 1.8rem */
-    border-bottom: 2px solid var(--accent-light);
+    font-size: 2.2rem;
+    color: var(--accent-blue);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-blue);
     padding-bottom: 0.5rem;
 }
 

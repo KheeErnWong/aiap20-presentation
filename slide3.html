@@ -774,7 +774,10 @@
            
            if (e.key >= '1' && e.key <= '9') {
                navigateToSlide(`slide${e.key}.html`);
-           } else if (keyActions[e.key]();
+           } else if (keyActions[e.key]) {
+               e.preventDefault();
+               keyActions[e.key]();
+           }
        });
    </script>
 </body>

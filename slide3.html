@@ -349,7 +349,7 @@
        }
 
        .insight-title {
-           font-size: 1.8rem;
+           font-size: 1.5rem;
            color: var(--accent-blue);
            margin-bottom: 1.5rem;
            font-weight: 700;
@@ -360,7 +360,7 @@
        }
 
        .insight-content {
-           font-size: 1.3rem;
+           font-size: 1.0rem;
            color: var(--text-primary);
            line-height: 1.6;
            font-weight: 500;
@@ -679,7 +679,7 @@
                    <div class="grid-row">
                        <div class="grid-cell feature">Subscription (Target Variable)</div>
                        <div class="grid-cell issue">NIL</div>
-                       <div class="grid-cell finding"><span class="metric-badge percentage">90%</span> class imbalance. <span class="metric-badge rate">11.3%</span> Average subscription rate</div>
+                       <div class="grid-cell finding"><90% class imbalance. 11.3%. Average subscription rate</div>
                        <div class="grid-cell solution">Implement F2-scoring with recall emphasis. Use balanced ML models. Utilize stratified splitting</div>
                        <div class="grid-cell business">High class imbalance may signify low campaign efficiency. Need to understand why conversion rates are low</div>
                    </div>
@@ -695,7 +695,7 @@
                    <div class="grid-row">
                        <div class="grid-cell feature">Campaign Calls</div>
                        <div class="grid-cell issue">Negative Values</div>
-                       <div class="grid-cell finding">Inverse relationship between calls and subscription. <span class="inline-highlight time">7-day</span> follow-up window optimal</div>
+                       <div class="grid-cell finding">Inverse relationship between calls and subscription. 7-day follow-up window optimal</div>
                        <div class="grid-cell solution">Absolute value conversion</div>
                        <div class="grid-cell business">Reduce resources on multiple calls. Keep hot leads hot with quick follow-up</div>
                    </div>
@@ -703,14 +703,14 @@
                    <div class="grid-row">
                        <div class="grid-cell feature">Previous Contact Days</div>
                        <div class="grid-cell issue">Special Code (999 = never)</div>
-                       <div class="grid-cell finding">Previously contacted clients <span class="inline-highlight multiplier">7x</span> more likely to subscribe</div>
+                       <div class="grid-cell finding">Previously contacted clients 7x more likely to subscribe</div>
                        <div class="grid-cell solution">Create 999 as feature flag</div>
                        <div class="grid-cell business">Marketing needs active follow-up lists. Continue nurturing even failed conversions</div>
                    </div>
                    
                    <div class="grid-row">
                        <div class="grid-cell feature">Personal, Housing Loan, Credit Default</div>
-                       <div class="grid-cell issue">Significant missing data. Extreme imbalance (only <span class="inline-highlight number">3</span> credit defaults)</div>
+                       <div class="grid-cell issue">Significant missing data. Extreme imbalance (only 3 credit defaults)</div>
                        <div class="grid-cell finding">No correlation between missingness and subscription rate</div>
                        <div class="grid-cell solution">Convert missing to 'unknown' category</div>
                        <div class="grid-cell business">Bank should gather financial data from credit bureaus. Financials likely significant predictors</div>

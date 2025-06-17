@@ -78,10 +78,10 @@
         }
 
         .header h1 {
-            font-size: 4rem;
+            font-size: 3.2rem; /* Reduced from 4rem */
             font-weight: 700;
             color: var(--accent-light);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem; /* Reduced from 1rem */
             text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
             opacity: 0;
             transform: translateY(20px);
@@ -89,10 +89,10 @@
         }
 
         .action-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem; /* Reduced from 2.5rem */
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.6rem; /* Reduced from 0.8rem */
             line-height: 1.2;
             opacity: 0;
             transform: translateY(15px);
@@ -100,7 +100,7 @@
         }
 
         .subtitle {
-            font-size: 1.3rem;
+            font-size: 1.2rem; /* Reduced from 1.3rem */
             color: var(--text-secondary);
             font-weight: 300;
             max-width: 900px;
@@ -231,15 +231,40 @@
             font-weight: 700;
         }
 
+        /* Key Takeaway Box - moved to top */
+        .key-takeaway {
+            padding: 1rem;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-light);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 4.2s forwards;
+        }
+
+        .key-takeaway-title {
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .key-takeaway-content {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
         .pipeline-table {
             background: var(--card-bg);
             border-radius: 10px;
             overflow: hidden;
             border: 1px solid var(--border-blue);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             opacity: 0;
             transform: translateY(20px);
-            animation: slideInTable var(--timing-medium) var(--easing-smooth) 4.2s forwards;
+            animation: slideInTable var(--timing-medium) var(--easing-smooth) 4.6s forwards;
         }
 
         .table-header {
@@ -281,6 +306,31 @@
             font-weight: 600;
         }
 
+        /* Algorithm Note */
+        .algorithm-note {
+            padding: 0.8rem;
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 6px;
+            border-left: 2px solid var(--text-muted);
+            opacity: 0;
+            transform: translateY(15px);
+            animation: slideInNote var(--timing-medium) var(--easing-smooth) 5s forwards;
+        }
+
+        .algorithm-note-title {
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .algorithm-note-content {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
         .steps-section {
             grid-column: 1 / -1;
             background: var(--secondary-bg);
@@ -291,7 +341,7 @@
             margin-top: 1rem;
             opacity: 0;
             transform: translateY(30px);
-            animation: revealSteps var(--timing-medium) var(--easing-smooth) 4.6s forwards;
+            animation: revealSteps var(--timing-medium) var(--easing-smooth) 5.4s forwards;
         }
 
         .steps-title {
@@ -323,9 +373,9 @@
             transform: translateY(20px);
         }
 
-        .step-card:nth-child(1) { animation: slideInStep var(--timing-fast) var(--easing-smooth) 5s forwards; }
-        .step-card:nth-child(2) { animation: slideInStep var(--timing-fast) var(--easing-smooth) 5.2s forwards; }
-        .step-card:nth-child(3) { animation: slideInStep var(--timing-fast) var(--easing-smooth) 5.4s forwards; }
+        .step-card:nth-child(1) { animation: slideInStep var(--timing-fast) var(--easing-smooth) 5.8s forwards; }
+        .step-card:nth-child(2) { animation: slideInStep var(--timing-fast) var(--easing-smooth) 6s forwards; }
+        .step-card:nth-child(3) { animation: slideInStep var(--timing-fast) var(--easing-smooth) 6.2s forwards; }
 
         .step-card:hover {
             transform: translateY(-5px);
@@ -358,7 +408,7 @@
             z-index: 100;
             opacity: 0;
             transform: translateY(20px);
-            animation: revealNavigation var(--timing-medium) var(--easing-smooth) 5.8s forwards;
+            animation: revealNavigation var(--timing-medium) var(--easing-smooth) 6.6s forwards;
         }
 
         .nav-btn {
@@ -443,8 +493,18 @@
             to { opacity: 1; transform: translateX(0); }
         }
 
+        @keyframes slideInTakeaway {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @keyframes slideInTable {
             from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInNote {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -470,9 +530,9 @@
                 gap: 1.5rem;
             }
             
-            .header h1 { font-size: 3rem; }
-            .action-title { font-size: 2rem; }
-            .subtitle { font-size: 1.2rem; }
+            .header h1 { font-size: 2.8rem; }
+            .action-title { font-size: 1.9rem; }
+            .subtitle { font-size: 1.1rem; }
         }
 
         @media (max-width: 768px) {
@@ -496,15 +556,15 @@
             }
             
             .header h1 { 
-                font-size: 2.5rem; 
+                font-size: 2.2rem; 
             }
             
             .action-title { 
-                font-size: 1.8rem; 
+                font-size: 1.6rem; 
             }
             
             .subtitle { 
-                font-size: 1.1rem; 
+                font-size: 1rem; 
             }
 
             .table-row {
@@ -603,6 +663,15 @@
                     <span class="section-icon">🔄</span>
                     ML Pipeline Results
                 </h2>
+                
+                <!-- Key Takeaway moved to top -->
+                <div class="key-takeaway">
+                    <div class="key-takeaway-title">Key Takeaway</div>
+                    <div class="key-takeaway-content">
+                        <span class="highlight">65% resource reduction</span> while maintaining <span class="highlight">70% of subscriptions</span> and <span class="highlight">doubling success rate</span>
+                    </div>
+                </div>
+
                 <div class="pipeline-table">
                     <div class="table-header">ML Model Performance Impact</div>
                     <div class="table-row">
@@ -634,10 +703,12 @@
                         <div class="table-cell"><strong>-65%</strong></div>
                     </div>
                 </div>
-                <div style="margin-top: 1rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border-left: 3px solid var(--accent-light);">
-                    <div style="color: var(--accent-light); font-weight: 600; margin-bottom: 0.5rem;">Key Takeaway</div>
-                    <div style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.4;">
-                        <span class="highlight">65% resource reduction</span> while maintaining <span class="highlight">70% of subscriptions</span> and <span class="highlight">doubling success rate</span>
+
+                <!-- Algorithm optimization note -->
+                <div class="algorithm-note">
+                    <div class="algorithm-note-title">Algorithm Optimization Note</div>
+                    <div class="algorithm-note-content">
+                        The algorithm is maximized to identify as many potential customers as possible, including some customers who ultimately won't subscribe
                     </div>
                 </div>
             </div>

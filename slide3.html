@@ -13,6 +13,7 @@
            --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
            --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
            --green-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+           --purple-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
            --red-accent: #ef4444;
            --text-primary: #ffffff;
            --text-secondary: #cbd5e0;
@@ -21,12 +22,14 @@
            --accent-light: #60a5fa;
            --accent-amber: #f59e0b;
            --accent-green: #10b981;
+           --accent-purple: #8b5cf6;
            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
            --border-blue: rgba(59, 130, 246, 0.2);
            --border-amber: rgba(245, 158, 11, 0.2);
            --border-green: rgba(16, 185, 129, 0.2);
+           --border-purple: rgba(139, 92, 246, 0.2);
            
            --timing-fast: 0.3s;
            --timing-medium: 0.6s;
@@ -145,24 +148,9 @@
            transition: transform var(--timing-medium) var(--easing-smooth);
        }
 
-       .insight-card.customer-seg {
-           animation: revealCard var(--timing-medium) var(--easing-smooth) 1.8s forwards;
-       }
-
-       .insight-card.customer-seg::before {
-           background: var(--blue-gradient);
-       }
-
-       .insight-card.channel-opt {
-           animation: revealCard var(--timing-medium) var(--easing-smooth) 2.2s forwards;
-       }
-
-       .insight-card.channel-opt::before {
-           background: var(--green-gradient);
-       }
-
+       /* TOP LEFT: Data Quality Challenges */
        .insight-card.data-quality {
-           animation: revealCard var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 1.8s forwards;
            border-color: var(--border-amber);
        }
 
@@ -170,12 +158,32 @@
            background: var(--amber-gradient);
        }
 
+       /* TOP RIGHT: Data Cleaning Work Performed */
+       .insight-card.data-cleaning {
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 2.2s forwards;
+           border-color: var(--border-purple);
+       }
+
+       .insight-card.data-cleaning::before {
+           background: var(--purple-gradient);
+       }
+
+       /* BOTTOM LEFT: Customer Segmentation & Channel Insights */
+       .insight-card.customer-channel {
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+       }
+
+       .insight-card.customer-channel::before {
+           background: var(--blue-gradient);
+       }
+
+       /* BOTTOM RIGHT: Model Reliability */
        .insight-card.data-integrity {
            animation: revealCard var(--timing-medium) var(--easing-smooth) 3s forwards;
        }
 
        .insight-card.data-integrity::before {
-           background: var(--blue-gradient);
+           background: var(--green-gradient);
        }
 
        .insight-card:hover {
@@ -202,10 +210,10 @@
            animation: revealIcon var(--timing-fast) var(--easing-bounce) 3.4s forwards;
        }
 
-       .customer-seg .card-icon { color: var(--accent-blue); }
-       .channel-opt .card-icon { color: var(--accent-green); }
        .data-quality .card-icon { color: var(--accent-amber); }
-       .data-integrity .card-icon { color: var(--accent-light); }
+       .data-cleaning .card-icon { color: var(--accent-purple); }
+       .customer-channel .card-icon { color: var(--accent-blue); }
+       .data-integrity .card-icon { color: var(--accent-green); }
 
        .card-title {
            font-size: 1.4rem;
@@ -241,23 +249,25 @@
        }
 
        /* Staggered animations for insight items */
-       .customer-seg .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 3.8s forwards; border-left-color: var(--accent-blue); }
-       .customer-seg .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4s forwards; border-left-color: var(--accent-blue); }
-       .customer-seg .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.2s forwards; border-left-color: var(--accent-blue); }
-       .customer-seg .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.4s forwards; border-left-color: var(--accent-blue); }
+       .data-quality .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 3.8s forwards; border-left-color: var(--accent-amber); }
+       .data-quality .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4s forwards; border-left-color: var(--accent-amber); }
+       .data-quality .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.2s forwards; border-left-color: var(--accent-amber); }
+       .data-quality .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.4s forwards; border-left-color: var(--accent-amber); }
 
-       .channel-opt .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.6s forwards; border-left-color: var(--accent-green); }
-       .channel-opt .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.8s forwards; border-left-color: var(--accent-green); }
-       .channel-opt .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5s forwards; border-left-color: var(--accent-green); }
+       .data-cleaning .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.6s forwards; border-left-color: var(--accent-purple); }
+       .data-cleaning .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.8s forwards; border-left-color: var(--accent-purple); }
+       .data-cleaning .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5s forwards; border-left-color: var(--accent-purple); }
+       .data-cleaning .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.2s forwards; border-left-color: var(--accent-purple); }
 
-       .data-quality .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.2s forwards; border-left-color: var(--accent-amber); }
-       .data-quality .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.4s forwards; border-left-color: var(--accent-amber); }
-       .data-quality .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.6s forwards; border-left-color: var(--accent-amber); }
-       .data-quality .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.8s forwards; border-left-color: var(--accent-amber); }
+       .customer-channel .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.4s forwards; border-left-color: var(--accent-blue); }
+       .customer-channel .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.6s forwards; border-left-color: var(--accent-blue); }
+       .customer-channel .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.8s forwards; border-left-color: var(--accent-blue); }
+       .customer-channel .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6s forwards; border-left-color: var(--accent-blue); }
+       .customer-channel .insight-item:nth-child(5) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.2s forwards; border-left-color: var(--accent-blue); }
 
-       .data-integrity .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6s forwards; border-left-color: var(--accent-light); }
-       .data-integrity .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.2s forwards; border-left-color: var(--accent-light); }
-       .data-integrity .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.4s forwards; border-left-color: var(--accent-light); }
+       .data-integrity .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.4s forwards; border-left-color: var(--accent-green); }
+       .data-integrity .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.6s forwards; border-left-color: var(--accent-green); }
+       .data-integrity .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.8s forwards; border-left-color: var(--accent-green); }
 
        .insight-item:hover {
            transform: translateX(5px);
@@ -290,6 +300,10 @@
            color: var(--accent-green);
        }
 
+       .highlight.purple {
+           color: var(--accent-purple);
+       }
+
        .highlight.red {
            color: var(--red-accent);
        }
@@ -315,7 +329,7 @@
            margin-top: 1rem;
            opacity: 0;
            transform: translateY(30px);
-           animation: revealTakeaways var(--timing-medium) var(--easing-smooth) 6.8s forwards;
+           animation: revealTakeaways var(--timing-medium) var(--easing-smooth) 7.2s forwards;
        }
 
        .takeaways-title {
@@ -363,9 +377,9 @@
        .takeaway-card.efficiency::before { background: var(--green-gradient); }
        .takeaway-card.improvement::before { background: var(--amber-gradient); }
 
-       .takeaway-card:nth-child(1) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.2s forwards; }
-       .takeaway-card:nth-child(2) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.4s forwards; }
-       .takeaway-card:nth-child(3) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.6s forwards; }
+       .takeaway-card:nth-child(1) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.6s forwards; }
+       .takeaway-card:nth-child(2) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.8s forwards; }
+       .takeaway-card:nth-child(3) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 8s forwards; }
 
        .takeaway-card:hover {
            transform: translateY(-5px);
@@ -408,7 +422,7 @@
            z-index: 100;
            opacity: 0;
            transform: translateY(20px);
-           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 8s forwards;
+           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 8.4s forwards;
        }
 
        .nav-btn {
@@ -588,61 +602,7 @@
        </header>
 
        <main class="content">
-           <!-- Customer Segmentation Insights -->
-           <div class="insight-card customer-seg">
-               <div class="card-header">
-                   <div class="card-icon">📊</div>
-                   <div>
-                       <div class="card-title">Customer Segmentation</div>
-                       <div class="card-subtitle">Who to Target</div>
-                   </div>
-               </div>
-               <ul class="insight-list">
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text"><span class="big-number">7x</span> higher likelihood with <span class="highlight">previous campaign contact</span></span>
-                   </li>
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text">Optimal recontact window: <span class="highlight">within 14 days</span> for maximum effect</span>
-                   </li>
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text">Age sweet spots: <span class="highlight">Students &lt;30</span> and <span class="highlight">retirees &gt;60</span> show highest conversion</span>
-                   </li>
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text">Contact fatigue: <span class="highlight red">Diminishing returns</span> with repeated contacts</span>
-                   </li>
-               </ul>
-           </div>
-
-           <!-- Channel & Method Optimization -->
-           <div class="insight-card channel-opt">
-               <div class="card-header">
-                   <div class="card-icon">📱</div>
-                   <div>
-                       <div class="card-title">Channel Optimization</div>
-                       <div class="card-subtitle">How to Reach Them</div>
-                   </div>
-               </div>
-               <ul class="insight-list">
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text">Channel preference: <span class="highlight green">Cellular outperforms</span> telephone significantly</span>
-                   </li>
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text">Causality insight: <span class="highlight green">Older demographics</span> both prefer cellular AND subscribe more</span>
-                   </li>
-                   <li class="insight-item">
-                       <span class="insight-bullet">•</span>
-                       <span class="insight-text">Contact strategy: <span class="highlight green">Quality over quantity</span> - fewer, well-timed contacts</span>
-                   </li>
-               </ul>
-           </div>
-
-           <!-- Data Quality & Model Considerations -->
+           <!-- TOP LEFT: Data Quality Challenges -->
            <div class="insight-card data-quality">
                <div class="card-header">
                    <div class="card-icon">⚠️</div>
@@ -671,7 +631,69 @@
                </ul>
            </div>
 
-           <!-- Data Integrity & Robustness -->
+           <!-- TOP RIGHT: Data Cleaning Work Performed -->
+           <div class="insight-card data-cleaning">
+               <div class="card-header">
+                   <div class="card-icon">🔧</div>
+                   <div>
+                       <div class="card-title">Data Cleaning Work Performed</div>
+                       <div class="card-subtitle">Technical Preprocessing</div>
+                   </div>
+               </div>
+               <ul class="insight-list">
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Missing value strategy: <span class="highlight purple">Targeted imputation</span> for financial features</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Feature engineering: <span class="highlight purple">Contact timing</span> and frequency variables</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Outlier handling: <span class="highlight purple">IQR-based detection</span> and treatment</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Categorical encoding: <span class="highlight purple">One-hot and target encoding</span> strategies</span>
+                   </li>
+               </ul>
+           </div>
+
+           <!-- BOTTOM LEFT: Customer Segmentation & Channel Insights -->
+           <div class="insight-card customer-channel">
+               <div class="card-header">
+                   <div class="card-icon">📊</div>
+                   <div>
+                       <div class="card-title">Customer & Channel Insights</div>
+                       <div class="card-subtitle">Who to Target & How</div>
+                   </div>
+               </div>
+               <ul class="insight-list">
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text"><span class="big-number">7x</span> higher likelihood with <span class="highlight">previous campaign contact</span></span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Optimal recontact window: <span class="highlight">within 14 days</span> for maximum effect</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Age sweet spots: <span class="highlight">Students &lt;30</span> and <span class="highlight">retirees &gt;60</span> show highest conversion</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Channel preference: <span class="highlight">Cellular outperforms</span> telephone significantly</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Contact fatigue: <span class="highlight red">Diminishing returns</span> with repeated contacts</span>
+                   </li>
+               </ul>
+           </div>
+
+           <!-- BOTTOM RIGHT: Model Reliability -->
            <div class="insight-card data-integrity">
                <div class="card-header">
                    <div class="card-icon">🔍</div>
@@ -683,15 +705,15 @@
                <ul class="insight-list">
                    <li class="insight-item">
                        <span class="insight-bullet">•</span>
-                       <span class="insight-text">Client ID correlation: <span class="highlight">Excluded due to strategy evolution bias</span></span>
+                       <span class="insight-text">Client ID correlation: <span class="highlight green">Excluded due to strategy evolution bias</span></span>
                    </li>
                    <li class="insight-item">
                        <span class="insight-bullet">•</span>
-                       <span class="insight-text">Simpson's Paradox: <span class="highlight">Cellular preference driven by demographics</span>, not channel efficacy</span>
+                       <span class="insight-text">Simpson's Paradox: <span class="highlight green">Cellular preference driven by demographics</span>, not channel efficacy</span>
                    </li>
                    <li class="insight-item">
                        <span class="insight-bullet">•</span>
-                       <span class="insight-text">Future-proofing: <span class="highlight">Model designed to adapt</span> to changing marketing strategies</span>
+                       <span class="insight-text">Future-proofing: <span class="highlight green">Model designed to adapt</span> to changing marketing strategies</span>
                    </li>
                </ul>
            </div>

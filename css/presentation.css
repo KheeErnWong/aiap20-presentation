@@ -138,6 +138,106 @@ body {
     line-height: 1.5;
 }
 
+/* Video hover container */
+.video-hover-container {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+/* Video overlay - initially hidden */
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--timing-fast) var(--easing-smooth);
+    z-index: 10;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+/* Show video overlay on hover */
+.video-hover-container:hover .video-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Video styling */
+.hover-video {
+    width: 85%;
+    height: 75%;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    border: 2px solid var(--accent-light);
+    transition: all var(--timing-fast) var(--easing-smooth);
+}
+
+/* Video close hint */
+.video-close-hint {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-top: 12px;
+    text-align: center;
+    opacity: 0.8;
+    animation: fadeInUp var(--timing-fast) var(--easing-smooth) 0.5s forwards;
+    font-weight: 500;
+}
+
+/* Enhanced hover effect for the card itself */
+.video-hover-container:hover {
+    transform: translateX(-5px) scale(1.02);
+    border-left-color: #93c5fd;
+    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+}
+
+/* Optional: Add a video icon indicator */
+.video-hover-container::after {
+    content: '🎬';
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 1.2rem;
+    opacity: 0.6;
+    transition: all var(--timing-fast) var(--easing-smooth);
+    pointer-events: none;
+}
+
+.video-hover-container:hover::after {
+    opacity: 0;
+}
+
+/* Video hover effect on video element itself */
+.hover-video:hover {
+    transform: scale(1.02);
+    border-color: #93c5fd;
+}
+
+/* Add a subtle animation to the video when it appears */
+@keyframes videoFadeIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.9); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+.video-overlay.active .hover-video {
+    animation: videoFadeIn var(--timing-fast) var(--easing-smooth) forwards;
+}
+
 /* Hobbies section */
 .hobbies-section h3 {
     color: var(--accent-light);

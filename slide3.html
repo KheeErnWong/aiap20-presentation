@@ -1,782 +1,852 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Key Data Insights - Term Deposit Prediction</title>
-   <style>
-       :root {
-           --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-           --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-           --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-           --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-           --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-           --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-           --green-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-           --text-primary: #ffffff;
-           --text-secondary: #cbd5e0;
-           --text-muted: #94a3b8;
-           --accent-blue: #3b82f6;
-           --accent-light: #60a5fa;
-           --accent-amber: #f59e0b;
-           --accent-green: #10b981;
-           --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
-           --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
-           --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
-           --border-blue: rgba(59, 130, 246, 0.2);
-           --border-amber: rgba(245, 158, 11, 0.2);
-           --border-green: rgba(16, 185, 129, 0.2);
-           
-           --timing-fast: 0.3s;
-           --timing-medium: 0.6s;
-           --timing-slow: 1.2s;
-           --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-           --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-           --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-       }
-
-       * {
-           margin: 0;
-           padding: 0;
-           box-sizing: border-box;
-       }
-
-       body {
-           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-           background: var(--primary-bg);
-           color: var(--text-primary);
-           min-height: 100vh;
-           overflow: auto;
-       }
-
-       .slide-container {
-           width: 100vw;
-           min-height: 100vh;
-           display: flex;
-           flex-direction: column;
-       }
-
-       .slide-header {
-           position: fixed;
-           top: 20px;
-           right: 20px;
-           background: rgba(45, 55, 72, 0.9);
-           backdrop-filter: blur(10px);
-           padding: 8px 16px;
-           border-radius: 6px;
-           font-size: 14px;
-           color: var(--text-secondary);
-           border: 1px solid var(--border-blue);
-           z-index: 100;
-           opacity: 0;
-           animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
-       }
-
-       .header {
-           background: var(--secondary-bg);
-           padding: 2rem 2rem 1.5rem 2rem;
-           text-align: center;
-           box-shadow: var(--shadow-sm);
-           flex-shrink: 0;
-           opacity: 0;
-           transform: translateY(-50px);
-           animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
-       }
-
-       .header h1 {
-           font-size: 2.8rem;
-           font-weight: 700;
-           color: var(--accent-light);
-           margin-bottom: 0.8rem;
-           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
-           opacity: 0;
-           transform: translateY(20px);
-           animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
-       }
-
-       .subtitle {
-           font-size: 1.3rem;
-           color: var(--text-secondary);
-           font-weight: 300;
-           max-width: 1000px;
-           margin: 0 auto;
-           opacity: 0;
-           transform: translateY(15px);
-           animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
-       }
-
-       .content {
-           flex: 1;
-           padding: 3rem;
-           display: flex;
-           flex-direction: column;
-           align-items: center;
-           justify-content: center;
-           opacity: 0;
-           animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
-       }
-
-       /* Main Data Quality Card - Centered and Expanded */
-       .data-quality-card {
-           background: var(--secondary-bg);
-           padding: 3rem;
-           border-radius: 16px;
-           box-shadow: var(--shadow-lg);
-           border: 1px solid var(--border-amber);
-           transition: all var(--timing-fast) var(--easing-smooth);
-           max-width: 1400px;
-           width: 100%;
-           transform: translateY(30px);
-           opacity: 0;
-           animation: revealMainCard var(--timing-medium) var(--easing-smooth) 1.8s forwards;
-           position: relative;
-           overflow: hidden;
-       }
-
-       .data-quality-card::before {
-           content: '';
-           position: absolute;
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 6px;
-           background: var(--amber-gradient);
-           transform: scaleX(0);
-           animation: slideTopBar var(--timing-slow) var(--easing-tech) 2.2s forwards;
-       }
-
-       .data-quality-card:hover {
-           transform: translateY(-5px);
-           box-shadow: var(--shadow-lg), 0 0 50px rgba(245, 158, 11, 0.2);
-           border-color: rgba(245, 158, 11, 0.6);
-       }
-
-       .card-header {
-           display: flex;
-           align-items: center;
-           gap: 1.5rem;
-           margin-bottom: 2.5rem;
-           text-align: center;
-           justify-content: center;
-       }
-
-       .card-icon {
-           font-size: 3rem;
-           color: var(--accent-amber);
-           opacity: 0;
-           transform: scale(0);
-           animation: revealIcon var(--timing-fast) var(--easing-bounce) 2.6s forwards;
-       }
-
-       .card-title {
-           font-size: 2.2rem;
-           font-weight: 700;
-           color: var(--text-primary);
-           margin-bottom: 0.3rem;
-       }
-
-       .card-subtitle {
-           font-size: 1.2rem;
-           color: var(--text-muted);
-           font-weight: 400;
-       }
-
-       /* Enhanced Grid Table */
-       .quality-grid {
-           background: var(--card-bg);
-           border-radius: 12px;
-           overflow: hidden;
-           border: 1px solid var(--border-amber);
-           opacity: 0;
-           transform: translateY(20px);
-           animation: slideInTable var(--timing-medium) var(--easing-smooth) 3s forwards;
-           box-shadow: var(--shadow-md);
-       }
-
-       .grid-header {
-           display: grid;
-           grid-template-columns: 1.2fr 1.1fr 1.3fr 1.1fr;
-           background: var(--amber-gradient);
-           color: white;
-           font-weight: 700;
-           font-size: 1rem;
-           text-align: center;
-       }
-
-       .grid-header-cell {
-           padding: 1.2rem 0.8rem;
-           border-right: 1px solid rgba(255, 255, 255, 0.2);
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           gap: 0.5rem;
-           text-transform: uppercase;
-           letter-spacing: 0.5px;
-       }
-
-       .grid-header-cell:last-child {
-           border-right: none;
-       }
-
-       .grid-header-icon {
-           font-size: 1.2rem;
-       }
-
-       .grid-row {
-           display: grid;
-           grid-template-columns: 1.2fr 1.1fr 1.3fr 1.1fr;
-           border-bottom: 1px solid rgba(245, 158, 11, 0.15);
-           transition: all var(--timing-fast) var(--easing-smooth);
-           opacity: 0;
-           transform: translateX(-30px);
-           min-height: 80px;
-       }
-
-       .grid-row:nth-child(2) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.4s forwards; }
-       .grid-row:nth-child(3) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.7s forwards; }
-       .grid-row:nth-child(4) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4s forwards; }
-       .grid-row:nth-child(5) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.3s forwards; }
-       .grid-row:nth-child(6) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.6s forwards; }
-
-       .grid-row:hover {
-           background: rgba(245, 158, 11, 0.08);
-           transform: translateX(5px);
-       }
-
-       .grid-row:last-child {
-           border-bottom: none;
-       }
-
-       .grid-cell {
-           padding: 1.2rem 1rem;
-           font-size: 0.95rem;
-           line-height: 1.4;
-           border-right: 1px solid rgba(245, 158, 11, 0.1);
-           display: flex;
-           align-items: center;
-           color: var(--text-secondary);
-       }
-
-       .grid-cell:last-child {
-           border-right: none;
-       }
-
-       .grid-cell.feature {
-           font-weight: 700;
-           color: var(--text-primary);
-           font-size: 1rem;
-       }
-
-       .grid-cell.issue {
-           color: var(--accent-amber);
-           font-weight: 600;
-       }
-
-       .grid-cell.finding {
-           color: var(--accent-light);
-           font-style: italic;
-           font-weight: 500;
-       }
-
-       .grid-cell.solution {
-           color: var(--accent-green);
-           font-weight: 600;
-       }
-
-       /* Highlight important numbers */
-       .big-number-small {
-           font-size: 1.3rem;
-           font-weight: 800;
-           color: var(--accent-amber);
-           margin-right: 0.3rem;
-       }
-
-       /* Key Insights Summary - Positioned below the grid */
-       .insights-summary {
-           margin-top: 3rem;
-           background: rgba(59, 130, 246, 0.05);
-           padding: 2rem;
-           border-radius: 12px;
-           border-left: 4px solid var(--accent-blue);
-           opacity: 0;
-           transform: translateY(20px);
-           animation: revealSummary var(--timing-medium) var(--easing-smooth) 5s forwards;
-       }
-
-       .summary-title {
-           font-size: 1.6rem;
-           color: var(--accent-blue);
-           margin-bottom: 1.2rem;
-           font-weight: 700;
-           display: flex;
-           align-items: center;
-           gap: 0.8rem;
-       }
-
-       .summary-content {
-           display: grid;
-           grid-template-columns: repeat(3, 1fr);
-           gap: 2rem;
-       }
-
-       .summary-item {
-           background: var(--card-bg);
-           padding: 1.5rem;
-           border-radius: 10px;
-           border: 1px solid var(--border-blue);
-           transition: all var(--timing-fast) var(--easing-smooth);
-           opacity: 0;
-           transform: translateY(20px);
-           position: relative;
-           overflow: hidden;
-       }
-
-       .summary-item::before {
-           content: '';
-           position: absolute;
-           top: 0;
-           left: 0;
-           width: 100%;
-           height: 3px;
-           transform: scaleX(0);
-           transition: transform var(--timing-medium) var(--easing-smooth);
-       }
-
-       .summary-item.critical::before { background: var(--amber-gradient); }
-       .summary-item.opportunity::before { background: var(--blue-gradient); }
-       .summary-item.action::before { background: var(--green-gradient); }
-
-       .summary-item:nth-child(1) { animation: slideInSummary var(--timing-fast) var(--easing-smooth) 5.4s forwards; }
-       .summary-item:nth-child(2) { animation: slideInSummary var(--timing-fast) var(--easing-smooth) 5.7s forwards; }
-       .summary-item:nth-child(3) { animation: slideInSummary var(--timing-fast) var(--easing-smooth) 6s forwards; }
-
-       .summary-item:hover {
-           transform: translateY(-5px);
-           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
-       }
-
-       .summary-item:hover::before {
-           transform: scaleX(1);
-       }
-
-       .summary-item-header {
-           display: flex;
-           align-items: center;
-           gap: 0.8rem;
-           margin-bottom: 1rem;
-       }
-
-       .summary-icon {
-           font-size: 1.8rem;
-       }
-
-       .summary-item-title {
-           font-weight: 700;
-           font-size: 1.2rem;
-           color: var(--text-primary);
-       }
-
-       .summary-text {
-           color: var(--text-secondary);
-           font-size: 1rem;
-           line-height: 1.5;
-       }
-
-       .navigation {
-           position: fixed;
-           bottom: 2rem;
-           right: 2rem;
-           display: flex;
-           gap: 1rem;
-           z-index: 100;
-           opacity: 0;
-           transform: translateY(20px);
-           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 6.4s forwards;
-       }
-
-       .nav-btn {
-           background: var(--blue-gradient);
-           color: white;
-           border: none;
-           padding: 0.8rem 1.5rem;
-           border-radius: 10px;
-           cursor: pointer;
-           font-size: 1rem;
-           font-weight: 600;
-           transition: all var(--timing-fast) var(--easing-smooth);
-           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-           position: relative;
-           overflow: hidden;
-       }
-
-       .nav-btn::before {
-           content: '';
-           position: absolute;
-           top: 0;
-           left: -100%;
-           width: 100%;
-           height: 100%;
-           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-           transition: left var(--timing-medium) var(--easing-smooth);
-       }
-
-       .nav-btn:hover {
-           transform: translateY(-3px);
-           box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
-           background: var(--blue-light);
-       }
-
-       .nav-btn:hover::before {
-           left: 100%;
-       }
-
-       /* Keyframe Animations */
-       @keyframes slideHeader {
-           from { opacity: 0; transform: translateY(-20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes revealHeader {
-           from { opacity: 0; transform: translateY(-50px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes revealTitle {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes revealSubtitle {
-           from { opacity: 0; transform: translateY(15px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes revealContent {
-           from { opacity: 0; }
-           to { opacity: 1; }
-       }
-
-       @keyframes revealMainCard {
-           from { opacity: 0; transform: translateY(30px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes slideTopBar {
-           from { transform: scaleX(0); }
-           to { transform: scaleX(1); }
-       }
-
-       @keyframes revealIcon {
-           from { opacity: 0; transform: scale(0); }
-           to { opacity: 1; transform: scale(1); }
-       }
-
-       @keyframes slideInTable {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes slideInGridRow {
-           from { opacity: 0; transform: translateX(-30px); }
-           to { opacity: 1; transform: translateX(0); }
-       }
-
-       @keyframes revealSummary {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes slideInSummary {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       @keyframes revealNavigation {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
-       /* Responsive Design */
-       @media (max-width: 1400px) {
-           .content {
-               padding: 2.5rem;
-           }
-           
-           .header h1 { font-size: 2.5rem; }
-           .subtitle { font-size: 1.2rem; }
-
-           .data-quality-card {
-               padding: 2.5rem;
-           }
-
-           .grid-header {
-               grid-template-columns: 1.2fr 1.1fr 1.3fr 1.1fr;
-           }
-
-           .grid-row {
-               grid-template-columns: 1.2fr 1.1fr 1.3fr 1.1fr;
-           }
-
-           .grid-cell {
-               font-size: 0.9rem;
-               padding: 1rem 0.8rem;
-           }
-       }
-
-       @media (max-width: 768px) {
-           .content {
-               padding: 2rem;
-           }
-
-           .data-quality-card {
-               padding: 2rem;
-           }
-           
-           .header {
-               padding: 1.5rem;
-           }
-           
-           .header h1 { 
-               font-size: 2.2rem; 
-           }
-           
-           .subtitle { 
-               font-size: 1.1rem; 
-           }
-
-           .card-header {
-               flex-direction: column;
-               gap: 1rem;
-               text-align: center;
-           }
-
-           .card-icon {
-               font-size: 2.5rem;
-           }
-
-           .card-title {
-               font-size: 2rem;
-           }
-
-           .card-subtitle {
-               font-size: 1.1rem;
-           }
-
-           /* Mobile grid adjustments */
-           .grid-header {
-               grid-template-columns: 1fr;
-               gap: 1px;
-           }
-
-           .grid-row {
-               grid-template-columns: 1fr;
-               gap: 1px;
-               min-height: auto;
-           }
-
-           .grid-header-cell,
-           .grid-cell {
-               text-align: left;
-               border-right: none;
-               border-bottom: 1px solid rgba(245, 158, 11, 0.1);
-           }
-
-           .grid-cell {
-               padding: 1rem;
-               font-size: 0.95rem;
-           }
-
-           .summary-content {
-               grid-template-columns: 1fr;
-               gap: 1.5rem;
-           }
-           
-           .navigation {
-               bottom: 1rem;
-               right: 1rem;
-               gap: 0.5rem;
-           }
-           
-           .nav-btn {
-               padding: 0.6rem 1.2rem;
-               font-size: 0.9rem;
-           }
-       }
-
-       @media (max-height: 900px) {
-           .header { 
-               padding: 1.5rem 2rem; 
-           }
-           
-           .content { 
-               padding: 2rem; 
-           }
-
-           .data-quality-card {
-               padding: 2rem;
-           }
-       }
-
-       @media (prefers-reduced-motion: reduce) {
-           *, *::before, *::after {
-               animation-duration: 0.01ms !important;
-               animation-iteration-count: 1 !important;
-               transition-duration: 0.01ms !important;
-           }
-       }
-   </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Analysis & Business Insights - Term Deposit Prediction</title>
+    <style>
+        :root {
+            --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+            --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --green-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e0;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-light: #60a5fa;
+            --accent-amber: #f59e0b;
+            --accent-green: #10b981;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+            --border-blue: rgba(59, 130, 246, 0.2);
+            --border-amber: rgba(245, 158, 11, 0.2);
+            --border-green: rgba(16, 185, 129, 0.2);
+            
+            --timing-fast: 0.3s;
+            --timing-medium: 0.6s;
+            --timing-slow: 1.2s;
+            --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: auto;
+        }
+
+        .slide-container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(45, 55, 72, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-blue);
+            z-index: 100;
+            opacity: 0;
+            animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
+        }
+
+        .header {
+            background: var(--secondary-bg);
+            padding: 2rem 2rem 1.5rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+            opacity: 0;
+            transform: translateY(-50px);
+            animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 0.8rem;
+            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 1000px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
+        }
+
+        .content {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+        }
+
+        /* Main Analysis Card - Centered and Expanded */
+        .analysis-card {
+            background: var(--secondary-bg);
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-amber);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            max-width: 1600px;
+            width: 100%;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: revealMainCard var(--timing-medium) var(--easing-smooth) 1.8s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analysis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--amber-gradient);
+            transform: scaleX(0);
+            animation: slideTopBar var(--timing-slow) var(--easing-tech) 2.2s forwards;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg), 0 0 50px rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.6);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            color: var(--accent-amber);
+            opacity: 0;
+            transform: scale(0);
+            animation: revealIcon var(--timing-fast) var(--easing-bounce) 2.6s forwards;
+        }
+
+        .card-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .card-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Enhanced Grid Table */
+        .analysis-grid {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-amber);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInTable var(--timing-medium) var(--easing-smooth) 3s forwards;
+            box-shadow: var(--shadow-md);
+        }
+
+        .grid-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+            background: var(--amber-gradient);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .grid-header-cell {
+            padding: 1.2rem 0.6rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
+        }
+
+        .grid-header-cell:last-child {
+            border-right: none;
+        }
+
+        .grid-header-icon {
+            font-size: 1.1rem;
+        }
+
+        .grid-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            opacity: 0;
+            transform: translateX(-30px);
+            min-height: 100px;
+        }
+
+        .grid-row:nth-child(2) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.4s forwards; }
+        .grid-row:nth-child(3) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.7s forwards; }
+        .grid-row:nth-child(4) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4s forwards; }
+        .grid-row:nth-child(5) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.3s forwards; }
+        .grid-row:nth-child(6) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.6s forwards; }
+        .grid-row:nth-child(7) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.9s forwards; }
+        .grid-row:nth-child(8) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.2s forwards; }
+        .grid-row:nth-child(9) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.5s forwards; }
+        .grid-row:nth-child(10) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.8s forwards; }
+
+        .grid-row:hover {
+            background: rgba(245, 158, 11, 0.08);
+            transform: translateX(5px);
+        }
+
+        .grid-row:last-child {
+            border-bottom: none;
+        }
+
+        .grid-cell {
+            padding: 1rem 0.8rem;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            border-right: 1px solid rgba(245, 158, 11, 0.1);
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+        }
+
+        .grid-cell:last-child {
+            border-right: none;
+        }
+
+        .grid-cell.feature {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .grid-cell.issue {
+            color: var(--accent-amber);
+            font-weight: 600;
+        }
+
+        .grid-cell.finding {
+            color: var(--accent-light);
+            font-weight: 500;
+        }
+
+        .grid-cell.solution {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .grid-cell.business {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        /* Highlight important numbers */
+        .big-number-small {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-amber);
+            margin-right: 0.2rem;
+        }
+
+        .highlight-number {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--accent-light);
+        }
+
+        /* Key Insights Summary - Positioned below the grid */
+        .insights-summary {
+            margin-top: 3rem;
+            background: rgba(59, 130, 246, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-blue);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealSummary var(--timing-medium) var(--easing-smooth) 6.2s forwards;
+        }
+
+        .summary-title {
+            font-size: 1.6rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .summary-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .summary-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-blue);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .summary-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            transform: scaleX(0);
+            transition: transform var(--timing-medium) var(--easing-smooth);
+        }
+
+        .summary-item.targeting::before { background: var(--blue-gradient); }
+        .summary-item.efficiency::before { background: var(--green-gradient); }
+        .summary-item.opportunity::before { background: var(--amber-gradient); }
+
+        .summary-item:nth-child(1) { animation: slideInSummary var(--timing-fast) var(--easing-smooth) 6.6s forwards; }
+        .summary-item:nth-child(2) { animation: slideInSummary var(--timing-fast) var(--easing-smooth) 6.9s forwards; }
+        .summary-item:nth-child(3) { animation: slideInSummary var(--timing-fast) var(--easing-smooth) 7.2s forwards; }
+
+        .summary-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        .summary-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .summary-item-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-icon {
+            font-size: 1.8rem;
+        }
+
+        .summary-item-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .summary-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: revealNavigation var(--timing-medium) var(--easing-smooth) 7.6s forwards;
+        }
+
+        .nav-btn {
+            background: var(--blue-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all var(--timing-fast) var(--easing-smooth);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left var(--timing-medium) var(--easing-smooth);
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+            background: var(--blue-light);
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Keyframe Animations */
+        @keyframes slideHeader {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealHeader {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealTitle {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealSubtitle {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealContent {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes revealMainCard {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideTopBar {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        @keyframes revealIcon {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideInTable {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInGridRow {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes revealSummary {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInSummary {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealNavigation {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1600px) {
+            .analysis-card {
+                max-width: 1400px;
+            }
+            
+            .grid-header {
+                grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+            }
+
+            .grid-row {
+                grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+            }
+
+            .grid-cell {
+                font-size: 0.8rem;
+                padding: 0.9rem 0.7rem;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .content {
+                padding: 2.5rem;
+            }
+            
+            .header h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1.2rem; }
+
+            .analysis-card {
+                padding: 2.5rem;
+                max-width: 1200px;
+            }
+
+            .grid-cell {
+                font-size: 0.78rem;
+                padding: 0.8rem 0.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 2rem;
+            }
+
+            .analysis-card {
+                padding: 2rem;
+            }
+            
+            .header {
+                padding: 1.5rem;
+            }
+            
+            .header h1 { 
+                font-size: 2.2rem; 
+            }
+            
+            .subtitle { 
+                font-size: 1.1rem; 
+            }
+
+            .card-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .card-icon {
+                font-size: 2.5rem;
+            }
+
+            .card-title {
+                font-size: 2rem;
+            }
+
+            .card-subtitle {
+                font-size: 1.1rem;
+            }
+
+            /* Mobile grid adjustments */
+            .grid-header {
+                grid-template-columns: 1fr;
+                gap: 1px;
+            }
+
+            .grid-row {
+                grid-template-columns: 1fr;
+                gap: 1px;
+                min-height: auto;
+            }
+
+            .grid-header-cell,
+            .grid-cell {
+                text-align: left;
+                border-right: none;
+                border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+                justify-content: flex-start;
+            }
+
+            .grid-cell {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .summary-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+                gap: 0.5rem;
+            }
+            
+            .nav-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-height: 900px) {
+            .header { 
+                padding: 1.5rem 2rem; 
+            }
+            
+            .content { 
+                padding: 2rem; 
+            }
+
+            .analysis-card {
+                padding: 2rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
 </head>
 <body>
-   <div class="slide-container">
-       <div class="slide-header">
-           Slide 3 of 10
-       </div>
+    <div class="slide-container">
+        <div class="slide-header">
+            Slide 3 of 10
+        </div>
 
-       <header class="header">
-           <h1>Key Data Insights</h1>
-           <p class="subtitle">
-               Comprehensive analysis of data quality challenges and strategic implications for model performance
-           </p>
-       </header>
+        <header class="header">
+            <h1>Data Analysis & Business Insights</h1>
+            <p class="subtitle">
+                Comprehensive feature analysis revealing critical business opportunities and data quality solutions
+            </p>
+        </header>
 
-       <main class="content">
-           <!-- Centered Data Quality Challenges Card -->
-           <div class="data-quality-card">
-               <div class="card-header">
-                   <div class="card-icon">⚠️</div>
-                   <div>
-                       <div class="card-title">Data Quality Challenges</div>
-                       <div class="card-subtitle">Feature-Problem-Finding-Solution Analysis</div>
-                   </div>
-               </div>
-               
-               <div class="quality-grid">
-                   <div class="grid-header">
-                       <div class="grid-header-cell">
-                           <span class="grid-header-icon">📊</span>
-                           <span>Data Feature</span>
-                       </div>
-                       <div class="grid-header-cell">
-                           <span class="grid-header-icon">⚠️</span>
-                           <span>Quality Issues</span>
-                       </div>
-                       <div class="grid-header-cell">
-                           <span class="grid-header-icon">🔍</span>
-                           <span>Key Findings</span>
-                       </div>
-                       <div class="grid-header-cell">
-                           <span class="grid-header-icon">✅</span>
-                           <span>Solutions</span>
-                       </div>
-                   </div>
-                   
-                   <div class="grid-row">
-                       <div class="grid-cell feature">Target Variable (Subscription)</div>
-                       <div class="grid-cell issue"><span class="big-number-small">90%</span> Class Imbalance</div>
-                       <div class="grid-cell finding">Accuracy scoring inappropriate for business context</div>
-                       <div class="grid-cell solution">F2-scoring + Stratified + Balanced ML</div>
-                   </div>
-                   
-                   <div class="grid-row">
-                       <div class="grid-cell feature">Age</div>
-                       <div class="grid-cell issue">Outliers (150 years)</div>
-                       <div class="grid-cell finding">Unrealistic age values detected in dataset</div>
-                       <div class="grid-cell solution">Median Imputation</div>
-                   </div>
-                   
-                   <div class="grid-row">
-                       <div class="grid-cell feature">Campaign Calls</div>
-                       <div class="grid-cell issue">Negative Values</div>
-                       <div class="grid-cell finding">Data entry errors identified across records</div>
-                       <div class="grid-cell solution">Absolute Value Conversion</div>
-                   </div>
-                   
-                   <div class="grid-row">
-                       <div class="grid-cell feature">Previous Contact Days</div>
-                       <div class="grid-cell issue">Special Code (999 = never)</div>
-                       <div class="grid-cell finding">Code fundamentally differs from actual day counts</div>
-                       <div class="grid-cell solution">Preserve as Feature Flag</div>
-                   </div>
-                   
-                   <div class="grid-row">
-                       <div class="grid-cell feature">Loan Features (Housing/Personal)</div>
-                       <div class="grid-cell issue">High Missing Rate</div>
-                       <div class="grid-cell finding">No correlation with subscription behavior</div>
-                       <div class="grid-cell solution">Retain as-is (No impact)</div>
-                   </div>
-               </div>
+        <main class="content">
+            <!-- Centered Data Analysis Card -->
+            <div class="analysis-card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <div>
+                        <div class="card-title">Feature Analysis & Strategic Insights</div>
+                        <div class="card-subtitle">Business Intelligence from Data Exploration</div>
+                    </div>
+                </div>
+                
+                <div class="analysis-grid">
+                    <div class="grid-header">
+                        <div class="grid-header-cell">
+                            <span class="grid-header-icon">🔍</span>
+                            <span>Feature</span>
+                        </div>
+                        <div class="grid-header-cell">
+                            <span class="grid-header-icon">⚠️</span>
+                            <span>Data Quality Issues</span>
+                        </div>
+                        <div class="grid-header-cell">
+                            <span class="grid-header-icon">💡</span>
+                            <span>Key Findings</span>
+                        </div>
+                        <div class="grid-header-cell">
+                            <span class="grid-header-icon">⚙️</span>
+                            <span>Solutions</span>
+                        </div>
+                        <div class="grid-header-cell">
+                            <span class="grid-header-icon">💼</span>
+                            <span>Business Implications</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Subscription (Target Variable)</div>
+                        <div class="grid-cell issue">NIL</div>
+                        <div class="grid-cell finding"><span class="big-number-small">90%</span> class imbalance. <span class="highlight-number">11.3%</span> Average subscription rate</div>
+                        <div class="grid-cell solution">Implement F2-scoring with recall emphasis. Use balanced ML models. Utilize stratified splitting</div>
+                        <div class="grid-cell business">High class imbalance may signify low campaign efficiency. Need to understand why conversion rates are low</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Client ID</div>
+                        <div class="grid-cell issue">NIL</div>
+                        <div class="grid-cell finding">Shows temporal correlation. Larger client ID = higher subscription probability</div>
+                        <div class="grid-cell solution">Ignore. Correlation ≠ causation</div>
+                        <div class="grid-cell business">Marketing team efforts improving. Find out what they've done well</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Campaign Calls</div>
+                        <div class="grid-cell issue">Negative Values</div>
+                        <div class="grid-cell finding">Inverse relationship between calls and subscription. <span class="highlight-number">7-day</span> follow-up window optimal</div>
+                        <div class="grid-cell solution">Absolute value conversion</div>
+                        <div class="grid-cell business">Reduce resources on multiple calls. Keep hot leads hot with quick follow-up</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Previous Contact Days</div>
+                        <div class="grid-cell issue">Special Code (999 = never)</div>
+                        <div class="grid-cell finding">Previously contacted clients <span class="highlight-number">7x</span> more likely to subscribe</div>
+                        <div class="grid-cell solution">Create 999 as feature flag</div>
+                        <div class="grid-cell business">Marketing needs active follow-up lists. Continue nurturing even failed conversions</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Personal, Housing Loan, Credit Default</div>
+                        <div class="grid-cell issue">Significant missing data. Extreme imbalance (only 3 credit defaults)</div>
+                        <div class="grid-cell finding">No correlation between missingness and subscription rate</div>
+                        <div class="grid-cell solution">Convert missing to 'unknown' category</div>
+                        <div class="grid-cell business">Bank should gather financial data from credit bureaus. Financials likely significant predictors</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Age</div>
+                        <div class="grid-cell issue">Outliers (150 years)</div>
+                        <div class="grid-cell finding">Distinct U-shape curve. Younger and older clients more likely to subscribe</div>
+                        <div class="grid-cell solution">Median Imputation</div>
+                        <div class="grid-cell business">Target younger and older clients. Investigate why middle-aged have low rates</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Occupation</div>
+                        <div class="grid-cell issue">Spelling issues, confusing categories (entrepreneur vs self-employed)</div>
+                        <div class="grid-cell finding">Students and Retirees highest subscription rates. Weak correlation overall</div>
+                        <div class="grid-cell solution">Recategorize and group similar occupations</div>
+                        <div class="grid-cell business">Advise marketing on clearer occupation distinctions</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Education</div>
+                        <div class="grid-cell issue">Large number of categories that can be grouped</div>
+                        <div class="grid-cell finding">Weak correlation with target variable</div>
+                        <div class="grid-cell solution">Recategorize and reduce categories</div>
+                        <div class="grid-cell business">NA</div>
+                    </div>
+                    
+                    <div class="grid-row">
+                        <div class="grid-cell feature">Marital Status</div>
+                        <div class="grid-cell issue">"Unknown" category</div>
+                        <div class="grid-cell finding">Weak correlation. Single people highest subscription rate</div>
+                        <div class="grid-cell solution">Convert to binary 'is_single'</div>
+                        <div class="grid-cell business">Find out why married/divorced have low subscription rates</div>
+                    </div>
+                </div>
 
-               <!-- Key Insights Summary -->
-               <div class="insights-summary">
-                   <h3 class="summary-title">
-                       💡 Strategic Implications
-                   </h3>
-                   <div class="summary-content">
-                       <div class="summary-item critical">
-                           <div class="summary-item-header">
-                               <div class="summary-icon">🔥</div>
-                               <div class="summary-item-title">Critical Issue</div>
-                           </div>
-                           <div class="summary-text">
-                               90% class imbalance requires fundamental shift from accuracy-based to business-impact metrics
-                           </div>
-                       </div>
-                       <div class="summary-item opportunity">
-                           <div class="summary-item-header">
-                               <div class="summary-icon">🎯</div>
-                               <div class="summary-item-title">Hidden Opportunity</div>
-                           </div>
-                           <div class="summary-text">
-                               Special codes and data quirks can be transformed into powerful predictive features
-                           </div>
-                       </div>
-                       <div class="summary-item action">
-                           <div class="summary-item-header">
-                               <div class="summary-icon">⚡</div>
-                               <div class="summary-item-title">Next Action</div>
-                           </div>
-                           <div class="summary-text">
-                               Focus on balanced algorithms and F2-scoring to optimize for business value, not statistical perfection
-                           </div>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </main>
+                <!-- Key Insights Summary -->
+                <div class="insights-summary">
+                    <h3 class="summary-title">
+                        🎯 Strategic Business Takeaways
+                    </h3>
+                    <div class="summary-content">
+                        <div class="summary-item targeting">
+                            <div class="summary-item-header">
+                                <div class="summary-icon">🎯</div>
+                                <div class="summary-item-title">Target Segments</div>
+                            </div>
+                            <div class="summary-text">
+                                Focus on students, retirees, and single clients. Previous contacts are 7x more valuable - prioritize follow-up campaigns
+                            </div>
+                        </div>
+                        <div class="summary-item efficiency">
+                            <div class="summary-item-header">
+                                <div class="summary-icon">⚡</div>
+                                <div class="summary-item-title">Campaign Efficiency</div>
+                            </div>
+                            <div class="summary-text">
+                                Reduce multiple calls, implement 7-day quick follow-up window, and maintain active prospect nurturing lists
+                            </div>
+                        </div>
+                        <div class="summary-item opportunity">
+                            <div class="summary-item-header">
+                                <div class="summary-icon">💰</div>
+                                <div class="summary-item-title">Data Enhancement</div>
+                            </div>
+                            <div class="summary-text">
+                                Invest in financial data from credit bureaus. Current 11.3% conversion suggests significant improvement potential
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-       <nav class="navigation">
-           <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
-           <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
-           <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
-       </nav>
-   </div>
+        <nav class="navigation">
+            <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
+            <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
+            <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
+        </nav>
+    </div>
 
-   <script>
-       function navigateToSlide(url) {
-           window.location.href = url;
-       }
+    <script>
+        function navigateToSlide(url) {
+            window.location.href = url;
+        }
 
-       // Keyboard navigation
-       document.addEventListener('keydown', (e) => {
-           const keyActions = {
-               'ArrowLeft': () => navigateToSlide('slide2.html'),
-               'Backspace': () => navigateToSlide('slide2.html'),
-               'ArrowRight': () => navigateToSlide('slide4.html'),
-               ' ': () => navigateToSlide('slide4.html'),
-               'h': () => navigateToSlide('index.html'),
-               'H': () => navigateToSlide('index.html'),
-               'f': () => document.documentElement.requestFullscreen?.(),
-               'F': () => document.documentElement.requestFullscreen?.(),
-               '0': () => navigateToSlide('slide10.html')
-           };
-           
-           if (e.key >= '1' && e.key <= '9') {
-               navigateToSlide(`slide${e.key}.html`);
-           } else if (keyActions[e.key]) {
-               e.preventDefault();
-               keyActions[e.key]();
-           }
-       });
-   </script>
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const keyActions = {
+                'ArrowLeft': () => navigateToSlide('slide2.html'),
+                'Backspace': () => navigateToSlide('slide2.html'),
+                'ArrowRight': () => navigateToSlide('slide4.html'),
+                ' ': () => navigateToSlide('slide4.html'),
+                'h': () => navigateToSlide('index.html'),
+                'H': () => navigateToSlide('index.html'),
+                'f': () => document.documentElement.requestFullscreen?.(),
+                'F': () => document.documentElement.requestFullscreen?.(),
+                '0': () => navigateToSlide('slide10.html')
+            };
+            
+            if (e.key >= '1' && e.key <= '9') {
+                navigateToSlide(`slide${e.key}.html`);
+            } else if (keyActions[e.key]) {
+                e.preventDefault();
+                keyActions[e.key]();
+            }
+        });
+    </script>
 </body>
 </html>

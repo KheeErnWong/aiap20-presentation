@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key Data Insights - Term Deposit Prediction</title>
+    <style>
+        /* [Your existing CSS variables and base styles] */
+        
+        .insight-hierarchy {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 2rem;
+            height: 100%;
+        }
+
+        /* McKinsey-style insight cards */
+        .primary-insights {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .insight-card {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-light);
+            position: relative;
+            transition: all var(--timing-fast) var(--easing-smooth);
+        }
+
+        .insight-card.critical {
+            border-left-color: #ef4444;
+        }
+
+        .insight-card.opportunity {
+            border-left-color: #10b981;
+        }
+
+        .insight-card.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .insight-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--accent-light);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .insight-detail {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .so-what {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.8rem;
+            border-left: 2px solid var(--accent-blue);
+        }
+
+        .so-what-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.3rem;
+        }
+
+        .so-what-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Data Quality & Methodology Section */
+        .methodology-section {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--border-blue);
+        }
+
+        .methodology-title {
+            color: var(--accent-blue);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .method-item {
+            background: rgba(59, 130, 246, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--text-muted);
+        }
+
+        .method-header {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .method-content {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Causality Callout */
+        .causality-callout {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            grid-column: 1 / -1;
+        }
+
+        .callout-header {
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .causality-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .causality-item {
+            text-align: center;
+            padding: 0.8rem;
+            border-radius: 6px;
+        }
+
+        .causality-item.correlation {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .causality-item.causation {
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .causality-item.reality {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .causality-label {
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .causality-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide-header">Slide 3 of 10</div>
+
+        <header class="header">
+            <h1>Key Data Insights</h1>
+            <div class="action-title">Three critical findings that will reshape Al-Vive's targeting strategy</div>
+            <p class="subtitle">Data-driven insights reveal clear patterns in customer behavior and campaign effectiveness</p>
+        </header>
+
+        <main class="content">
+            <div class="insight-hierarchy">
+                <!-- Primary Insights -->
+                <div class="primary-insights">
+                    <div class="insight-card critical">
+                        <div class="insight-number">7x</div>
+                        <div class="insight-title">Previous Contact Multiplier</div>
+                        <div class="insight-detail">
+                            Clients contacted in previous campaigns are 7x more likely to subscribe, with optimal recontact window of <strong>14 days</strong>
+                        </div>
+                        <div class="so-what">
+                            <div class="so-what-label">So What?</div>
+                            <div class="so-what-text">Prioritize warm leads over cold prospects for 700% better ROI</div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card opportunity">
+                        <div class="insight-number">2</div>
+                        <div class="insight-title">High-Value Segments</div>
+                        <div class="insight-detail">
+                            <strong>Students <30</strong> and <strong>retirees >60</strong> show significantly higher conversion rates than working adults (30-60)
+                        </div>
+                        <div class="so-what">
+                            <div class="so-what-label">So What?</div>
+                            <div class="so-what-text">Focus resources on life-stage transitions for maximum impact</div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card warning">
+                        <div class="insight-number">📱</div>
+                        <div class="insight-title">Channel Preference</div>
+                        <div class="insight-detail">
+                            Cellular outperforms telephone significantly, but <strong>diminishing returns</strong> occur with repeated contacts
+                        </div>
+                        <div class="so-what">
+                            <div class="so-what-label">So What?</div>
+                            <div class="so-what-text">Quality over quantity - fewer, targeted cellular contacts win</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Methodology & Data Quality -->
+                <div class="methodology-section">
+                    <h3 class="methodology-title">
+                        <span>🔬</span>
+                        Methodology & Data Quality Considerations
+                    </h3>
+                    
+                    <div class="methodology-grid">
+                        <div class="method-item">
+                            <div class="method-header">Class Imbalance Strategy</div>
+                            <div class="method-content">
+                                Prioritized F2-score and deployed balanced algorithms (Random Forest, XGBoost, Easy Ensemble) to handle severe class imbalance
+                            </div>
+                        </div>
+
+                        <div class="method-item">
+                            <div class="method-header">Financial Data Quality</div>
+                            <div class="method-content">
+                                Weak predictive power from education/marital status signals data collection gaps. Financial profiles need enhancement
+                            </div>
+                        </div>
+
+                        <div class="method-item">
+                            <div class="method-header">Model Robustness</div>
+                            <div class="method-content">
+                                Excluded Client ID despite correlation with target to ensure model robustness against evolving marketing strategies
+                            </div>
+                        </div>
+
+                        <div class="method-item">
+                            <div class="method-header">Missing Data Handling</div>
+                            <div class="method-content">
+                                Large gaps in loan data with no correlation to target variable - systematic collection improvement needed
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Causality vs Correlation Callout -->
+                    <div class="causality-callout">
+                        <div class="callout-header">
+                            <span>⚠️</span>
+                            Addressing Simpson's Paradox: Causality vs. Correlation
+                        </div>
+                        <div class="causality-grid">
+                            <div class="causality-item correlation">
+                                <div class="causality-label" style="color: #ef4444;">Correlation</div>
+                                <div class="causality-text">"People who get cellular calls subscribe more"</div>
+                            </div>
+                            <div class="causality-item causation">
+                                <div class="causality-label" style="color: #f59e0b;">Assumed Causation</div>
+                                <div class="causality-text">"Cellular calls make people subscribe more"</div>
+                            </div>
+                            <div class="causality-item reality">
+                                <div class="causality-label" style="color: #10b981;">Reality</div>
+                                <div class="causality-text">"Older people get cellular calls AND older people subscribe more"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <nav class="navigation">
+            <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
+            <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
+            <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
+        </nav>
+    </div>
+
+    <script>
+        function navigateToSlide(url) {
+            window.location.href = url;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const keyActions = {
+                'ArrowLeft': () => navigateToSlide('slide2.html'),
+                'Backspace': () => navigateToSlide('slide2.html'),
+                'ArrowRight': () => navigateToSlide('slide4.html'),
+                ' ': () => navigateToSlide('slide4.html'),
+                'h': () => navigateToSlide('index.html'),
+                'H': () => navigateToSlide('index.html'),
+                'f': () => document.documentElement.requestFullscreen?.(),
+                'F': () => document.documentElement.requestFullscreen?.(),
+                '0': () => navigateToSlide('slide10.html')
+            };
+            
+            if (e.key >= '1' && e.key <= '9') {
+                navigateToSlide(`slide${e.key}.html`);
+            } else if (keyActions[e.key]) {
+                e.preventDefault();
+                keyActions[e.key]();
+            }
+        });
+
+        // Add animation sequences
+        window.addEventListener('load', () => {
+            const cards = document.querySelectorAll('.insight-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.animation = `slideInInsight 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${2 + (index * 0.3)}s forwards`;
+            });
+        });
+    </script>
+</body>
+</html>

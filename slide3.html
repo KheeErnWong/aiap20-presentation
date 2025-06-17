@@ -335,11 +335,11 @@
            color: var(--accent-light);
        }
 
-       /* Strategic Insight Summary - Simplified */
+       /* Strategic Insight Summary - Modified to remove title and resize */
        .strategic-insight {
-           margin-top: 3rem;
+           margin-top: 2rem;
            background: rgba(59, 130, 246, 0.08);
-           padding: 2.5rem;
+           padding: 1.5rem;
            border-radius: 12px;
            border-left: 4px solid var(--accent-blue);
            opacity: 0;
@@ -348,23 +348,11 @@
            text-align: center;
        }
 
-       .insight-title {
-           font-size: 1.5rem;
-           color: var(--accent-blue);
-           margin-bottom: 1.5rem;
-           font-weight: 700;
-           display: flex;
-           align-items: center;
-           justify-content: center;
-           gap: 0.8rem;
-       }
-
        .insight-content {
            font-size: 1.0rem;
            color: var(--text-primary);
            line-height: 1.6;
            font-weight: 500;
-           max-width: 900px;
            margin: 0 auto;
        }
 
@@ -749,11 +737,8 @@
                    </div>
                </div>
 
-               <!-- Strategic Insight Summary - Simplified -->
+               <!-- Strategic Insight Summary - Removed title, reduced padding -->
                <div class="strategic-insight">
-                   <h3 class="insight-title">
-                       🎯 Strategic Business Insight
-                   </h3>
                    <div class="insight-content">
                        Data analysis reveals that targeted mobile outreach to previously contacted clients, particularly students and seniors, represents the highest-yield opportunity for campaign optimization.
                    </div>
@@ -789,10 +774,7 @@
            
            if (e.key >= '1' && e.key <= '9') {
                navigateToSlide(`slide${e.key}.html`);
-           } else if (keyActions[e.key]) {
-               e.preventDefault();
-               keyActions[e.key]();
-           }
+           } else if (keyActions[e.key]();
        });
    </script>
 </body>

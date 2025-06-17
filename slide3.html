@@ -1,350 +1,771 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Key Data Insights - Term Deposit Prediction</title>
-    <style>
-        /* [Your existing CSS variables and base styles] */
-        
-        .insight-hierarchy {
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            gap: 2rem;
-            height: 100%;
-        }
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Key Data Insights - Term Deposit Prediction</title>
+   <style>
+       :root {
+           --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+           --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+           --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+           --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+           --green-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+           --red-accent: #ef4444;
+           --text-primary: #ffffff;
+           --text-secondary: #cbd5e0;
+           --text-muted: #94a3b8;
+           --accent-blue: #3b82f6;
+           --accent-light: #60a5fa;
+           --accent-amber: #f59e0b;
+           --accent-green: #10b981;
+           --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+           --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+           --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+           --border-blue: rgba(59, 130, 246, 0.2);
+           --border-amber: rgba(245, 158, 11, 0.2);
+           --border-green: rgba(16, 185, 129, 0.2);
+           
+           --timing-fast: 0.3s;
+           --timing-medium: 0.6s;
+           --timing-slow: 1.2s;
+           --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+           --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+           --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+       }
 
-        /* McKinsey-style insight cards */
-        .primary-insights {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1.5rem;
-        }
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-        .insight-card {
-            background: var(--secondary-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-light);
-            position: relative;
-            transition: all var(--timing-fast) var(--easing-smooth);
-        }
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: var(--primary-bg);
+           color: var(--text-primary);
+           min-height: 100vh;
+           overflow: auto;
+       }
 
-        .insight-card.critical {
-            border-left-color: #ef4444;
-        }
+       .slide-container {
+           width: 100vw;
+           min-height: 100vh;
+           display: flex;
+           flex-direction: column;
+       }
 
-        .insight-card.opportunity {
-            border-left-color: #10b981;
-        }
+       .slide-header {
+           position: fixed;
+           top: 20px;
+           right: 20px;
+           background: rgba(45, 55, 72, 0.9);
+           backdrop-filter: blur(10px);
+           padding: 8px 16px;
+           border-radius: 6px;
+           font-size: 14px;
+           color: var(--text-secondary);
+           border: 1px solid var(--border-blue);
+           z-index: 100;
+           opacity: 0;
+           animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
+       }
 
-        .insight-card.warning {
-            border-left-color: #f59e0b;
-        }
+       .header {
+           background: var(--secondary-bg);
+           padding: 2rem 2rem 1.5rem 2rem;
+           text-align: center;
+           box-shadow: var(--shadow-sm);
+           flex-shrink: 0;
+           opacity: 0;
+           transform: translateY(-50px);
+           animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
+       }
 
-        .insight-number {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--accent-light);
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
+       .header h1 {
+           font-size: 2.5rem;
+           font-weight: 700;
+           color: var(--accent-light);
+           margin-bottom: 0.8rem;
+           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
+       }
 
-        .insight-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.8rem;
-        }
+       .subtitle {
+           font-size: 1.2rem;
+           color: var(--text-secondary);
+           font-weight: 300;
+           max-width: 900px;
+           margin: 0 auto;
+           opacity: 0;
+           transform: translateY(15px);
+           animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
+       }
 
-        .insight-detail {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
+       .content {
+           flex: 1;
+           padding: 2rem;
+           display: grid;
+           grid-template-columns: 1fr 1fr;
+           grid-template-rows: 1fr 1fr auto;
+           gap: 2rem;
+           opacity: 0;
+           animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+       }
 
-        .so-what {
-            background: rgba(59, 130, 246, 0.1);
-            padding: 0.8rem;
-            border-radius: 6px;
-            margin-top: 0.8rem;
-            border-left: 2px solid var(--accent-blue);
-        }
+       /* Quadrant Cards */
+       .insight-card {
+           background: var(--secondary-bg);
+           padding: 2rem;
+           border-radius: 12px;
+           box-shadow: var(--shadow-md);
+           border: 1px solid var(--border-blue);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           display: flex;
+           flex-direction: column;
+           transform: translateY(30px);
+           opacity: 0;
+           position: relative;
+           overflow: hidden;
+       }
 
-        .so-what-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.3rem;
-        }
+       .insight-card::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 4px;
+           background: var(--blue-gradient);
+           transform: scaleX(0);
+           transition: transform var(--timing-medium) var(--easing-smooth);
+       }
 
-        .so-what-text {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-style: italic;
-        }
+       .insight-card.customer-seg {
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 1.8s forwards;
+       }
 
-        /* Data Quality & Methodology Section */
-        .methodology-section {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid var(--border-blue);
-        }
+       .insight-card.customer-seg::before {
+           background: var(--blue-gradient);
+       }
 
-        .methodology-title {
-            color: var(--accent-blue);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+       .insight-card.channel-opt {
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 2.2s forwards;
+       }
 
-        .methodology-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-        }
+       .insight-card.channel-opt::before {
+           background: var(--green-gradient);
+       }
 
-        .method-item {
-            background: rgba(59, 130, 246, 0.05);
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--text-muted);
-        }
+       .insight-card.data-quality {
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+           border-color: var(--border-amber);
+       }
 
-        .method-header {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
+       .insight-card.data-quality::before {
+           background: var(--amber-gradient);
+       }
 
-        .method-content {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
+       .insight-card.data-integrity {
+           animation: revealCard var(--timing-medium) var(--easing-smooth) 3s forwards;
+       }
 
-        /* Causality Callout */
-        .causality-callout {
-            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            grid-column: 1 / -1;
-        }
+       .insight-card.data-integrity::before {
+           background: var(--blue-gradient);
+       }
 
-        .callout-header {
-            color: #ef4444;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+       .insight-card:hover {
+           transform: translateY(-8px);
+           box-shadow: var(--shadow-lg);
+           border-color: rgba(59, 130, 246, 0.6);
+       }
 
-        .causality-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+       .insight-card:hover::before {
+           transform: scaleX(1);
+       }
 
-        .causality-item {
-            text-align: center;
-            padding: 0.8rem;
-            border-radius: 6px;
-        }
+       .card-header {
+           display: flex;
+           align-items: center;
+           gap: 1rem;
+           margin-bottom: 1.5rem;
+       }
 
-        .causality-item.correlation {
-            background: rgba(239, 68, 68, 0.1);
-        }
+       .card-icon {
+           font-size: 2rem;
+           opacity: 0;
+           transform: scale(0);
+           animation: revealIcon var(--timing-fast) var(--easing-bounce) 3.4s forwards;
+       }
 
-        .causality-item.causation {
-            background: rgba(245, 158, 11, 0.1);
-        }
+       .customer-seg .card-icon { color: var(--accent-blue); }
+       .channel-opt .card-icon { color: var(--accent-green); }
+       .data-quality .card-icon { color: var(--accent-amber); }
+       .data-integrity .card-icon { color: var(--accent-light); }
 
-        .causality-item.reality {
-            background: rgba(16, 185, 129, 0.1);
-        }
+       .card-title {
+           font-size: 1.4rem;
+           font-weight: 600;
+           color: var(--text-primary);
+       }
 
-        .causality-label {
-            font-weight: 600;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.4rem;
-        }
+       .card-subtitle {
+           font-size: 1rem;
+           color: var(--text-muted);
+           font-weight: 400;
+           margin-top: 0.2rem;
+       }
 
-        .causality-text {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-style: italic;
-        }
-    </style>
+       .insight-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .insight-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 0.8rem;
+           margin-bottom: 1rem;
+           padding: 0.8rem;
+           background: var(--card-bg);
+           border-radius: 6px;
+           border-left: 3px solid transparent;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateX(-20px);
+       }
+
+       /* Staggered animations for insight items */
+       .customer-seg .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 3.8s forwards; border-left-color: var(--accent-blue); }
+       .customer-seg .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4s forwards; border-left-color: var(--accent-blue); }
+       .customer-seg .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.2s forwards; border-left-color: var(--accent-blue); }
+       .customer-seg .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.4s forwards; border-left-color: var(--accent-blue); }
+
+       .channel-opt .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.6s forwards; border-left-color: var(--accent-green); }
+       .channel-opt .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 4.8s forwards; border-left-color: var(--accent-green); }
+       .channel-opt .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5s forwards; border-left-color: var(--accent-green); }
+
+       .data-quality .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.2s forwards; border-left-color: var(--accent-amber); }
+       .data-quality .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.4s forwards; border-left-color: var(--accent-amber); }
+       .data-quality .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.6s forwards; border-left-color: var(--accent-amber); }
+       .data-quality .insight-item:nth-child(4) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 5.8s forwards; border-left-color: var(--accent-amber); }
+
+       .data-integrity .insight-item:nth-child(1) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6s forwards; border-left-color: var(--accent-light); }
+       .data-integrity .insight-item:nth-child(2) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.2s forwards; border-left-color: var(--accent-light); }
+       .data-integrity .insight-item:nth-child(3) { animation: slideInInsight var(--timing-fast) var(--easing-smooth) 6.4s forwards; border-left-color: var(--accent-light); }
+
+       .insight-item:hover {
+           transform: translateX(5px);
+           background: rgba(59, 130, 246, 0.05);
+       }
+
+       .insight-bullet {
+           font-weight: 700;
+           font-size: 1.1rem;
+           min-width: 15px;
+           margin-top: 2px;
+       }
+
+       .insight-text {
+           color: var(--text-secondary);
+           font-size: 0.95rem;
+           line-height: 1.4;
+       }
+
+       .highlight {
+           color: var(--accent-light);
+           font-weight: 700;
+       }
+
+       .highlight.amber {
+           color: var(--accent-amber);
+       }
+
+       .highlight.green {
+           color: var(--accent-green);
+       }
+
+       .highlight.red {
+           color: var(--red-accent);
+       }
+
+       /* Large Callout Numbers */
+       .big-number {
+           font-size: 2.5rem;
+           font-weight: 800;
+           color: var(--accent-light);
+           display: inline-block;
+           margin-right: 0.5rem;
+           text-shadow: 0 2px 8px rgba(96, 165, 250, 0.4);
+       }
+
+       /* Key Takeaways Bar */
+       .takeaways-section {
+           grid-column: 1 / -1;
+           background: var(--secondary-bg);
+           padding: 1.5rem 2rem;
+           border-radius: 12px;
+           box-shadow: var(--shadow-md);
+           border: 1px solid var(--border-blue);
+           margin-top: 1rem;
+           opacity: 0;
+           transform: translateY(30px);
+           animation: revealTakeaways var(--timing-medium) var(--easing-smooth) 6.8s forwards;
+       }
+
+       .takeaways-title {
+           font-size: 1.6rem;
+           color: var(--accent-blue);
+           margin-bottom: 1.2rem;
+           font-weight: 600;
+           text-align: center;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           gap: 0.5rem;
+       }
+
+       .takeaways-grid {
+           display: grid;
+           grid-template-columns: repeat(3, 1fr);
+           gap: 1.5rem;
+       }
+
+       .takeaway-card {
+           background: var(--card-bg);
+           padding: 1.5rem;
+           border-radius: 8px;
+           border: 1px solid var(--border-blue);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateY(20px);
+           position: relative;
+           overflow: hidden;
+       }
+
+       .takeaway-card::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 3px;
+           transform: scaleX(0);
+           transition: transform var(--timing-medium) var(--easing-smooth);
+       }
+
+       .takeaway-card.strategy::before { background: var(--blue-gradient); }
+       .takeaway-card.efficiency::before { background: var(--green-gradient); }
+       .takeaway-card.improvement::before { background: var(--amber-gradient); }
+
+       .takeaway-card:nth-child(1) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.2s forwards; }
+       .takeaway-card:nth-child(2) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.4s forwards; }
+       .takeaway-card:nth-child(3) { animation: slideInTakeaway var(--timing-fast) var(--easing-smooth) 7.6s forwards; }
+
+       .takeaway-card:hover {
+           transform: translateY(-5px);
+           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+       }
+
+       .takeaway-card:hover::before {
+           transform: scaleX(1);
+       }
+
+       .takeaway-header {
+           display: flex;
+           align-items: center;
+           gap: 0.8rem;
+           margin-bottom: 0.8rem;
+       }
+
+       .takeaway-icon {
+           font-size: 1.5rem;
+       }
+
+       .takeaway-title {
+           font-weight: 600;
+           font-size: 1.1rem;
+           color: var(--text-primary);
+       }
+
+       .takeaway-content {
+           color: var(--text-secondary);
+           font-size: 0.9rem;
+           line-height: 1.4;
+       }
+
+       .navigation {
+           position: fixed;
+           bottom: 2rem;
+           right: 2rem;
+           display: flex;
+           gap: 1rem;
+           z-index: 100;
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 8s forwards;
+       }
+
+       .nav-btn {
+           background: var(--blue-gradient);
+           color: white;
+           border: none;
+           padding: 0.8rem 1.5rem;
+           border-radius: 10px;
+           cursor: pointer;
+           font-size: 1rem;
+           font-weight: 600;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+           position: relative;
+           overflow: hidden;
+       }
+
+       .nav-btn::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+           transition: left var(--timing-medium) var(--easing-smooth);
+       }
+
+       .nav-btn:hover {
+           transform: translateY(-3px);
+           box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+           background: var(--blue-light);
+       }
+
+       .nav-btn:hover::before {
+           left: 100%;
+       }
+
+       /* Keyframe Animations */
+       @keyframes slideHeader {
+           from { opacity: 0; transform: translateY(-20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealHeader {
+           from { opacity: 0; transform: translateY(-50px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealTitle {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealSubtitle {
+           from { opacity: 0; transform: translateY(15px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealContent {
+           from { opacity: 0; }
+           to { opacity: 1; }
+       }
+
+       @keyframes revealCard {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealIcon {
+           from { opacity: 0; transform: scale(0); }
+           to { opacity: 1; transform: scale(1); }
+       }
+
+       @keyframes slideInInsight {
+           from { opacity: 0; transform: translateX(-20px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes revealTakeaways {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideInTakeaway {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealNavigation {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       /* Responsive Design */
+       @media (max-width: 1400px) {
+           .content {
+               padding: 1.5rem;
+               gap: 1.5rem;
+           }
+           
+           .header h1 { font-size: 2.8rem; }
+           .subtitle { font-size: 1.1rem; }
+       }
+
+       @media (max-width: 768px) {
+           .content {
+               grid-template-columns: 1fr;
+               grid-template-rows: repeat(4, auto) auto;
+               gap: 1.5rem;
+               padding: 1.5rem;
+           }
+
+           .takeaways-grid {
+               grid-template-columns: 1fr;
+               gap: 1rem;
+           }
+           
+           .header {
+               padding: 1.5rem;
+           }
+           
+           .header h1 { 
+               font-size: 2.2rem; 
+           }
+           
+           .subtitle { 
+               font-size: 1rem; 
+           }
+
+           .big-number {
+               font-size: 2rem;
+           }
+           
+           .navigation {
+               bottom: 1rem;
+               right: 1rem;
+               gap: 0.5rem;
+           }
+           
+           .nav-btn {
+               padding: 0.6rem 1.2rem;
+               font-size: 0.9rem;
+           }
+       }
+
+       @media (max-height: 900px) {
+           .header { 
+               padding: 1.5rem 2rem; 
+           }
+           
+           .content { 
+               padding: 1.8rem; 
+           }
+       }
+
+       @media (prefers-reduced-motion: reduce) {
+           *, *::before, *::after {
+               animation-duration: 0.01ms !important;
+               animation-iteration-count: 1 !important;
+               transition-duration: 0.01ms !important;
+           }
+       }
+   </style>
 </head>
 <body>
-    <div class="slide-container">
-        <div class="slide-header">Slide 3 of 10</div>
+   <div class="slide-container">
+       <div class="slide-header">
+           Slide 3 of 10
+       </div>
 
-        <header class="header">
-            <h1>Key Data Insights</h1>
-            <div class="action-title">Three critical findings that will reshape Al-Vive's targeting strategy</div>
-            <p class="subtitle">Data-driven insights reveal clear patterns in customer behavior and campaign effectiveness</p>
-        </header>
+       <header class="header">
+           <h1>Key Data Insights</h1>
+           <p class="subtitle">
+               Data reveals clear patterns in customer behavior and significant opportunities for targeted engagement
+           </p>
+       </header>
 
-        <main class="content">
-            <div class="insight-hierarchy">
-                <!-- Primary Insights -->
-                <div class="primary-insights">
-                    <div class="insight-card critical">
-                        <div class="insight-number">7x</div>
-                        <div class="insight-title">Previous Contact Multiplier</div>
-                        <div class="insight-detail">
-                            Clients contacted in previous campaigns are 7x more likely to subscribe, with optimal recontact window of <strong>14 days</strong>
-                        </div>
-                        <div class="so-what">
-                            <div class="so-what-label">So What?</div>
-                            <div class="so-what-text">Prioritize warm leads over cold prospects for 700% better ROI</div>
-                        </div>
-                    </div>
+       <main class="content">
+           <!-- Customer Segmentation Insights -->
+           <div class="insight-card customer-seg">
+               <div class="card-header">
+                   <div class="card-icon">📊</div>
+                   <div>
+                       <div class="card-title">Customer Segmentation</div>
+                       <div class="card-subtitle">Who to Target</div>
+                   </div>
+               </div>
+               <ul class="insight-list">
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text"><span class="big-number">7x</span> higher likelihood with <span class="highlight">previous campaign contact</span></span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Optimal recontact window: <span class="highlight">within 14 days</span> for maximum effect</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Age sweet spots: <span class="highlight">Students &lt;30</span> and <span class="highlight">retirees &gt;60</span> show highest conversion</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Contact fatigue: <span class="highlight red">Diminishing returns</span> with repeated contacts</span>
+                   </li>
+               </ul>
+           </div>
 
-                    <div class="insight-card opportunity">
-                        <div class="insight-number">2</div>
-                        <div class="insight-title">High-Value Segments</div>
-                        <div class="insight-detail">
-                            <strong>Students <30</strong> and <strong>retirees >60</strong> show significantly higher conversion rates than working adults (30-60)
-                        </div>
-                        <div class="so-what">
-                            <div class="so-what-label">So What?</div>
-                            <div class="so-what-text">Focus resources on life-stage transitions for maximum impact</div>
-                        </div>
-                    </div>
+           <!-- Channel & Method Optimization -->
+           <div class="insight-card channel-opt">
+               <div class="card-header">
+                   <div class="card-icon">📱</div>
+                   <div>
+                       <div class="card-title">Channel Optimization</div>
+                       <div class="card-subtitle">How to Reach Them</div>
+                   </div>
+               </div>
+               <ul class="insight-list">
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Channel preference: <span class="highlight green">Cellular outperforms</span> telephone significantly</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Causality insight: <span class="highlight green">Older demographics</span> both prefer cellular AND subscribe more</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Contact strategy: <span class="highlight green">Quality over quantity</span> - fewer, well-timed contacts</span>
+                   </li>
+               </ul>
+           </div>
 
-                    <div class="insight-card warning">
-                        <div class="insight-number">📱</div>
-                        <div class="insight-title">Channel Preference</div>
-                        <div class="insight-detail">
-                            Cellular outperforms telephone significantly, but <strong>diminishing returns</strong> occur with repeated contacts
-                        </div>
-                        <div class="so-what">
-                            <div class="so-what-label">So What?</div>
-                            <div class="so-what-text">Quality over quantity - fewer, targeted cellular contacts win</div>
-                        </div>
-                    </div>
-                </div>
+           <!-- Data Quality & Model Considerations -->
+           <div class="insight-card data-quality">
+               <div class="card-header">
+                   <div class="card-icon">⚠️</div>
+                   <div>
+                       <div class="card-title">Data Quality Challenges</div>
+                       <div class="card-subtitle">What We're Working With</div>
+                   </div>
+               </div>
+               <ul class="insight-list">
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Class imbalance: <span class="highlight amber">F2-score prioritization</span> for skewed dataset</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Financial data gaps: <span class="highlight amber">Missing loan data</span> doesn't correlate with outcomes</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Weak predictors: <span class="highlight amber">Education, marital status</span> show limited predictive power</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Model selection: <span class="highlight amber">Balanced algorithms</span> (Random Forest, XGBoost) chosen</span>
+                   </li>
+               </ul>
+           </div>
 
-                <!-- Methodology & Data Quality -->
-                <div class="methodology-section">
-                    <h3 class="methodology-title">
-                        <span>🔬</span>
-                        Methodology & Data Quality Considerations
-                    </h3>
-                    
-                    <div class="methodology-grid">
-                        <div class="method-item">
-                            <div class="method-header">Class Imbalance Strategy</div>
-                            <div class="method-content">
-                                Prioritized F2-score and deployed balanced algorithms (Random Forest, XGBoost, Easy Ensemble) to handle severe class imbalance
-                            </div>
-                        </div>
+           <!-- Data Integrity & Robustness -->
+           <div class="insight-card data-integrity">
+               <div class="card-header">
+                   <div class="card-icon">🔍</div>
+                   <div>
+                       <div class="card-title">Model Reliability</div>
+                       <div class="card-subtitle">Ensuring Robustness</div>
+                   </div>
+               </div>
+               <ul class="insight-list">
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Client ID correlation: <span class="highlight">Excluded due to strategy evolution bias</span></span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Simpson's Paradox: <span class="highlight">Cellular preference driven by demographics</span>, not channel efficacy</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Future-proofing: <span class="highlight">Model designed to adapt</span> to changing marketing strategies</span>
+                   </li>
+               </ul>
+           </div>
 
-                        <div class="method-item">
-                            <div class="method-header">Financial Data Quality</div>
-                            <div class="method-content">
-                                Weak predictive power from education/marital status signals data collection gaps. Financial profiles need enhancement
-                            </div>
-                        </div>
+           <!-- Key Takeaways -->
+           <div class="takeaways-section">
+               <h2 class="takeaways-title">
+                   💡 Key Takeaways - "So What?"
+               </h2>
+               <div class="takeaways-grid">
+                   <div class="takeaway-card strategy">
+                       <div class="takeaway-header">
+                           <div class="takeaway-icon">🎯</div>
+                           <div class="takeaway-title">Target Strategy</div>
+                       </div>
+                       <div class="takeaway-content">
+                           Focus on students and retirees through cellular channels with strategic recontact timing
+                       </div>
+                   </div>
+                   <div class="takeaway-card efficiency">
+                       <div class="takeaway-header">
+                           <div class="takeaway-icon">📈</div>
+                           <div class="takeaway-title">Efficiency Gains</div>
+                       </div>
+                       <div class="takeaway-content">
+                           Previous campaign data is our strongest predictor - leverage existing customer relationships
+                       </div>
+                   </div>
+                   <div class="takeaway-card improvement">
+                       <div class="takeaway-header">
+                           <div class="takeaway-icon">🔧</div>
+                           <div class="takeaway-title">Data Enhancement</div>
+                       </div>
+                       <div class="takeaway-content">
+                           Financial profile data improvement will unlock significant predictive power gains
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </main>
 
-                        <div class="method-item">
-                            <div class="method-header">Model Robustness</div>
-                            <div class="method-content">
-                                Excluded Client ID despite correlation with target to ensure model robustness against evolving marketing strategies
-                            </div>
-                        </div>
+       <nav class="navigation">
+           <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
+           <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
+           <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
+       </nav>
+   </div>
 
-                        <div class="method-item">
-                            <div class="method-header">Missing Data Handling</div>
-                            <div class="method-content">
-                                Large gaps in loan data with no correlation to target variable - systematic collection improvement needed
-                            </div>
-                        </div>
-                    </div>
+   <script>
+       function navigateToSlide(url) {
+           window.location.href = url;
+       }
 
-                    <!-- Causality vs Correlation Callout -->
-                    <div class="causality-callout">
-                        <div class="callout-header">
-                            <span>⚠️</span>
-                            Addressing Simpson's Paradox: Causality vs. Correlation
-                        </div>
-                        <div class="causality-grid">
-                            <div class="causality-item correlation">
-                                <div class="causality-label" style="color: #ef4444;">Correlation</div>
-                                <div class="causality-text">"People who get cellular calls subscribe more"</div>
-                            </div>
-                            <div class="causality-item causation">
-                                <div class="causality-label" style="color: #f59e0b;">Assumed Causation</div>
-                                <div class="causality-text">"Cellular calls make people subscribe more"</div>
-                            </div>
-                            <div class="causality-item reality">
-                                <div class="causality-label" style="color: #10b981;">Reality</div>
-                                <div class="causality-text">"Older people get cellular calls AND older people subscribe more"</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-
-        <nav class="navigation">
-            <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
-            <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
-            <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
-        </nav>
-    </div>
-
-    <script>
-        function navigateToSlide(url) {
-            window.location.href = url;
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const keyActions = {
-                'ArrowLeft': () => navigateToSlide('slide2.html'),
-                'Backspace': () => navigateToSlide('slide2.html'),
-                'ArrowRight': () => navigateToSlide('slide4.html'),
-                ' ': () => navigateToSlide('slide4.html'),
-                'h': () => navigateToSlide('index.html'),
-                'H': () => navigateToSlide('index.html'),
-                'f': () => document.documentElement.requestFullscreen?.(),
-                'F': () => document.documentElement.requestFullscreen?.(),
-                '0': () => navigateToSlide('slide10.html')
-            };
-            
-            if (e.key >= '1' && e.key <= '9') {
-                navigateToSlide(`slide${e.key}.html`);
-            } else if (keyActions[e.key]) {
-                e.preventDefault();
-                keyActions[e.key]();
-            }
-        });
-
-        // Add animation sequences
-        window.addEventListener('load', () => {
-            const cards = document.querySelectorAll('.insight-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px)';
-                card.style.animation = `slideInInsight 0.6s cubic-bezier(0.4, 0, 0.2, 1) ${2 + (index * 0.3)}s forwards`;
-            });
-        });
-    </script>
+       // Keyboard navigation
+       document.addEventListener('keydown', (e) => {
+           const keyActions = {
+               'ArrowLeft': () => navigateToSlide('slide2.html'),
+               'Backspace': () => navigateToSlide('slide2.html'),
+               'ArrowRight': () => navigateToSlide('slide4.html'),
+               ' ': () => navigateToSlide('slide4.html'),
+               'h': () => navigateToSlide('index.html'),
+               'H': () => navigateToSlide('index.html'),
+               'f': () => document.documentElement.requestFullscreen?.(),
+               'F': () => document.documentElement.requestFullscreen?.(),
+               '0': () => navigateToSlide('slide10.html')
+           };
+           
+           if (e.key >= '1' && e.key <= '9') {
+               navigateToSlide(`slide${e.key}.html`);
+           } else if (keyActions[e.key]) {
+               e.preventDefault();
+               keyActions[e.key]();
+           }
+       });
+   </script>
 </body>
 </html>

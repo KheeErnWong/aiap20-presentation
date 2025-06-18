@@ -326,11 +326,23 @@
           z-index: 3;
       }
 
+      /* 🎯 CUSTOM ICON STYLING FOR TIMELINE - Same as slide4.html */
+      .step-icon {
+          width: 1.4rem;
+          height: 1.4rem;
+          object-fit: contain;
+          transition: all var(--timing-fast) var(--easing-smooth);
+      }
+
       .step-circle.active {
           background: var(--blue-gradient);
           border-color: var(--accent-light);
           box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
           transform: scale(1.15);
+      }
+
+      .step-circle.active .step-icon {
+          transform: scale(1.1);
       }
 
       /* ✨ Pulse effect for current step */
@@ -797,6 +809,11 @@
           .section-title { font-size: 1.8rem; }
           .why-ml-content { font-size: 1.1rem; }
           .expectations-content p { font-size: 1.1rem; }
+          
+          .step-icon {
+              width: 1.2rem;
+              height: 1.2rem;
+          }
       }
 
       @media (max-width: 768px) {
@@ -839,6 +856,11 @@
           .step-circle { 
               margin-bottom: 0; 
               min-width: 45px;
+          }
+          
+          .step-icon {
+              width: 1.1rem;
+              height: 1.1rem;
           }
           
           .hobbies-grid { 
@@ -933,31 +955,41 @@
                       </div>
                       <div class="timeline-steps">
                           <div class="timeline-step">
-                              <div class="step-circle">⚡</div>
+                              <div class="step-circle">
+                                  <img src="icons/engineer.png" alt="Electrical Engineer" class="step-icon">
+                              </div>
                               <div class="step-year">2017</div>
                               <div class="step-title">Electrical Engineer</div>
                               <div class="step-company">Keppel FELS</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">💡</div>
+                              <div class="step-circle">
+                                  <img src="icons/entrepreneur.png" alt="Intrapreneur" class="step-icon">
+                              </div>
                               <div class="step-year">2018</div>
                               <div class="step-title">Intrapreneur: Online bunkering platform</div>
                               <div class="step-company">Keppel FELS</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">🏥</div>
+                              <div class="step-circle">
+                                  <img src="icons/project-manager.png" alt="Project Manager" class="step-icon">
+                              </div>
                               <div class="step-year">2019</div>
                               <div class="step-title">Project Manager</div>
                               <div class="step-company">Synapxe</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">📈</div>
+                              <div class="step-circle">
+                                  <img src="icons/trader.png" alt="Algorithmic Trader" class="step-icon">
+                              </div>
                               <div class="step-year">2021</div>
                               <div class="step-title">Algorithmic Trader</div>
                               <div class="step-company">Grasshopper</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">📋</div>
+                              <div class="step-circle">
+                                  <img src="icons/iso.png" alt="ISO Quality Rep" class="step-icon">
+                              </div>
                               <div class="step-year">2023</div>
                               <div class="step-title">ISO Quality Rep</div>
                               <div class="step-company">Thai Eastern Wire</div>

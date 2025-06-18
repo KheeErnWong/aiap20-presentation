@@ -164,19 +164,16 @@
             animation: underlineSlide var(--timing-slow) var(--easing-tech) 0.5s forwards;
         }
 
-        /* Custom icon styling for PNG images */
+        /* Custom icon styling for PNG images - NO COLOR FILTER */
         .section-icon {
             width: 1.8rem;
             height: 1.8rem;
             object-fit: contain;
-            /* Apply color filter to match --accent-light (#60a5fa) */
-            filter: brightness(0) saturate(100%) invert(64%) sepia(88%) saturate(3180%) hue-rotate(200deg) brightness(104%) contrast(101%);
             transition: all var(--timing-fast) var(--easing-smooth);
         }
 
-        /* Hover effect for section icons */
+        /* Hover effect for section icons - simple scale, no color change */
         .section:hover .section-icon {
-            filter: brightness(0) saturate(100%) invert(84%) sepia(16%) saturate(1351%) hue-rotate(188deg) brightness(107%) contrast(96%);
             transform: scale(1.1);
         }
 

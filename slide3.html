@@ -231,6 +231,7 @@
            opacity: 0;
            transform: translateX(-30px);
            min-height: 100px;
+           position: relative;
        }
 
        .grid-row:nth-child(2) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.4s forwards; }
@@ -250,6 +251,16 @@
 
        .grid-row:last-child {
            border-bottom: none;
+       }
+
+       /* Client ID Row - Special styling for popup trigger */
+       .grid-row.client-id-row {
+           cursor: help;
+       }
+
+       .grid-row.client-id-row:hover {
+           background: rgba(59, 130, 246, 0.08);
+           border-color: rgba(59, 130, 246, 0.3);
        }
 
        .grid-cell {
@@ -291,6 +302,195 @@
            color: var(--text-primary);
            font-weight: 600;
            background: rgba(59, 130, 246, 0.05);
+       }
+
+       /* 🎯 FLOATING POPUP CARD STYLES */
+       .popup-overlay {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100vw;
+           height: 100vh;
+           background: rgba(0, 0, 0, 0.4);
+           backdrop-filter: blur(3px);
+           z-index: 1000;
+           opacity: 0;
+           visibility: hidden;
+           transition: all var(--timing-medium) var(--easing-smooth);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           padding: 2rem;
+       }
+
+       .popup-overlay.show {
+           opacity: 1;
+           visibility: visible;
+       }
+
+       .popup-card {
+           background: var(--secondary-bg);
+           border-radius: 16px;
+           box-shadow: var(--shadow-lg), 0 0 60px rgba(59, 130, 246, 0.3);
+           border: 1px solid var(--border-blue);
+           max-width: 800px;
+           width: 100%;
+           max-height: 90vh;
+           overflow-y: auto;
+           transform: translateY(30px) scale(0.9);
+           transition: all var(--timing-medium) var(--easing-smooth);
+           position: relative;
+       }
+
+       .popup-overlay.show .popup-card {
+           transform: translateY(0) scale(1);
+       }
+
+       .popup-header {
+           background: var(--blue-gradient);
+           color: white;
+           padding: 1.5rem 2rem;
+           border-radius: 16px 16px 0 0;
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .popup-header::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+           transition: left var(--timing-slow) var(--easing-smooth);
+       }
+
+       .popup-overlay.show .popup-header::before {
+           left: 100%;
+       }
+
+       .popup-title {
+           font-size: 1.5rem;
+           font-weight: 700;
+           display: flex;
+           align-items: center;
+           gap: 0.8rem;
+       }
+
+       .popup-title-icon {
+           font-size: 1.8rem;
+       }
+
+       .popup-close {
+           background: rgba(255, 255, 255, 0.1);
+           border: 1px solid rgba(255, 255, 255, 0.2);
+           color: white;
+           width: 40px;
+           height: 40px;
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           cursor: pointer;
+           font-size: 1.2rem;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           font-weight: 700;
+       }
+
+       .popup-close:hover {
+           background: rgba(255, 255, 255, 0.2);
+           transform: rotate(90deg);
+       }
+
+       .popup-content {
+           padding: 2rem;
+       }
+
+       .popup-section {
+           margin-bottom: 2rem;
+       }
+
+       .popup-section:last-child {
+           margin-bottom: 0;
+       }
+
+       .popup-section-title {
+           font-size: 1.2rem;
+           font-weight: 700;
+           color: var(--accent-blue);
+           margin-bottom: 1rem;
+           display: flex;
+           align-items: center;
+           gap: 0.6rem;
+           border-bottom: 2px solid var(--accent-blue);
+           padding-bottom: 0.5rem;
+       }
+
+       .popup-section-icon {
+           font-size: 1.3rem;
+       }
+
+       .popup-text {
+           color: var(--text-secondary);
+           line-height: 1.6;
+           margin-bottom: 0.8rem;
+       }
+
+       .popup-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .popup-list-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 0.8rem;
+           margin-bottom: 0.8rem;
+           padding: 0.8rem;
+           background: var(--card-bg);
+           border-radius: 8px;
+           border-left: 3px solid var(--accent-light);
+           transition: all var(--timing-fast) var(--easing-smooth);
+       }
+
+       .popup-list-item:hover {
+           transform: translateX(5px);
+           border-left-color: #93c5fd;
+           box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
+       }
+
+       .popup-list-bullet {
+           color: var(--accent-light);
+           font-weight: 700;
+           font-size: 1.1rem;
+           min-width: 20px;
+           margin-top: 2px;
+       }
+
+       .popup-list-text {
+           color: var(--text-secondary);
+           line-height: 1.5;
+           font-size: 0.95rem;
+       }
+
+       .popup-highlight {
+           color: var(--accent-light);
+           font-weight: 700;
+       }
+
+       .popup-warning {
+           color: #ef4444;
+           font-weight: 700;
+       }
+
+       .popup-success {
+           color: var(--accent-green);
+           font-weight: 700;
        }
 
        /* Hybrid Number Highlighting Styles */
@@ -354,6 +554,7 @@
            line-height: 1.6;
            font-weight: 500;
            margin: 0 auto;
+           text-align: left;
        }
 
        .navigation {
@@ -591,6 +792,19 @@
                padding: 0.6rem 1.2rem;
                font-size: 0.9rem;
            }
+
+           /* Mobile popup adjustments */
+           .popup-overlay {
+               padding: 1rem;
+           }
+
+           .popup-content {
+               padding: 1.5rem;
+           }
+
+           .popup-title {
+               font-size: 1.3rem;
+           }
        }
 
        @media (max-height: 900px) {
@@ -623,7 +837,7 @@
        </div>
 
        <header class="header">
-           <h1>Exploratory Data Analaysis</h1>
+           <h1>Exploratory Data Analysis</h1>
            <p class="subtitle">
                Key data findings and business implications
            </p>
@@ -671,7 +885,8 @@
                        <div class="grid-cell business">High class imbalance may signify low campaign efficiency. Need to understand why conversion rates are low</div>
                    </div>
                    
-                   <div class="grid-row">
+                   <!-- Client ID Row with popup trigger -->
+                   <div class="grid-row client-id-row" onclick="showClientIdPopup()">
                        <div class="grid-cell feature">Client ID</div>
                        <div class="grid-cell issue">NIL</div>
                        <div class="grid-cell finding">Shows temporal correlation. Larger client ID = higher subscription probability</div>
@@ -739,14 +954,110 @@
                <!-- Strategic Insight Summary - Removed title, reduced padding -->
                <div class="strategic-insight">
                    <div class="insight-content">
-                       Data analysis reveals that targeted mobile outreach to previously contacted clients, particularly students and seniors, represents the highest-yield opportunity for campaign optimization.
-                   </div>
-                   <div class="insight-content">
-                       Test sdgvneakrganbkja;naklb
+                       <ul>
+                           <li>Data analysis reveals that targeted mobile outreach to previously contacted clients represents the highest-yield opportunity for campaign optimization</li>
+                           <li>Focus areas include students and seniors demographics</li>
+                           <li>Mobile-first approach shows significantly better engagement rates</li>
+                       </ul>
                    </div>
                </div>
            </div>
        </main>
+
+       <!-- 🎯 CLIENT ID POPUP -->
+       <div class="popup-overlay" id="clientIdPopup" onclick="hideClientIdPopup(event)">
+           <div class="popup-card" onclick="event.stopPropagation()">
+               <div class="popup-header">
+                   <div class="popup-title">
+                       <span class="popup-title-icon">🆔</span>
+                       Client ID Deep Dive Analysis
+                   </div>
+                   <div class="popup-close" onclick="hideClientIdPopup()">&times;</div>
+               </div>
+               
+               <div class="popup-content">
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">💡</span>
+                           Initial Hypothesis
+                       </div>
+                       <ul class="popup-list">
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Client ID showed strong correlation with subscription rates</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Later IDs (<span class="popup-highlight">80th+ percentile</span>) had <span class="popup-highlight">15% vs 8%</span> subscription rates</span>
+                           </li>
+                       </ul>
+                   </div>
+
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">🔍</span>
+                           Critical Evaluation
+                       </div>
+                       <ul class="popup-list">
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">❌</span>
+                               <span class="popup-list-text"><span class="popup-warning">Data Leakage Risk</span>: IDs encode temporal information not available at prediction time</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">❌</span>
+                               <span class="popup-list-text"><span class="popup-warning">Spurious Correlation</span>: Likely reflects campaign optimization over time</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">❌</span>
+                               <span class="popup-list-text"><span class="popup-warning">Generalization Failure</span>: New customers get random/sequential IDs</span>
+                           </li>
+                       </ul>
+                   </div>
+
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">⚖️</span>
+                           Decision
+                       </div>
+                       <div class="popup-text">
+                           <span class="popup-warning">EXCLUDED</span> Client ID features to prevent data leakage and ensure model generalizability.
+                       </div>
+                   </div>
+
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">📈</span>
+                           Recommended Data Collection Improvements
+                       </div>
+                       <div class="popup-text">
+                           Instead of relying on Client ID as a proxy for temporal patterns, <span class="popup-highlight">future data collection should capture explicit temporal features</span> such as:
+                       </div>
+                       <ul class="popup-list">
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Campaign start/end dates and duration</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Seasonal indicators (holiday periods, end-of-quarter timing)</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Campaign batch/phase identifiers</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Economic context variables (market conditions, interest rates)</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Campaign maturity metrics (days since campaign launch)</span>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+       </div>
 
        <nav class="navigation">
            <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
@@ -760,6 +1071,22 @@
            window.location.href = url;
        }
 
+       // 🎯 CLIENT ID POPUP FUNCTIONALITY
+       function showClientIdPopup() {
+           const popup = document.getElementById('clientIdPopup');
+           popup.classList.add('show');
+           document.body.style.overflow = 'hidden'; // Prevent background scrolling
+       }
+
+       function hideClientIdPopup(event) {
+           // Only hide if clicking overlay or close button, not popup content
+           if (!event || event.target.id === 'clientIdPopup' || event.target.classList.contains('popup-close') || event.target.innerHTML === '&times;') {
+               const popup = document.getElementById('clientIdPopup');
+               popup.classList.remove('show');
+               document.body.style.overflow = 'auto'; // Restore scrolling
+           }
+       }
+
        // Keyboard navigation
        document.addEventListener('keydown', (e) => {
            const keyActions = {
@@ -771,7 +1098,8 @@
                'H': () => navigateToSlide('index.html'),
                'f': () => document.documentElement.requestFullscreen?.(),
                'F': () => document.documentElement.requestFullscreen?.(),
-               '0': () => navigateToSlide('slide10.html')
+               '0': () => navigateToSlide('slide10.html'),
+               'Escape': () => hideClientIdPopup()
            };
            
            if (e.key >= '1' && e.key <= '9') {

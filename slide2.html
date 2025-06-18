@@ -364,6 +364,19 @@
            gap: 0.8rem;
        }
 
+       /* Custom icon styling for PNG images in steps title - NO COLOR FILTER */
+       .steps-title .section-icon {
+           width: 1.8rem;
+           height: 1.8rem;
+           object-fit: contain;
+           transition: all var(--timing-fast) var(--easing-smooth);
+       }
+
+       /* Hover effect for steps title icon - simple scale, no color change */
+       .steps-section:hover .steps-title .section-icon {
+           transform: scale(1.1);
+       }
+
        .steps-grid {
            display: grid;
            grid-template-columns: repeat(3, 1fr);
@@ -401,7 +414,7 @@
            gap: 0.5rem;
        }
 
-       /* Custom icon styling for step cards */
+       /* Custom icon styling for PNG images in step headers - NO COLOR FILTER */
        .step-icon {
            width: 1.4rem;
            height: 1.4rem;
@@ -522,16 +535,6 @@
                font-size: 1rem; 
            }
 
-           .table-row {
-               grid-template-columns: 1fr;
-               gap: 0.5rem;
-               text-align: left;
-           }
-
-           .table-cell {
-               text-align: left;
-           }
-           
            .section-icon {
                width: 1.4rem;
                height: 1.4rem;
@@ -540,6 +543,16 @@
            .step-icon {
                width: 1.1rem;
                height: 1.1rem;
+           }
+
+           .table-row {
+               grid-template-columns: 1fr;
+               gap: 0.5rem;
+               text-align: left;
+           }
+
+           .table-cell {
+               text-align: left;
            }
            
            .navigation {

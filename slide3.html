@@ -79,7 +79,7 @@
 
        .header {
            background: var(--secondary-bg);
-           padding: 2rem 2rem 1.5rem 2rem;
+           padding: 1.5rem 2rem 1rem 2rem; /* Reduced padding */
            text-align: center;
            box-shadow: var(--shadow-sm);
            flex-shrink: 0;
@@ -89,10 +89,10 @@
        }
 
        .header h1 {
-           font-size: 2.8rem;
+           font-size: 2.5rem; /* Reduced from 2.8rem */
            font-weight: 700;
            color: var(--accent-light);
-           margin-bottom: 0.8rem;
+           margin-bottom: 0.6rem; /* Reduced from 0.8rem */
            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
            opacity: 0;
            transform: translateY(20px);
@@ -100,7 +100,7 @@
        }
 
        .subtitle {
-           font-size: 1.3rem;
+           font-size: 1.2rem; /* Reduced from 1.3rem */
            color: var(--text-secondary);
            font-weight: 300;
            max-width: 1000px;
@@ -112,26 +112,26 @@
 
        .content {
            flex: 1;
-           padding: 3rem;
+           padding: 2rem; /* Reduced from 3rem */
            display: flex;
            flex-direction: column;
            align-items: center;
-           justify-content: center;
+           justify-content: flex-start; /* Changed from center */
            opacity: 0;
            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
        }
 
-       /* 🎯 McKINSEY-STYLE KEY TAKEAWAYS SECTION */
+       /* 🎯 COMPACT McKINSEY-STYLE KEY TAKEAWAYS SECTION */
        .key-takeaways-section {
            background: var(--secondary-bg);
-           padding: 2.5rem;
-           border-radius: 16px;
-           box-shadow: var(--shadow-lg);
+           padding: 1.5rem 2rem; /* Reduced from 2.5rem */
+           border-radius: 12px; /* Reduced from 16px */
+           box-shadow: var(--shadow-md); /* Reduced from shadow-lg */
            border: 1px solid var(--border-blue);
            transition: all var(--timing-fast) var(--easing-smooth);
            max-width: 1600px;
            width: 100%;
-           margin-bottom: 2rem;
+           margin-bottom: 1.5rem; /* Reduced from 2rem */
            transform: translateY(30px);
            opacity: 0;
            animation: revealTakeaways var(--timing-medium) var(--easing-smooth) 1.6s forwards;
@@ -145,27 +145,27 @@
            top: 0;
            left: 0;
            width: 100%;
-           height: 6px;
+           height: 4px; /* Reduced from 6px */
            background: var(--blue-gradient);
            transform: scaleX(0);
            animation: slideTakeawaysBar var(--timing-slow) var(--easing-tech) 2s forwards;
        }
 
        .key-takeaways-section:hover {
-           transform: translateY(-5px);
-           box-shadow: var(--shadow-lg), 0 0 50px rgba(59, 130, 246, 0.2);
+           transform: translateY(-3px); /* Reduced from -5px */
+           box-shadow: var(--shadow-lg), 0 0 30px rgba(59, 130, 246, 0.15); /* Reduced glow */
            border-color: rgba(59, 130, 246, 0.6);
        }
 
        .takeaways-header {
            display: flex;
            align-items: center;
-           gap: 1rem;
-           margin-bottom: 2rem;
+           gap: 0.8rem; /* Reduced from 1rem */
+           margin-bottom: 1.2rem; /* Reduced from 2rem */
        }
 
        .takeaways-icon {
-           font-size: 2.5rem;
+           font-size: 2rem; /* Reduced from 2.5rem */
            color: var(--accent-blue);
            opacity: 0;
            transform: scale(0);
@@ -173,7 +173,7 @@
        }
 
        .takeaways-title {
-           font-size: 2rem;
+           font-size: 1.6rem; /* Reduced from 2rem */
            font-weight: 700;
            color: var(--text-primary);
            opacity: 0;
@@ -190,12 +190,12 @@
        .takeaway-item {
            display: flex;
            align-items: flex-start;
-           gap: 1rem;
-           margin-bottom: 1.5rem;
-           padding: 1.5rem;
+           gap: 0.8rem; /* Reduced from 1rem */
+           margin-bottom: 1rem; /* Reduced from 1.5rem */
+           padding: 1rem 1.2rem; /* Reduced padding */
            background: var(--card-bg);
-           border-radius: 12px;
-           border-left: 4px solid var(--accent-blue);
+           border-radius: 8px; /* Reduced from 12px */
+           border-left: 3px solid var(--accent-blue); /* Reduced from 4px */
            transition: all var(--timing-fast) var(--easing-smooth);
            opacity: 0;
            transform: translateX(-30px);
@@ -208,14 +208,14 @@
            position: absolute;
            top: 0;
            left: 0;
-           width: 4px;
+           width: 3px; /* Reduced from 4px */
            height: 100%;
            background: var(--blue-gradient);
            transition: width var(--timing-medium) var(--easing-smooth);
        }
 
        .takeaway-item:hover::before {
-           width: 8px;
+           width: 6px; /* Reduced from 8px */
        }
 
        .takeaway-item:nth-child(1) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3s forwards; }
@@ -223,39 +223,40 @@
        .takeaway-item:nth-child(3) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
 
        .takeaway-item:hover {
-           transform: translateX(8px);
+           transform: translateX(5px); /* Reduced from 8px */
            border-left-color: var(--accent-light);
-           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+           box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15); /* Reduced shadow */
            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
        }
 
        .takeaway-number {
            color: var(--accent-blue);
            font-weight: 800;
-           font-size: 1.4rem;
-           min-width: 30px;
-           height: 30px;
+           font-size: 1.1rem; /* Reduced from 1.4rem */
+           min-width: 24px; /* Reduced from 30px */
+           height: 24px; /* Reduced from 30px */
            border-radius: 50%;
            background: rgba(59, 130, 246, 0.1);
            display: flex;
            align-items: center;
            justify-content: center;
-           margin-top: 2px;
+           margin-top: 1px; /* Reduced from 2px */
            transition: all var(--timing-fast) var(--easing-smooth);
            border: 2px solid rgba(59, 130, 246, 0.2);
+           flex-shrink: 0; /* Prevent shrinking */
        }
 
        .takeaway-item:hover .takeaway-number {
            background: rgba(59, 130, 246, 0.2);
            border-color: var(--accent-light);
            color: var(--accent-light);
-           transform: scale(1.1);
+           transform: scale(1.05); /* Reduced from 1.1 */
        }
 
        .takeaway-text {
            color: var(--text-secondary);
-           font-size: 1.05rem;
-           line-height: 1.6;
+           font-size: 0.95rem; /* Reduced from 1.05rem */
+           line-height: 1.5; /* Reduced from 1.6 */
            font-weight: 500;
            flex: 1;
        }
@@ -268,7 +269,7 @@
        /* Main Analysis Card - Centered and Expanded */
        .analysis-card {
            background: var(--secondary-bg);
-           padding: 3rem;
+           padding: 2.5rem; /* Reduced from 3rem */
            border-radius: 16px;
            box-shadow: var(--shadow-lg);
            border: 1px solid var(--border-amber);
@@ -304,13 +305,13 @@
            display: flex;
            align-items: center;
            gap: 1.5rem;
-           margin-bottom: 2.5rem;
+           margin-bottom: 2rem; /* Reduced from 2.5rem */
            text-align: center;
            justify-content: center;
        }
 
        .card-icon {
-           font-size: 3rem;
+           font-size: 2.5rem; /* Reduced from 3rem */
            color: var(--accent-amber);
            opacity: 0;
            transform: scale(0);
@@ -318,14 +319,14 @@
        }
 
        .card-title {
-           font-size: 2.2rem;
+           font-size: 2rem; /* Reduced from 2.2rem */
            font-weight: 700;
            color: var(--text-primary);
            margin-bottom: 0.3rem;
        }
 
        .card-subtitle {
-           font-size: 1.2rem;
+           font-size: 1.1rem; /* Reduced from 1.2rem */
            color: var(--text-muted);
            font-weight: 400;
        }
@@ -353,7 +354,7 @@
        }
 
        .grid-header-cell {
-           padding: 1.2rem 0.6rem;
+           padding: 1rem 0.6rem; /* Reduced from 1.2rem */
            border-right: 1px solid rgba(255, 255, 255, 0.2);
            display: flex;
            align-items: center;
@@ -379,7 +380,7 @@
            transition: all var(--timing-fast) var(--easing-smooth);
            opacity: 0;
            transform: translateX(-30px);
-           min-height: 100px;
+           min-height: 80px; /* Reduced from 100px */
            position: relative;
        }
 
@@ -413,8 +414,8 @@
        }
 
        .grid-cell {
-           padding: 1rem 0.8rem;
-           font-size: 0.85rem;
+           padding: 0.8rem 0.6rem; /* Reduced padding */
+           font-size: 0.82rem; /* Slightly reduced */
            line-height: 1.3;
            border-right: 1px solid rgba(245, 158, 11, 0.1);
            display: flex;
@@ -429,7 +430,7 @@
        .grid-cell.feature {
            font-weight: 700;
            color: var(--text-primary);
-           font-size: 0.9rem;
+           font-size: 0.88rem; /* Slightly reduced */
        }
 
        .grid-cell.issue {
@@ -860,78 +861,78 @@
 
            .grid-cell {
                font-size: 0.8rem;
-               padding: 0.9rem 0.7rem;
+               padding: 0.8rem 0.6rem;
            }
        }
 
        @media (max-width: 1400px) {
            .content {
-               padding: 2.5rem;
+               padding: 2rem;
            }
            
-           .header h1 { font-size: 2.5rem; }
-           .subtitle { font-size: 1.2rem; }
+           .header h1 { font-size: 2.3rem; }
+           .subtitle { font-size: 1.1rem; }
 
            .analysis-card, .key-takeaways-section {
-               padding: 2.5rem;
+               padding: 2rem;
                max-width: 1200px;
            }
 
            .grid-cell {
                font-size: 0.78rem;
-               padding: 0.8rem 0.6rem;
+               padding: 0.7rem 0.5rem;
            }
 
            .takeaways-title {
-               font-size: 1.8rem;
+               font-size: 1.5rem;
            }
 
            .takeaway-text {
-               font-size: 1rem;
+               font-size: 0.9rem;
            }
        }
 
        @media (max-width: 768px) {
            .content {
-               padding: 2rem;
+               padding: 1.5rem;
            }
 
            .analysis-card, .key-takeaways-section {
-               padding: 2rem;
-           }
-           
-           .header {
                padding: 1.5rem;
            }
            
+           .header {
+               padding: 1.2rem;
+           }
+           
            .header h1 { 
-               font-size: 2.2rem; 
+               font-size: 2rem; 
            }
            
            .subtitle { 
-               font-size: 1.1rem; 
+               font-size: 1rem; 
            }
 
            .card-header, .takeaways-header {
                flex-direction: column;
-               gap: 1rem;
+               gap: 0.8rem;
                text-align: center;
            }
 
            .card-icon, .takeaways-icon {
-               font-size: 2.5rem;
-           }
-
-           .card-title, .takeaways-title {
                font-size: 2rem;
            }
 
+           .card-title, .takeaways-title {
+               font-size: 1.6rem;
+           }
+
            .card-subtitle {
-               font-size: 1.1rem;
+               font-size: 1rem;
            }
 
            .takeaway-text {
-               font-size: 0.95rem;
+               font-size: 0.85rem;
            }
 
            /* Mobile grid adjustments */
@@ -955,12 +956,12 @@
            }
 
            .grid-cell {
-               padding: 1rem;
-               font-size: 0.9rem;
+               padding: 0.8rem;
+               font-size: 0.85rem;
            }
 
            .metric-badge {
-               font-size: 0.85em;
+               font-size: 0.8em;
                padding: 0.1rem 0.3rem;
            }
            
@@ -995,15 +996,15 @@
 
        @media (max-height: 900px) {
            .header { 
-               padding: 1.5rem 2rem; 
+               padding: 1.2rem 2rem; 
            }
            
            .content { 
-               padding: 2rem; 
+               padding: 1.5rem; 
            }
 
            .analysis-card, .key-takeaways-section {
-               padding: 2rem;
+               padding: 1.8rem;
            }
        }
 
@@ -1030,7 +1031,7 @@
        </header>
 
        <main class="content">
-           <!-- 🎯 McKINSEY-STYLE KEY TAKEAWAYS SECTION -->
+           <!-- 🎯 COMPACT McKINSEY-STYLE KEY TAKEAWAYS SECTION -->
            <div class="key-takeaways-section">
                <div class="takeaways-header">
                    <div class="takeaways-icon">💡</div>

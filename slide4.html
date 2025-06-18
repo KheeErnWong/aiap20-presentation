@@ -115,15 +115,17 @@
        .content {
            flex: 1;
            padding: 2rem;
-           display: flex;
-           flex-direction: column;
-           align-items: center;
-           justify-content: flex-start;
+           display: grid;
+           grid-template-columns: 1fr 1fr;
+           gap: 2rem;
            opacity: 0;
            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+           max-width: 1600px;
+           margin: 0 auto;
+           width: 100%;
        }
 
-       /* OPPORTUNITY AREAS SECTION */
+       /* LEFT HALF - OPPORTUNITY AREAS */
        .opportunity-areas-section {
            background: var(--secondary-bg);
            padding: 2.5rem;
@@ -131,14 +133,14 @@
            box-shadow: var(--shadow-lg);
            border: 1px solid var(--border-teal);
            transition: all var(--timing-fast) var(--easing-smooth);
-           max-width: 1600px;
-           width: 100%;
-           margin-bottom: 1.5rem;
            transform: translateY(30px);
            opacity: 0;
-           animation: revealOpportunityAreas var(--timing-medium) var(--easing-smooth) 1.6s forwards;
+           animation: revealOpportunityAreas var(--timing-medium) var(--easing-smooth) 1.8s forwards;
            position: relative;
            overflow: hidden;
+           display: flex;
+           flex-direction: column;
+           height: fit-content;
        }
 
        .opportunity-areas-section::before {
@@ -150,7 +152,7 @@
            height: 6px;
            background: var(--teal-gradient);
            transform: scaleX(0);
-           animation: slideOpportunityBar var(--timing-slow) var(--easing-tech) 2s forwards;
+           animation: slideOpportunityBar var(--timing-slow) var(--easing-tech) 2.2s forwards;
        }
 
        .opportunity-areas-section:hover {
@@ -175,12 +177,11 @@
            margin-bottom: 0.3rem;
        }
 
-       /* THREE CARDS GRID */
-       .opportunity-cards-grid {
-           display: grid;
-           grid-template-columns: repeat(3, 1fr);
-           gap: 2rem;
-           margin-bottom: 2rem;
+       /* VERTICAL CARDS STACK */
+       .opportunity-cards-stack {
+           display: flex;
+           flex-direction: column;
+           gap: 1.5rem;
        }
 
        .opportunity-card {
@@ -197,15 +198,15 @@
        }
 
        .opportunity-card:nth-child(1) { 
-           animation: slideInCard var(--timing-medium) var(--easing-smooth) 2.4s forwards;
+           animation: slideInCard var(--timing-medium) var(--easing-smooth) 2.6s forwards;
            border-color: var(--border-amber);
        }
        .opportunity-card:nth-child(2) { 
-           animation: slideInCard var(--timing-medium) var(--easing-smooth) 2.7s forwards;
+           animation: slideInCard var(--timing-medium) var(--easing-smooth) 3s forwards;
            border-color: var(--border-green);
        }
        .opportunity-card:nth-child(3) { 
-           animation: slideInCard var(--timing-medium) var(--easing-smooth) 3s forwards;
+           animation: slideInCard var(--timing-medium) var(--easing-smooth) 3.4s forwards;
            border-color: var(--border-teal);
        }
 
@@ -250,12 +251,11 @@
        .card-header {
            display: flex;
            align-items: center;
-           gap: 0.8rem;
+           gap: 1rem;
            margin-bottom: 1.5rem;
        }
 
        .card-icon {
-           font-size: 2rem;
            width: 48px;
            height: 48px;
            display: flex;
@@ -264,6 +264,13 @@
            border-radius: 8px;
            background: rgba(59, 130, 246, 0.1);
            flex-shrink: 0;
+           overflow: hidden;
+       }
+
+       .card-icon img {
+           width: 32px;
+           height: 32px;
+           object-fit: contain;
        }
 
        .opportunity-card:nth-child(1) .card-icon { background: rgba(245, 158, 11, 0.1); }
@@ -328,7 +335,7 @@
            flex: 1;
        }
 
-       /* STRATEGIC IMPERATIVES TIMELINE */
+       /* RIGHT HALF - STRATEGIC IMPERATIVES TIMELINE */
        .strategic-imperatives-section {
            background: var(--secondary-bg);
            padding: 2.5rem;
@@ -336,13 +343,14 @@
            box-shadow: var(--shadow-lg);
            border: 1px solid var(--border-blue);
            transition: all var(--timing-fast) var(--easing-smooth);
-           max-width: 1600px;
-           width: 100%;
            transform: translateY(30px);
            opacity: 0;
-           animation: revealStrategic var(--timing-medium) var(--easing-smooth) 3.4s forwards;
+           animation: revealStrategic var(--timing-medium) var(--easing-smooth) 2.2s forwards;
            position: relative;
            overflow: hidden;
+           display: flex;
+           flex-direction: column;
+           height: fit-content;
        }
 
        .strategic-imperatives-section::before {
@@ -354,7 +362,7 @@
            height: 6px;
            background: var(--blue-gradient);
            transform: scaleX(0);
-           animation: slideStrategicBar var(--timing-slow) var(--easing-tech) 3.8s forwards;
+           animation: slideStrategicBar var(--timing-slow) var(--easing-tech) 2.6s forwards;
        }
 
        .strategic-imperatives-section:hover {
@@ -381,6 +389,7 @@
        .timeline-container {
            position: relative;
            padding-left: 3rem;
+           flex: 1;
        }
 
        .timeline-line {
@@ -392,7 +401,7 @@
            background: linear-gradient(180deg, var(--accent-blue) 0%, var(--accent-light) 100%);
            border-radius: 2px;
            opacity: 0;
-           animation: drawTimeline var(--timing-slow) var(--easing-smooth) 4.2s forwards;
+           animation: drawTimeline var(--timing-slow) var(--easing-smooth) 3.8s forwards;
        }
 
        .timeline-item {
@@ -402,9 +411,9 @@
            transform: translateX(-30px);
        }
 
-       .timeline-item:nth-child(1) { animation: slideInTimelineItem var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
-       .timeline-item:nth-child(2) { animation: slideInTimelineItem var(--timing-medium) var(--easing-smooth) 5s forwards; }
-       .timeline-item:nth-child(3) { animation: slideInTimelineItem var(--timing-medium) var(--easing-smooth) 5.4s forwards; }
+       .timeline-item:nth-child(1) { animation: slideInTimelineItem var(--timing-medium) var(--easing-smooth) 4.2s forwards; }
+       .timeline-item:nth-child(2) { animation: slideInTimelineItem var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
+       .timeline-item:nth-child(3) { animation: slideInTimelineItem var(--timing-medium) var(--easing-smooth) 5s forwards; }
 
        .timeline-item:last-child {
            margin-bottom: 0;
@@ -448,7 +457,7 @@
            z-index: 100;
            opacity: 0;
            transform: translateY(20px);
-           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 5.8s forwards;
+           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 5.4s forwards;
        }
 
        .nav-btn {
@@ -555,7 +564,7 @@
 
        /* Responsive Design */
        @media (max-width: 1600px) {
-           .opportunity-areas-section, .strategic-imperatives-section {
+           .content {
                max-width: 1400px;
            }
        }
@@ -563,6 +572,7 @@
        @media (max-width: 1400px) {
            .content {
                padding: 2rem;
+               max-width: 1200px;
            }
            
            .header h1 { font-size: 2.3rem; }
@@ -570,7 +580,6 @@
 
            .opportunity-areas-section, .strategic-imperatives-section {
                padding: 2rem;
-               max-width: 1200px;
            }
 
            .opportunity-title, .strategic-title {
@@ -580,6 +589,8 @@
 
        @media (max-width: 768px) {
            .content {
+               grid-template-columns: 1fr;
+               gap: 1.5rem;
                padding: 1.5rem;
            }
 
@@ -609,20 +620,12 @@
                font-size: 1.6rem;
            }
 
-           /* Mobile cards layout */
-           .opportunity-cards-grid {
-               grid-template-columns: 1fr;
-               gap: 1.5rem;
-           }
-
            .opportunity-card {
                padding: 1.5rem;
            }
 
            .card-header {
-               flex-direction: column;
-               text-align: center;
-               gap: 1rem;
+               gap: 0.8rem;
            }
 
            .card-title {
@@ -695,17 +698,19 @@
        </header>
 
        <main class="content">
-           <!-- OPPORTUNITY AREAS SECTION -->
+           <!-- LEFT HALF - OPPORTUNITY AREAS -->
            <div class="opportunity-areas-section">
                <div class="opportunity-header">
                    <div class="opportunity-title">Opportunity Areas</div>
                </div>
                
-               <div class="opportunity-cards-grid">
+               <div class="opportunity-cards-stack">
                    <!-- Economic Context Card -->
                    <div class="opportunity-card">
                        <div class="card-header">
-                           <div class="card-icon">💰</div>
+                           <div class="card-icon">
+                               <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iMjQiIGZpbGw9IiNGNTlFMEIiLz4KPHBhdGggZD0iTTEyIDEySDM2VjM2SDEyVjEyWiIgZmlsbD0iIzFGMjkzNyIvPgo8cGF0aCBkPSJNMTYgMTZIMzJWMzJIMTZWMTZaIiBmaWxsPSIjMEY3NzZFIi8+CjxwYXRoIGQ9Ik0yMCAxOEgyOFYzMEgyMFYxOFoiIGZpbGw9IiNGNTlFMEIiLz4KPHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTggNFY4TDEyIDZMOCA0WiIgZmlsbD0iI0VGNDQ0NCIvPgo8L3N2Zz4KPC9zdmc+" alt="Economic Data">
+                           </div>
                            <div class="card-title">Economic Context Features</div>
                        </div>
                        <div class="card-content">
@@ -727,7 +732,9 @@
                    <!-- Temporal Features Card -->
                    <div class="opportunity-card">
                        <div class="card-header">
-                           <div class="card-icon">🕐</div>
+                           <div class="card-icon">
+                               <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iMjAiIGZpbGw9IiNGNTlFMEIiLz4KPGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iMTYiIGZpbGw9IiNGRkZGRkYiLz4KPGxpbmUgeDE9IjI0IiB5MT0iMTIiIHgyPSIyNCIgeTI9IjE2IiBzdHJva2U9IiMzNzQxNTEiIHN0cm9rZS13aWR0aD0iMiIvPgo8bGluZSB4MT0iMjQiIHkxPSIzMiIgeDI9IjI0IiB5Mj0iMzYiIHN0cm9rZT0iIzM3NDE1MSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxsaW5lIHgxPSIzNiIgeTE9IjI0IiB4Mj0iMzIiIHkyPSIyNCIgc3Ryb2tlPSIjMzc0MTUxIiBzdHJva2Utd2lkdGg9IjIiLz4KPGxpbmUgeDE9IjE2IiB5MT0iMjQiIHgyPSIxMiIgeTI9IjI0IiBzdHJva2U9IiMzNzQxNTEiIHN0cm9rZS13aWR0aD0iMiIvPgo8bGluZSB4MT0iMjQiIHkxPSIyNCIgeDI9IjI4IiB5Mj0iMjgiIHN0cm9rZT0iI0VGNDQ0NCIgc3Ryb2tlLXdpZHRoPSIzIi8+CjxsaW5lIHgxPSIyNCIgeTE9IjI0IiB4Mj0iMjQiIHkyPSIxNiIgc3Ryb2tlPSIjMzc0MTUxIiBzdHJva2Utd2lkdGg9IjMiLz4KPGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iMiIgZmlsbD0iIzM3NDE1MSIvPgo8L3N2Zz4=" alt="Clock">
+                           </div>
                            <div class="card-title">Temporal Features</div>
                        </div>
                        <div class="card-content">
@@ -749,7 +756,9 @@
                    <!-- Campaign History Card -->
                    <div class="opportunity-card">
                        <div class="card-header">
-                           <div class="card-icon">💻</div>
+                           <div class="card-icon">
+                               <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3QgeD0iNCIgeT0iOCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjI4IiByeD0iNCIgZmlsbD0iIzY2NkJBMiIvPgo8cmVjdCB4PSI0IiB5PSIyNCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjEyIiBmaWxsPSIjOURBNUJBIi8+CjxyZWN0IHg9IjE2IiB5PSIzNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjgiIHJ4PSIyIiBmaWxsPSIjNjY2QkEyIi8+CjxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjYiIGZpbGw9IiNGRjY5QjQiLz4KPGNpcmNsZSBjeD0iMzIiIGN5PSIxNiIgcj0iNiIgZmlsbD0iIzY2ODBEQyIvPgo8Y2lyY2xlIGN4PSI4IiBjeT0iMTgiIHI9IjYiIGZpbGw9IiMzN0FGRkYiLz4KPGNpcmNsZSBjeD0iNDAiIGN5PSIxOCIgcj0iNiIgZmlsbD0iI0Y4Njc2NyIvPgo8cmVjdCB4PSIyMiIgeT0iMTQiIHdpZHRoPSI0IiBoZWlnaHQ9IjgiIGZpbGw9IiNGRkI3MzMiLz4KPC9zdmc+" alt="Computer Screen">
+                           </div>
                            <div class="card-title">Campaign History Details</div>
                        </div>
                        <div class="card-content">
@@ -770,7 +779,7 @@
                </div>
            </div>
 
-           <!-- STRATEGIC IMPERATIVES TIMELINE -->
+           <!-- RIGHT HALF - STRATEGIC IMPERATIVES TIMELINE -->
            <div class="strategic-imperatives-section">
                <div class="strategic-header">
                    <div class="strategic-title">Strategic Imperatives</div>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Pipeline Architecture - Interactive Exploration</title>
+    <style>
+        :root {
+            --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+            --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e0;
+            --text-muted: #94a3b8;
+            --accent-blue: #3b82f6;
+            --accent-light: #60a5fa;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-red: #ef4444;
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+            --border-blue: rgba(59, 130, 246, 0.2);
+            
+            --timing-fast: 0.3s;
+            --timing-medium: 0.6s;
+            --timing-slow: 1.2s;
+            --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 42, 58, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-blue);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-light);
+        }
+
+        .zoom-level {
+            background: var(--blue-gradient);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Navigation Controls */
+        .nav-controls {
+            position: fixed;
+            top: 50%;
+            left: 2rem;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(59, 130, 246, 0.9);
+            border: none;
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--timing-fast) var(--easing-smooth);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-light);
+            transform: scale(1.1);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Pipeline Canvas */
+        .pipeline-canvas {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-origin: center center;
+            transition: transform var(--timing-slow) var(--easing-smooth);
+            padding-top: 80px;
+        }
+
+        /* Pipeline Container */
+        .pipeline-container {
+            width: 3000px;
+            height: 2000px;
+            position: relative;
+            margin: 100px auto;
+            transform-origin: center top;
+        }
+
+        /* Pipeline Stages */
+        .pipeline-stage {
+            position: absolute;
+            background: var(--secondary-bg);
+            border: 2px solid var(--border-blue);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all var(--timing-fast) var(--easing-smooth);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            animation: fadeInStage var(--timing-medium) var(--easing-smooth) forwards;
+        }
+
+        .pipeline-stage:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-blue);
+        }
+
+        .pipeline-stage.active {
+            border-color: var(--accent-light);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Stage positioning */
+        .stage-setup { 
+            top: 50px; 
+            left: 100px; 
+            width: 300px;
+            background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+            animation-delay: 0.2s;
+        }
+
+        .stage-data { 
+            top: 50px; 
+            left: 500px; 
+            width: 400px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            animation-delay: 0.4s;
+        }
+
+        .stage-training { 
+            top: 50px; 
+            left: 1000px; 
+            width: 450px;
+            background: linear-gradient(135deg, #7c2d12 0%, #ea580c 100%);
+            animation-delay: 0.6s;
+        }
+
+        .stage-ensemble { 
+            top: 50px; 
+            left: 1550px; 
+            width: 350px;
+            background: linear-gradient(135deg, #581c87 0%, #8b5cf6 100%);
+            animation-delay: 0.8s;
+        }
+
+        .stage-evaluation { 
+            top: 50px; 
+            left: 2000px; 
+            width: 400px;
+            background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%);
+            animation-delay: 1s;
+        }
+
+        .stage-output { 
+            top: 50px; 
+            left: 2500px; 
+            width: 300px;
+            background: linear-gradient(135deg, #92400e 0%, #f59e0b 100%);
+            animation-delay: 1.2s;
+        }
+
+        /* Stage titles and content */
+        .stage-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stage-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .stage-items {
+            list-style: none;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .stage-items li {
+            margin-bottom: 0.3rem;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .stage-items li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Flow arrows */
+        .flow-arrow {
+            position: absolute;
+            top: 120px;
+            width: 80px;
+            height: 20px;
+            opacity: 0;
+            animation: fadeInArrow var(--timing-medium) var(--easing-smooth) forwards;
+        }
+
+        .arrow-1 { left: 420px; animation-delay: 1.4s; }
+        .arrow-2 { left: 920px; animation-delay: 1.6s; }
+        .arrow-3 { left: 1470px; animation-delay: 1.8s; }
+        .arrow-4 { left: 1920px; animation-delay: 2s; }
+        .arrow-5 { left: 2420px; animation-delay: 2.2s; }
+
+        .flow-arrow::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-light);
+            transform: translateY(-50%);
+        }
+
+        .flow-arrow::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid var(--accent-light);
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            transform: translateY(-50%);
+        }
+
+        /* Detail panels */
+        .detail-panel {
+            position: absolute;
+            top: 300px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-blue);
+            border-radius: 12px;
+            padding: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--timing-medium) var(--easing-smooth);
+            box-shadow: var(--shadow-lg);
+            width: 600px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .detail-panel.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-20px);
+        }
+
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 0.5rem;
+        }
+
+        .detail-principle {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .detail-principle h4 {
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-functions {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-functions h4 {
+            color: var(--accent-light);
+            margin-bottom: 0.8rem;
+        }
+
+        .detail-list {
+            list-style: none;
+            margin-left: 1rem;
+        }
+
+        .detail-list li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.4;
+        }
+
+        .detail-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 42, 58, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-blue);
+            z-index: 1000;
+        }
+
+        /* Control panel */
+        .control-panel {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            background: rgba(45, 55, 72, 0.9);
+            border: 1px solid var(--border-blue);
+            color: var(--text-secondary);
+            padding: 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all var(--timing-fast) var(--easing-smooth);
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .control-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--text-primary);
+        }
+
+        .control-btn.active {
+            background: var(--blue-gradient);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInStage {
+            from { opacity: 0; transform: translateY(30px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeInArrow {
+            from { opacity: 0; transform: scaleX(0); }
+            to { opacity: 0.7; transform: scaleX(1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.2rem; }
+            .zoom-level { font-size: 0.8rem; padding: 0.4rem 0.8rem; }
+            .nav-controls { left: 1rem; }
+            .control-panel { right: 1rem; }
+            .detail-panel { width: 90vw; left: 5vw; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>ML Pipeline Architecture - Interactive Exploration</h1>
+                <div class="zoom-level" id="zoomLevel">Overview Mode</div>
+            </div>
+        </header>
+
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <button class="nav-btn" id="zoomOut" title="Zoom Out">-</button>
+            <button class="nav-btn" id="zoomIn" title="Zoom In">+</button>
+            <button class="nav-btn" id="resetView" title="Reset View">⌂</button>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <button class="control-btn active" onclick="setView('overview')">Overview</button>
+            <button class="control-btn" onclick="setView('config')">Configuration</button>
+            <button class="control-btn" onclick="setView('data')">Data Processing</button>
+            <button class="control-btn" onclick="setView('model')">Model Pipeline</button>
+            <button class="control-btn" onclick="setView('training')">Training & Eval</button>
+        </div>
+
+        <!-- Pipeline Canvas -->
+        <div class="pipeline-canvas" id="pipelineCanvas">
+            <div class="pipeline-container">
+                <!-- Pipeline Stages -->
+                <div class="pipeline-stage stage-setup" onclick="showDetail('setup')">
+                    <div class="stage-title">1. Setup & Configuration</div>
+                    <div class="stage-subtitle">config/config.yaml</div>
+                    <ul class="stage-items">
+                        <li>Load Config</li>
+                        <li>Setup Logging</li>
+                        <li>Setup Directories</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-data" onclick="showDetail('data')">
+                    <div class="stage-title">2. Data Processing</div>
+                    <div class="stage-subtitle">src/data_loader.py</div>
+                    <ul class="stage-items">
+                        <li>Data Ingestion</li>
+                        <li>Data Cleaning</li>
+                        <li>Feature Engineering</li>
+                        <li>Train/Test Split</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-training" onclick="showDetail('training')">
+                    <div class="stage-title">3. Model Training</div>
+                    <div class="stage-subtitle">src/train_and_evaluate.py</div>
+                    <ul class="stage-items">
+                        <li>Nested Cross-Validation</li>
+                        <li>Hyperparameter Tuning</li>
+                        <li>Train Final Models</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-ensemble" onclick="showDetail('ensemble')">
+                    <div class="stage-title">4. Ensemble Creation</div>
+                    <div class="stage-subtitle">src/model.py</div>
+                    <ul class="stage-items">
+                        <li>Best-N-Models</li>
+                        <li>Ensemble</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-evaluation" onclick="showDetail('evaluation')">
+                    <div class="stage-title">5. Evaluation & Optimization</div>
+                    <div class="stage-subtitle">Performance Analysis</div>
+                    <ul class="stage-items">
+                        <li>Evaluate Models</li>
+                        <li>Model Selection</li>
+                        <li>Generate Visualizations</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-output" onclick="showDetail('output')">
+                    <div class="stage-title">6. Results & Reporting</div>
+                    <div class="stage-subtitle">Output Generation</div>
+                    <ul class="stage-items">
+                        <li>Save Metrics</li>
+                        <li>Generate Reports</li>
+                    </ul>
+                </div>
+
+                <!-- Flow Arrows -->
+                <div class="flow-arrow arrow-1"></div>
+                <div class="flow-arrow arrow-2"></div>
+                <div class="flow-arrow arrow-3"></div>
+                <div class="flow-arrow arrow-4"></div>
+                <div class="flow-arrow arrow-5"></div>
+
+                <!-- Detail Panels -->
+                <div class="detail-panel" id="detail-setup" style="left: 100px;">
+                    <div class="detail-title">Configuration Management</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Enable configurability to facilitate easy experimentation.</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Features:</h4>
+                        <ul class="detail-list">
+                            <li>Centralized settings for all pipeline components</li>
+                            <li>Enables easy experimentation without code changes</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-data" style="left: 500px;">
+                    <div class="detail-title">Data Ingestion, Cleaning and Preprocessing</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Offers the capability to choose various features and determine their preprocessing approaches.</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Functions:</h4>
+                        <ul class="detail-list">
+                            <li>Comprehensive and configurable data cleaning and feature engineering</li>
+                            <li>Choose core features for model and how to preprocess them</li>
+                            <li>Select engineered features for experimentation based on insights gained from EDA</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-training" style="left: 800px;">
+                    <div class="detail-title">Training & Evaluation</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principles:</h4>
+                        <p>1. Create unbiased performance estimates with nested cross validation<br>
+                        2. Automated selection of best model and perform threshold optimization<br>
+                        3. Allow ease of evaluation with proper recording and visualization techniques</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Capabilities:</h4>
+                        <ul class="detail-list">
+                            <li>Configurable splits for nested cross validation</li>
+                            <li>Usage of GridSearchCV for hyper parameter tuning</li>
+                            <li>Save evaluation results to csv for easy access and evaluation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-ensemble" style="left: 1200px;">
+                    <div class="detail-title">Scikit-learn Pipeline Creation</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Automate and streamline pipeline creation</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Features:</h4>
+                        <ul class="detail-list">
+                            <li>Dynamic feature type detection (categorical vs numeric) based on selected features</li>
+                            <li>Automated preprocessing pipeline construction based on selected models</li>
+                            <li>Seven model implementations to choose from for experimentation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-evaluation" style="left: 1600px;">
+                    <div class="detail-title">Performance Evaluation</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Comprehensive model assessment and optimization</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Features:</h4>
+                        <ul class="detail-list">
+                            <li>Multiple evaluation metrics</li>
+                            <li>Feature importance analysis</li>
+                            <li>Threshold optimization for business metrics</li>
+                            <li>Automated visualization generation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-output" style="left: 2000px;">
+                    <div class="detail-title">Results & Reporting</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Comprehensive documentation and result preservation</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Outputs:</h4>
+                        <ul class="detail-list">
+                            <li>Performance metrics and comparisons</li>
+                            <li>Feature importance visualizations</li>
+                            <li>Model predictions and probabilities</li>
+                            <li>Executive summary reports</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="breadcrumb" id="breadcrumb">
+            Pipeline Overview → Select a component to explore
+        </div>
+    </div>
+
+    <script>
+        let currentZoom = 1;
+        let currentView = 'overview';
+        let activeDetail = null;
+
+        const canvas = document.getElementById('pipelineCanvas');
+        const zoomLevel = document.getElementById('zoomLevel');
+        const breadcrumb = document.getElementById('breadcrumb');
+
+        // Zoom controls
+        document.getElementById('zoomIn').addEventListener('click', () => {
+            currentZoom = Math.min(currentZoom * 1.2, 3);
+            updateZoom();
+        });
+
+        document.getElementById('zoomOut').addEventListener('click', () => {
+            currentZoom = Math.max(currentZoom / 1.2, 0.5);
+            updateZoom();
+        });
+
+        document.getElementById('resetView').addEventListener('click', () => {
+            currentZoom = 1;
+            currentView = 'overview';
+            canvas.style.transform = 'scale(1) translate(0, 0)';
+            updateZoomLevel();
+            hideAllDetails();
+            updateControlButtons();
+        });
+
+        function updateZoom() {
+            canvas.style.transform = `scale(${currentZoom})`;
+            updateZoomLevel();
+        }
+
+        function updateZoomLevel() {
+            const levels = {
+                0.5: 'Far View',
+                1: 'Overview Mode',
+                1.5: 'Detailed View',
+                2: 'Component Focus',
+                3: 'Deep Dive'
+            };
+            
+            let level = 'Custom Zoom';
+            for (let zoom in levels) {
+                if (Math.abs(currentZoom - parseFloat(zoom)) < 0.1) {
+                    level = levels[zoom];
+                    break;
+                }
+            }
+            zoomLevel.textContent = level;
+        }
+
+        function setView(view) {
+            currentView = view;
+            hideAllDetails();
+            
+            const transforms = {
+                'overview': 'scale(1) translate(0, 0)',
+                'config': 'scale(2) translate(-400px, -100px)',
+                'data': 'scale(2) translate(-800px, -100px)',
+                'model': 'scale(2) translate(-1400px, -100px)',
+                'training': 'scale(2) translate(-1800px, -100px)'
+            };
+
+            canvas.style.transform = transforms[view] || transforms['overview'];
+            
+            updateControlButtons();
+            updateBreadcrumb(view);
+        }
+
+        function updateControlButtons() {
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[onclick="setView('${currentView}')"]`).classList.add('active');
+        }
+
+        function showDetail(stageId) {
+            hideAllDetails();
+            activeDetail = stageId;
+            
+            const detailPanel = document.getElementById(`detail-${stageId}`);
+            if (detailPanel) {
+                detailPanel.classList.add('active');
+            }
+
+            // Highlight active stage
+            document.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            document.querySelector(`.stage-${stageId}`).classList.add('active');
+
+            updateBreadcrumb(stageId);
+        }
+
+        function hideAllDetails() {
+            document.querySelectorAll('.detail-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            activeDetail = null;
+        }
+
+        function updateBreadcrumb(location) {
+            const breadcrumbs = {
+                'overview': 'Pipeline Overview → Select a component to explore',
+                'config': 'Pipeline Overview → Configuration Management',
+                'data': 'Pipeline Overview → Data Processing',
+                'model': 'Pipeline Overview → Model Pipeline',
+                'training': 'Pipeline Overview → Training & Evaluation',
+                'setup': 'Pipeline Overview → Setup & Configuration → Details',
+                'data': 'Pipeline Overview → Data Processing → Details',
+                'training': 'Pipeline Overview → Training & Evaluation → Details',
+                'ensemble': 'Pipeline Overview → Model Pipeline → Details',
+                'evaluation': 'Pipeline Overview → Evaluation & Optimization → Details',
+                'output': 'Pipeline Overview → Results & Reporting → Details'
+            };
+            
+            breadcrumb.textContent = breadcrumbs[location] || breadcrumbs['overview'];
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case '=':
+                case '+':
+                    document.getElementById('zoomIn').click();
+                    break;
+                case '-':
+                    document.getElementById('zoomOut').click();
+                    break;
+                case 'r':
+                case 'R':
+                    document.getElementById('resetView').click();
+                    break;
+                case 'Escape':
+                    hideAllDetails();
+                    updateBreadcrumb('overview');
+                    break;
+                case '1':
+                    setView('config');
+                    break;
+                case '2':
+                    setView('data');
+                    break;
+                case '3':
+                    setView('model');
+                    break;
+                case '4':
+                    setView('training');
+                    break;
+                case '0':
+                    setView('overview');
+                    break;
+            }
+        });
+
+        // Mouse wheel zoom
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                currentZoom = Math.min(currentZoom * 1.1, 3);
+            } else {
+                currentZoom = Math.max(currentZoom / 1.1, 0.5);
+            }
+            updateZoom();
+        });
+
+        // Initialize
+        updateZoomLevel();
+        updateBreadcrumb('overview');
+    </script>
+</body>
+</html>

@@ -219,9 +219,17 @@
             background: rgba(59, 130, 246, 0.15);
         }
 
+        /* Updated card icon styling for PNG images */
         .card-icon {
-            font-size: 1.4rem;
-            color: var(--accent-light);
+            width: 1.4rem;
+            height: 1.4rem;
+            object-fit: contain;
+            transition: all var(--timing-fast) var(--easing-smooth);
+        }
+
+        /* Hover effect for card icons */
+        .enhancement-card:hover .card-icon {
+            transform: scale(1.1);
         }
 
         .card-title {
@@ -417,6 +425,11 @@
                 width: 1.6rem;
                 height: 1.6rem;
             }
+            
+            .card-icon {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -441,6 +454,11 @@
             .section-icon {
                 width: 1.4rem;
                 height: 1.4rem;
+            }
+            
+            .card-icon {
+                width: 1.1rem;
+                height: 1.1rem;
             }
             
             .navigation {
@@ -547,7 +565,7 @@
                 <div class="enhancement-cards">
                     <div class="enhancement-card" onclick="toggleCard(this)">
                         <div class="card-header">
-                            <span class="card-icon">💹</span>
+                            <img src="icons/economics.png" alt="Economic Data" class="card-icon">
                             <span class="card-title">Economic Data</span>
                             <span class="expand-indicator">▼</span>
                         </div>
@@ -564,7 +582,7 @@
 
                     <div class="enhancement-card" onclick="toggleCard(this)">
                         <div class="card-header">
-                            <span class="card-icon">📅</span>
+                            <img src="icons/temporal.png" alt="Temporal Data" class="card-icon">
                             <span class="card-title">Temporal Data</span>
                             <span class="expand-indicator">▼</span>
                         </div>
@@ -581,7 +599,7 @@
 
                     <div class="enhancement-card" onclick="toggleCard(this)">
                         <div class="card-header">
-                            <span class="card-icon">📈</span>
+                            <img src="icons/campaign-history.png" alt="Campaign History Data" class="card-icon">
                             <span class="card-title">Campaign History Data</span>
                             <span class="expand-indicator">▼</span>
                         </div>
@@ -596,7 +614,7 @@
 
                     <div class="enhancement-card" onclick="toggleCard(this)">
                         <div class="card-header">
-                            <span class="card-icon">👤</span>
+                            <img src="icons/target-audience.png" alt="Customer Profile" class="card-icon">
                             <span class="card-title">Customer Profile</span>
                             <span class="expand-indicator">▼</span>
                         </div>

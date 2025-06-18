@@ -1,1027 +1,1457 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Analysis & Business Insights - Term Deposit Prediction</title>
-    <style>
-        :root {
-            /* Core Colors */
-            --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-            --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            
-            /* Brand Gradients */
-            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
-            --teal-light: linear-gradient(135deg, #5eead4 0%, #14b8a6 100%);
-            
-            /* Text Colors */
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e0;
-            --text-muted: #94a3b8;
-            
-            /* Accent Colors */
-            --accent-blue: #3b82f6;
-            --accent-light: #60a5fa;
-            --accent-amber: #f59e0b;
-            --accent-teal: #14b8a6;
-            --accent-teal-light: #5eead4;
-            
-            /* Shadows & Borders */
-            --shadow-base: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --border-color: rgba(59, 130, 246, 0.2);
-            
-            /* Timing & Easing */
-            --timing-fast: 0.3s;
-            --timing-medium: 0.6s;
-            --easing: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow: auto;
-        }
-
-        /* Layout Components */
-        .slide-container {
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .slide-header {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(45, 55, 72, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            z-index: 100;
-            animation: slideIn var(--timing-medium) var(--easing) 0.2s forwards;
-        }
-
-        .header {
-            background: var(--secondary-bg);
-            padding: 1.5rem 2rem 1rem;
-            text-align: center;
-            box-shadow: var(--shadow-base);
-            animation: slideIn var(--timing-medium) var(--easing) 0s forwards;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-light);
-            margin-bottom: 0.6rem;
-            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
-            animation: fadeInUp var(--timing-medium) var(--easing) 0.6s forwards;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-            max-width: 1000px;
-            margin: 0 auto;
-            animation: fadeInUp var(--timing-medium) var(--easing) 1s forwards;
-        }
-
-        .content {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            animation: fadeIn var(--timing-medium) var(--easing) 1.4s forwards;
-        }
-
-        /* Card Components */
-        .card {
-            background: var(--secondary-bg);
-            padding: 1.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-base);
-            border: 1px solid var(--border-color);
-            transition: all var(--timing-fast) var(--easing);
-            max-width: 1600px;
-            width: 100%;
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            transform: scaleX(0);
-            animation: slideInBar var(--timing-medium) var(--easing) forwards;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(59, 130, 246, 0.6);
-        }
-
-        .card.takeaways::before {
-            background: var(--blue-gradient);
-            animation-delay: 2s;
-        }
-
-        .card.analysis::before {
-            background: var(--amber-gradient);
-            animation-delay: 4.4s;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            justify-content: center;
-        }
-
-        .card-icon {
-            width: 2rem;
-            height: 2rem;
-            object-fit: contain;
-            animation: scaleIn var(--timing-fast) var(--easing) forwards;
-        }
-
-        .card-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        /* Takeaways Section */
-        .takeaways-list {
-            list-style: none;
-        }
-
-        .takeaway-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-            margin-bottom: 1rem;
-            padding: 1rem 1.2rem;
-            background: var(--card-bg);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-blue);
-            transition: all var(--timing-fast) var(--easing);
-            animation: slideInLeft var(--timing-medium) var(--easing) forwards;
-        }
-
-        .takeaway-item:nth-child(1) { animation-delay: 3s; }
-        .takeaway-item:nth-child(2) { animation-delay: 3.3s; }
-        .takeaway-item:nth-child(3) { animation-delay: 3.6s; }
-
-        .takeaway-item:hover {
-            transform: translateX(5px);
-            border-left-color: var(--accent-light);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
-        }
-
-        .takeaway-number {
-            color: var(--accent-blue);
-            font-weight: 800;
-            font-size: 1.1rem;
-            min-width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: rgba(59, 130, 246, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid rgba(59, 130, 246, 0.2);
-            flex-shrink: 0;
-        }
-
-        .takeaway-text {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            font-weight: 500;
-            flex: 1;
-        }
-
-        .takeaway-highlight {
-            color: var(--accent-light);
-            font-weight: 700;
-        }
-
-        /* Grid Table */
-        .analysis-grid {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-            box-shadow: var(--shadow-base);
-            animation: slideInUp var(--timing-medium) var(--easing) 5.2s forwards;
-        }
-
-        .grid-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
-            background: var(--amber-gradient);
-            color: white;
-            font-weight: 700;
-            font-size: 0.95rem;
-            text-align: center;
-        }
-
-        .grid-header-cell {
-            padding: 1rem 0.6rem;
-            border-right: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.4rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            line-height: 1.2;
-        }
-
-        .grid-header-cell:last-child {
-            border-right: none;
-        }
-
-        .grid-header-icon {
-            width: 1.1rem;
-            height: 1.1rem;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-        }
-
-        .grid-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
-            border-bottom: 1px solid rgba(245, 158, 11, 0.15);
-            transition: all var(--timing-fast) var(--easing);
-            min-height: 80px;
-            animation: slideInLeft var(--timing-fast) var(--easing) forwards;
-        }
-
-        .grid-row:nth-child(n+2) {
-            animation-delay: calc(5.6s + (var(--row-index, 0) * 0.3s));
-        }
-
-        .grid-row:hover {
-            background: rgba(245, 158, 11, 0.08);
-            transform: translateX(5px);
-        }
-
-        .grid-row.client-id-row {
-            cursor: help;
-        }
-
-        .grid-row.client-id-row:hover {
-            background: rgba(20, 184, 166, 0.08);
-            border-color: rgba(20, 184, 166, 0.3);
-        }
-
-        .grid-cell {
-            padding: 0.8rem 0.6rem;
-            font-size: 0.82rem;
-            line-height: 1.3;
-            border-right: 1px solid rgba(245, 158, 11, 0.1);
-            display: flex;
-            align-items: center;
-            color: var(--text-secondary);
-        }
-
-        .grid-cell:last-child {
-            border-right: none;
-        }
-
-        .grid-cell.feature {
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .grid-cell.issue { color: var(--accent-amber); font-weight: 600; }
-        .grid-cell.finding { color: var(--accent-light); font-weight: 500; }
-        .grid-cell.solution { color: #10b981; font-weight: 600; }
-        .grid-cell.business { 
-            color: var(--text-primary); 
-            font-weight: 600; 
-            background: rgba(59, 130, 246, 0.05); 
-        }
-
-        /* Popup Styles */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(3px);
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--timing-medium) var(--easing);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-
-        .popup-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .popup-card {
-            background: var(--secondary-bg);
-            border-radius: 16px;
-            box-shadow: var(--shadow-hover);
-            border: 1px solid rgba(20, 184, 166, 0.2);
-            max-width: 900px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: translateY(30px) scale(0.9);
-            transition: all var(--timing-medium) var(--easing);
-        }
-
-        .popup-overlay.show .popup-card {
-            transform: translateY(0) scale(1);
-        }
-
-        .popup-header {
-            background: var(--teal-gradient);
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 16px 16px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .popup-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .popup-close {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all var(--timing-fast) var(--easing);
-            font-weight: 700;
-        }
-
-        .popup-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: rotate(90deg);
-        }
-
-        .popup-content {
-            padding: 2rem;
-        }
-
-        .popup-section {
-            margin-bottom: 2rem;
-        }
-
-        .popup-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .popup-section-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-teal);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            border-bottom: 2px solid var(--accent-teal);
-            padding-bottom: 0.5rem;
-        }
-
-        .popup-list {
-            list-style: none;
-        }
-
-        .popup-list-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.8rem;
-            margin-bottom: 0.8rem;
-            padding: 0.8rem;
-            background: var(--card-bg);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-teal-light);
-            transition: all var(--timing-fast) var(--easing);
-        }
-
-        .popup-list-item:hover {
-            transform: translateX(5px);
-            border-left-color: var(--accent-teal);
-        }
-
-        .popup-list-bullet {
-            color: var(--accent-teal-light);
-            font-weight: 700;
-            font-size: 1.1rem;
-            min-width: 20px;
-            margin-top: 2px;
-        }
-
-        .popup-list-text {
-            color: var(--text-secondary);
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
-
-        .popup-highlight {
-            color: var(--accent-teal-light);
-            font-weight: 700;
-        }
-
-        .popup-warning {
-            color: #ef4444;
-            font-weight: 700;
-        }
-
-        /* Chart Container */
-        .chart-container {
-            margin: 1.5rem 0;
-            padding: 1.5rem;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid rgba(20, 184, 166, 0.2);
-            text-align: center;
-        }
-
-        .chart-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .chart-svg {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border-radius: 8px;
-            background: white;
-            padding: 1rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Navigation */
-        .navigation {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            gap: 1rem;
-            z-index: 100;
-            animation: slideInUp var(--timing-medium) var(--easing) 8.4s forwards;
-        }
-
-        .nav-btn {
-            background: var(--blue-gradient);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all var(--timing-fast) var(--easing);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .content { padding: 1.5rem; }
-            .card { padding: 1.5rem; }
-            .header { padding: 1.2rem; }
-            .header h1 { font-size: 2rem; }
-            .subtitle { font-size: 1rem; }
-            .card-title { font-size: 1.6rem; }
-            .card-icon { width: 1.8rem; height: 1.8rem; }
-            
-            .grid-header, .grid-row {
-                grid-template-columns: 1fr;
-                gap: 1px;
-            }
-            
-            .grid-header-cell, .grid-cell {
-                text-align: left;
-                border-right: none;
-                border-bottom: 1px solid rgba(245, 158, 11, 0.1);
-                justify-content: flex-start;
-            }
-            
-            .grid-cell {
-                padding: 0.8rem;
-                font-size: 0.85rem;
-            }
-            
-            .navigation {
-                bottom: 1rem;
-                right: 1rem;
-                gap: 0.5rem;
-            }
-            
-            .nav-btn {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-            
-            .popup-overlay { padding: 1rem; }
-            .popup-content { padding: 1.5rem; }
-            .popup-title { font-size: 1.3rem; }
-        }
-
-        /* Animations */
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInBar {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
-        }
-
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        /* Set initial states for animated elements */
-        .slide-header,
-        .header,
-        .header h1,
-        .subtitle,
-        .content,
-        .card,
-        .takeaway-item,
-        .analysis-grid,
-        .grid-row,
-        .navigation {
-            opacity: 0;
-        }
-
-        .card-icon {
-            opacity: 0;
-            transform: scale(0);
-        }
-
-        .takeaway-item,
-        .grid-row {
-            transform: translateX(-30px);
-        }
-
-        .header h1,
-        .subtitle {
-            transform: translateY(20px);
-        }
-
-        .navigation {
-            transform: translateY(20px);
-        }
-
-        .analysis-grid {
-            transform: translateY(20px);
-        }
-    </style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Data Analysis & Business Insights - Term Deposit Prediction</title>
+   <style>
+       :root {
+           --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+           --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+           --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+           --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+           --green-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+           --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+           --teal-light: linear-gradient(135deg, #5eead4 0%, #14b8a6 100%);
+           --text-primary: #ffffff;
+           --text-secondary: #cbd5e0;
+           --text-muted: #94a3b8;
+           --accent-blue: #3b82f6;
+           --accent-light: #60a5fa;
+           --accent-amber: #f59e0b;
+           --accent-green: #10b981;
+           --accent-teal: #14b8a6;
+           --accent-teal-light: #5eead4;
+           --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+           --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+           --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+           --border-blue: rgba(59, 130, 246, 0.2);
+           --border-amber: rgba(245, 158, 11, 0.2);
+           --border-green: rgba(16, 185, 129, 0.2);
+           --border-teal: rgba(20, 184, 166, 0.2);
+           
+           --timing-fast: 0.3s;
+           --timing-medium: 0.6s;
+           --timing-slow: 1.2s;
+           --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+           --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+           --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+       }
+
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: var(--primary-bg);
+           color: var(--text-primary);
+           min-height: 100vh;
+           overflow: auto;
+       }
+
+       .slide-container {
+           width: 100vw;
+           min-height: 100vh;
+           display: flex;
+           flex-direction: column;
+       }
+
+       .slide-header {
+           position: fixed;
+           top: 20px;
+           right: 20px;
+           background: rgba(45, 55, 72, 0.9);
+           backdrop-filter: blur(10px);
+           padding: 8px 16px;
+           border-radius: 6px;
+           font-size: 14px;
+           color: var(--text-secondary);
+           border: 1px solid var(--border-blue);
+           z-index: 100;
+           opacity: 0;
+           animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
+       }
+
+       .header {
+           background: var(--secondary-bg);
+           padding: 1.5rem 2rem 1rem 2rem; /* Reduced padding */
+           text-align: center;
+           box-shadow: var(--shadow-sm);
+           flex-shrink: 0;
+           opacity: 0;
+           transform: translateY(-50px);
+           animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
+       }
+
+       .header h1 {
+           font-size: 2.5rem; /* Reduced from 2.8rem */
+           font-weight: 700;
+           color: var(--accent-light);
+           margin-bottom: 0.6rem; /* Reduced from 0.8rem */
+           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
+       }
+
+       .subtitle {
+           font-size: 1.2rem; /* Reduced from 1.3rem */
+           color: var(--text-secondary);
+           font-weight: 300;
+           max-width: 1000px;
+           margin: 0 auto;
+           opacity: 0;
+           transform: translateY(15px);
+           animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
+       }
+
+       .content {
+           flex: 1;
+           padding: 2rem; /* Reduced from 3rem */
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: flex-start; /* Changed from center */
+           opacity: 0;
+           animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+       }
+
+       /* 🎯 COMPACT McKINSEY-STYLE KEY TAKEAWAYS SECTION */
+       .key-takeaways-section {
+           background: var(--secondary-bg);
+           padding: 1.5rem 2rem; /* Reduced from 2.5rem */
+           border-radius: 12px; /* Reduced from 16px */
+           box-shadow: var(--shadow-md); /* Reduced from shadow-lg */
+           border: 1px solid var(--border-blue);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           max-width: 1600px;
+           width: 100%;
+           margin-bottom: 1.5rem; /* Reduced from 2rem */
+           transform: translateY(30px);
+           opacity: 0;
+           animation: revealTakeaways var(--timing-medium) var(--easing-smooth) 1.6s forwards;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .key-takeaways-section::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 4px; /* Reduced from 6px */
+           background: var(--blue-gradient);
+           transform: scaleX(0);
+           animation: slideTakeawaysBar var(--timing-slow) var(--easing-tech) 2s forwards;
+       }
+
+       .key-takeaways-section:hover {
+           transform: translateY(-3px); /* Reduced from -5px */
+           box-shadow: var(--shadow-lg), 0 0 30px rgba(59, 130, 246, 0.15); /* Reduced glow */
+           border-color: rgba(59, 130, 246, 0.6);
+       }
+
+       .takeaways-header {
+           display: flex;
+           align-items: center;
+           gap: 0.8rem; /* Reduced from 1rem */
+           margin-bottom: 1.2rem; /* Reduced from 2rem */
+       }
+
+       .takeaways-icon {
+           width: 2rem; /* Changed from font-size to image dimensions */
+           height: 2rem;
+           object-fit: contain;
+           opacity: 0;
+           transform: scale(0);
+           animation: revealTakeawaysIcon var(--timing-fast) var(--easing-bounce) 2.4s forwards;
+       }
+
+       .takeaways-title {
+           font-size: 1.6rem; /* Reduced from 2rem */
+           font-weight: 700;
+           color: var(--text-primary);
+           opacity: 0;
+           transform: translateX(-20px);
+           animation: revealTakeawaysTitle var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+       }
+
+       .takeaways-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .takeaway-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 0.8rem; /* Reduced from 1rem */
+           margin-bottom: 1rem; /* Reduced from 1.5rem */
+           padding: 1rem 1.2rem; /* Reduced padding */
+           background: var(--card-bg);
+           border-radius: 8px; /* Reduced from 12px */
+           border-left: 3px solid var(--accent-blue); /* Reduced from 4px */
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateX(-30px);
+           position: relative;
+           overflow: hidden;
+       }
+
+       .takeaway-item::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 3px; /* Reduced from 4px */
+           height: 100%;
+           background: var(--blue-gradient);
+           transition: width var(--timing-medium) var(--easing-smooth);
+       }
+
+       .takeaway-item:hover::before {
+           width: 6px; /* Reduced from 8px */
+       }
+
+       .takeaway-item:nth-child(1) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3s forwards; }
+       .takeaway-item:nth-child(2) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3.3s forwards; }
+       .takeaway-item:nth-child(3) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
+
+       .takeaway-item:hover {
+           transform: translateX(5px); /* Reduced from 8px */
+           border-left-color: var(--accent-light);
+           box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15); /* Reduced shadow */
+           background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+       }
+
+       .takeaway-number {
+           color: var(--accent-blue);
+           font-weight: 800;
+           font-size: 1.1rem; /* Reduced from 1.4rem */
+           min-width: 24px; /* Reduced from 30px */
+           height: 24px; /* Reduced from 30px */
+           border-radius: 50%;
+           background: rgba(59, 130, 246, 0.1);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           margin-top: 1px; /* Reduced from 2px */
+           transition: all var(--timing-fast) var(--easing-smooth);
+           border: 2px solid rgba(59, 130, 246, 0.2);
+           flex-shrink: 0; /* Prevent shrinking */
+       }
+
+       .takeaway-item:hover .takeaway-number {
+           background: rgba(59, 130, 246, 0.2);
+           border-color: var(--accent-light);
+           color: var(--accent-light);
+           transform: scale(1.05); /* Reduced from 1.1 */
+       }
+
+       .takeaway-text {
+           color: var(--text-secondary);
+           font-size: 0.95rem; /* Reduced from 1.05rem */
+           line-height: 1.5; /* Reduced from 1.6 */
+           font-weight: 500;
+           flex: 1;
+       }
+
+       .takeaway-highlight {
+           color: var(--accent-light);
+           font-weight: 700;
+       }
+
+       /* Main Analysis Card - Centered and Expanded */
+       .analysis-card {
+           background: var(--secondary-bg);
+           padding: 2.5rem; /* Reduced from 3rem */
+           border-radius: 16px;
+           box-shadow: var(--shadow-lg);
+           border: 1px solid var(--border-amber);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           max-width: 1600px;
+           width: 100%;
+           transform: translateY(30px);
+           opacity: 0;
+           animation: revealMainCard var(--timing-medium) var(--easing-smooth) 4s forwards;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .analysis-card::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 6px;
+           background: var(--amber-gradient);
+           transform: scaleX(0);
+           animation: slideTopBar var(--timing-slow) var(--easing-tech) 4.4s forwards;
+       }
+
+       .analysis-card:hover {
+           transform: translateY(-5px);
+           box-shadow: var(--shadow-lg), 0 0 50px rgba(245, 158, 11, 0.2);
+           border-color: rgba(245, 158, 11, 0.6);
+       }
+
+       .card-header {
+           display: flex;
+           align-items: center;
+           gap: 1.5rem;
+           margin-bottom: 2rem; /* Reduced from 2.5rem */
+           text-align: center;
+           justify-content: center;
+       }
+
+       .card-icon {
+           width: 2.5rem; /* Changed from font-size to image dimensions */
+           height: 2.5rem;
+           object-fit: contain;
+           opacity: 0;
+           transform: scale(0);
+           animation: revealIcon var(--timing-fast) var(--easing-bounce) 4.8s forwards;
+       }
+
+       .card-title {
+           font-size: 2rem; /* Reduced from 2.2rem */
+           font-weight: 700;
+           color: var(--text-primary);
+           margin-bottom: 0.3rem;
+       }
+
+       .card-subtitle {
+           font-size: 1.1rem; /* Reduced from 1.2rem */
+           color: var(--text-muted);
+           font-weight: 400;
+       }
+
+       /* Enhanced Grid Table */
+       .analysis-grid {
+           background: var(--card-bg);
+           border-radius: 12px;
+           overflow: hidden;
+           border: 1px solid var(--border-amber);
+           opacity: 0;
+           transform: translateY(20px);
+           animation: slideInTable var(--timing-medium) var(--easing-smooth) 5.2s forwards;
+           box-shadow: var(--shadow-md);
+       }
+
+       .grid-header {
+           display: grid;
+           grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+           background: var(--amber-gradient);
+           color: white;
+           font-weight: 700;
+           font-size: 0.95rem;
+           text-align: center;
+       }
+
+       .grid-header-cell {
+           padding: 1rem 0.6rem; /* Reduced from 1.2rem */
+           border-right: 1px solid rgba(255, 255, 255, 0.2);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           gap: 0.4rem;
+           text-transform: uppercase;
+           letter-spacing: 0.3px;
+           line-height: 1.2;
+       }
+
+       .grid-header-cell:last-child {
+           border-right: none;
+       }
+
+       .grid-header-icon {
+           width: 1.1rem; /* Changed from font-size to image dimensions */
+           height: 1.1rem;
+           object-fit: contain;
+           filter: brightness(0) invert(1); /* Makes icons white for the header */
+       }
+
+       .grid-row {
+           display: grid;
+           grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+           border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateX(-30px);
+           min-height: 80px; /* Reduced from 100px */
+           position: relative;
+       }
+
+       .grid-row:nth-child(2) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.6s forwards; }
+       .grid-row:nth-child(3) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.9s forwards; }
+       .grid-row:nth-child(4) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 6.2s forwards; }
+       .grid-row:nth-child(5) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 6.5s forwards; }
+       .grid-row:nth-child(6) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 6.8s forwards; }
+       .grid-row:nth-child(7) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 7.1s forwards; }
+       .grid-row:nth-child(8) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 7.4s forwards; }
+       .grid-row:nth-child(9) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 7.7s forwards; }
+       .grid-row:nth-child(10) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 8s forwards; }
+
+       .grid-row:hover {
+           background: rgba(245, 158, 11, 0.08);
+           transform: translateX(5px);
+       }
+
+       .grid-row:last-child {
+           border-bottom: none;
+       }
+
+       /* Client ID Row - Special styling for popup trigger with teal theme */
+       .grid-row.client-id-row {
+           cursor: help;
+       }
+
+       .grid-row.client-id-row:hover {
+           background: rgba(20, 184, 166, 0.08);
+           border-color: rgba(20, 184, 166, 0.3);
+       }
+
+       .grid-cell {
+           padding: 0.8rem 0.6rem; /* Reduced padding */
+           font-size: 0.82rem; /* Slightly reduced */
+           line-height: 1.3;
+           border-right: 1px solid rgba(245, 158, 11, 0.1);
+           display: flex;
+           align-items: center;
+           color: var(--text-secondary);
+       }
+
+       .grid-cell:last-child {
+           border-right: none;
+       }
+
+       .grid-cell.feature {
+           font-weight: 700;
+           color: var(--text-primary);
+           font-size: 0.88rem; /* Slightly reduced */
+       }
+
+       .grid-cell.issue {
+           color: var(--accent-amber);
+           font-weight: 600;
+       }
+
+       .grid-cell.finding {
+           color: var(--accent-light);
+           font-weight: 500;
+       }
+
+       .grid-cell.solution {
+           color: var(--accent-green);
+           font-weight: 600;
+       }
+
+       .grid-cell.business {
+           color: var(--text-primary);
+           font-weight: 600;
+           background: rgba(59, 130, 246, 0.05);
+       }
+
+       /* 🎯 FLOATING POPUP CARD STYLES - Updated with Teal Theme */
+       .popup-overlay {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100vw;
+           height: 100vh;
+           background: rgba(0, 0, 0, 0.4);
+           backdrop-filter: blur(3px);
+           z-index: 1000;
+           opacity: 0;
+           visibility: hidden;
+           transition: all var(--timing-medium) var(--easing-smooth);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           padding: 2rem;
+       }
+
+       .popup-overlay.show {
+           opacity: 1;
+           visibility: visible;
+       }
+
+       .popup-card {
+           background: var(--secondary-bg);
+           border-radius: 16px;
+           box-shadow: var(--shadow-lg), 0 0 60px rgba(20, 184, 166, 0.3);
+           border: 1px solid var(--border-teal);
+           max-width: 900px;
+           width: 100%;
+           max-height: 90vh;
+           overflow-y: auto;
+           transform: translateY(30px) scale(0.9);
+           transition: all var(--timing-medium) var(--easing-smooth);
+           position: relative;
+       }
+
+       .popup-overlay.show .popup-card {
+           transform: translateY(0) scale(1);
+       }
+
+       .popup-header {
+           background: var(--teal-gradient);
+           color: white;
+           padding: 1.5rem 2rem;
+           border-radius: 16px 16px 0 0;
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .popup-header::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+           transition: left var(--timing-slow) var(--easing-smooth);
+       }
+
+       .popup-overlay.show .popup-header::before {
+           left: 100%;
+       }
+
+       .popup-title {
+           font-size: 1.5rem;
+           font-weight: 700;
+           display: flex;
+           align-items: center;
+           gap: 0.8rem;
+       }
+
+       .popup-title-icon {
+           font-size: 1.8rem;
+       }
+
+       .popup-close {
+           background: rgba(255, 255, 255, 0.1);
+           border: 1px solid rgba(255, 255, 255, 0.2);
+           color: white;
+           width: 40px;
+           height: 40px;
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           cursor: pointer;
+           font-size: 1.2rem;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           font-weight: 700;
+       }
+
+       .popup-close:hover {
+           background: rgba(255, 255, 255, 0.2);
+           transform: rotate(90deg);
+       }
+
+       .popup-content {
+           padding: 2rem;
+       }
+
+       .popup-section {
+           margin-bottom: 2rem;
+       }
+
+       .popup-section:last-child {
+           margin-bottom: 0;
+       }
+
+       .popup-section-title {
+           font-size: 1.2rem;
+           font-weight: 700;
+           color: var(--accent-teal);
+           margin-bottom: 1rem;
+           display: flex;
+           align-items: center;
+           gap: 0.6rem;
+           border-bottom: 2px solid var(--accent-teal);
+           padding-bottom: 0.5rem;
+       }
+
+       .popup-section-icon {
+           width: 1.3rem; /* Changed from font-size to image dimensions */
+           height: 1.3rem;
+           object-fit: contain;
+           filter: hue-rotate(160deg) saturate(1.5); /* Adjusts to teal color */
+       }
+
+       .popup-text {
+           color: var(--text-secondary);
+           line-height: 1.6;
+           margin-bottom: 0.8rem;
+       }
+
+       .popup-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .popup-list-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 0.8rem;
+           margin-bottom: 0.8rem;
+           padding: 0.8rem;
+           background: var(--card-bg);
+           border-radius: 8px;
+           border-left: 3px solid var(--accent-teal-light);
+           transition: all var(--timing-fast) var(--easing-smooth);
+       }
+
+       .popup-list-item:hover {
+           transform: translateX(5px);
+           border-left-color: var(--accent-teal);
+           box-shadow: 0 4px 15px rgba(20, 184, 166, 0.15);
+       }
+
+       .popup-list-bullet {
+           color: var(--accent-teal-light);
+           font-weight: 700;
+           font-size: 1.1rem;
+           min-width: 20px;
+           margin-top: 2px;
+       }
+
+       .popup-list-text {
+           color: var(--text-secondary);
+           line-height: 1.5;
+           font-size: 0.95rem;
+       }
+
+       .popup-highlight {
+           color: var(--accent-teal-light);
+           font-weight: 700;
+       }
+
+       .popup-warning {
+           color: #ef4444;
+           font-weight: 700;
+       }
+
+       .popup-success {
+           color: var(--accent-green);
+           font-weight: 700;
+       }
+
+       /* Chart Container */
+       .chart-container {
+           margin: 1.5rem 0;
+           padding: 1.5rem;
+           background: var(--card-bg);
+           border-radius: 12px;
+           border: 1px solid var(--border-teal);
+           text-align: center;
+       }
+
+       .chart-title {
+           font-size: 1.1rem;
+           font-weight: 600;
+           color: var(--text-primary);
+           margin-bottom: 1rem;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           gap: 0.5rem;
+       }
+
+       .chart-svg {
+           width: 100%;
+           max-width: 600px;
+           height: auto;
+           border-radius: 8px;
+           background: white;
+           padding: 1rem;
+           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+       }
+
+       /* Hybrid Number Highlighting Styles */
+       .metric-badge {
+           display: inline-flex;
+           align-items: center;
+           padding: 0.15rem 0.4rem;
+           border-radius: 4px;
+           font-weight: 700;
+           font-size: 0.9em;
+           margin: 0 0.1rem;
+           line-height: 1;
+       }
+
+       .metric-badge.percentage {
+           background: rgba(245, 158, 11, 0.15);
+           color: var(--accent-amber);
+           border: 1px solid rgba(245, 158, 11, 0.3);
+       }
+
+       .metric-badge.rate {
+           background: rgba(59, 130, 246, 0.15);
+           color: var(--accent-light);
+           border: 1px solid rgba(59, 130, 246, 0.3);
+       }
+
+       .inline-highlight {
+           font-weight: 600;
+           font-size: 1.05em;
+           letter-spacing: 0.3px;
+       }
+
+       .inline-highlight.multiplier {
+           color: var(--accent-green);
+       }
+
+       .inline-highlight.time {
+           color: var(--accent-amber);
+       }
+
+       .inline-highlight.number {
+           color: var(--accent-light);
+       }
+
+       .navigation {
+           position: fixed;
+           bottom: 2rem;
+           right: 2rem;
+           display: flex;
+           gap: 1rem;
+           z-index: 100;
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 8.4s forwards;
+       }
+
+       .nav-btn {
+           background: var(--blue-gradient);
+           color: white;
+           border: none;
+           padding: 0.8rem 1.5rem;
+           border-radius: 10px;
+           cursor: pointer;
+           font-size: 1rem;
+           font-weight: 600;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+           position: relative;
+           overflow: hidden;
+       }
+
+       .nav-btn::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+           transition: left var(--timing-medium) var(--easing-smooth);
+       }
+
+       .nav-btn:hover {
+           transform: translateY(-3px);
+           box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+           background: var(--blue-light);
+       }
+
+       .nav-btn:hover::before {
+           left: 100%;
+       }
+
+       /* Responsive Design */
+       @media (max-width: 1600px) {
+           .analysis-card, .key-takeaways-section {
+               max-width: 1400px;
+           }
+           
+           .grid-header {
+               grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+           }
+
+           .grid-row {
+               grid-template-columns: 1fr 1fr 1.5fr 1.2fr 1.8fr;
+           }
+
+           .grid-cell {
+               font-size: 0.8rem;
+               padding: 0.8rem 0.6rem;
+           }
+       }
+
+       @media (max-width: 1400px) {
+           .content {
+               padding: 2rem;
+           }
+           
+           .header h1 { font-size: 2.3rem; }
+           .subtitle { font-size: 1.1rem; }
+
+           .analysis-card, .key-takeaways-section {
+               padding: 2rem;
+               max-width: 1200px;
+           }
+
+           .grid-cell {
+               font-size: 0.78rem;
+               padding: 0.7rem 0.5rem;
+           }
+
+           .takeaways-title {
+               font-size: 1.5rem;
+           }
+
+           .takeaway-text {
+               font-size: 0.9rem;
+           }
+
+           .card-icon {
+               width: 2.2rem;
+               height: 2.2rem;
+           }
+
+           .takeaways-icon {
+               width: 1.8rem;
+               height: 1.8rem;
+           }
+
+           .grid-header-icon {
+               width: 1rem;
+               height: 1rem;
+           }
+
+           .popup-section-icon {
+               width: 1.2rem;
+               height: 1.2rem;
+           }
+       }
+
+       @media (max-width: 768px) {
+           .content {
+               padding: 1.5rem;
+           }
+
+           .analysis-card, .key-takeaways-section {
+               padding: 1.5rem;
+           }
+           
+           .header {
+               padding: 1.2rem;
+           }
+           
+           .header h1 { 
+               font-size: 2rem; 
+           }
+           
+           .subtitle { 
+               font-size: 1rem; 
+           }
+
+           .card-header, .takeaways-header {
+               flex-direction: column;
+               gap: 0.8rem;
+               text-align: center;
+           }
+
+           .card-icon, .takeaways-icon {
+               width: 2rem;
+               height: 2rem;
+           }
+
+           .card-title, .takeaways-title {
+               font-size: 1.6rem;
+           }
+
+           .card-subtitle {
+               font-size: 1rem;
+           }
+
+           .takeaway-text {
+               font-size: 0.85rem;
+           }
+
+           .grid-header-icon {
+               width: 0.9rem;
+               height: 0.9rem;
+           }
+
+           .popup-section-icon {
+               width: 1.1rem;
+               height: 1.1rem;
+           }
+
+           /* Mobile grid adjustments */
+           .grid-header {
+               grid-template-columns: 1fr;
+               gap: 1px;
+           }
+
+           .grid-row {
+               grid-template-columns: 1fr;
+               gap: 1px;
+               min-height: auto;
+           }
+
+           .grid-header-cell,
+           .grid-cell {
+               text-align: left;
+               border-right: none;
+               border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+               justify-content: flex-start;
+           }
+
+           .grid-cell {
+               padding: 0.8rem;
+               font-size: 0.85rem;
+           }
+
+           .metric-badge {
+               font-size: 0.8em;
+               padding: 0.1rem 0.3rem;
+           }
+           
+           .navigation {
+               bottom: 1rem;
+               right: 1rem;
+               gap: 0.5rem;
+           }
+           
+           .nav-btn {
+               padding: 0.6rem 1.2rem;
+               font-size: 0.9rem;
+           }
+
+           /* Mobile popup adjustments */
+           .popup-overlay {
+               padding: 1rem;
+           }
+
+           .popup-content {
+               padding: 1.5rem;
+           }
+
+           .popup-title {
+               font-size: 1.3rem;
+           }
+
+           .chart-svg {
+               padding: 0.5rem;
+           }
+       }
+
+       @media (max-height: 900px) {
+           .header { 
+               padding: 1.2rem 2rem; 
+           }
+           
+           .content { 
+               padding: 1.5rem; 
+           }
+
+           .analysis-card, .key-takeaways-section {
+               padding: 1.8rem;
+           }
+       }
+
+       @media (prefers-reduced-motion: reduce) {
+           *, *::before, *::after {
+               animation-duration: 0.01ms !important;
+               animation-iteration-count: 1 !important;
+               transition-duration: 0.01ms !important;
+           }
+       }
+
+       /* Keyframe Animations */
+       @keyframes slideHeader {
+           from { opacity: 0; transform: translateY(-20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealHeader {
+           from { opacity: 0; transform: translateY(-50px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealTitle {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealSubtitle {
+           from { opacity: 0; transform: translateY(15px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealContent {
+           from { opacity: 0; }
+           to { opacity: 1; }
+       }
+
+       @keyframes revealTakeaways {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideTakeawaysBar {
+           from { transform: scaleX(0); }
+           to { transform: scaleX(1); }
+       }
+
+       @keyframes revealTakeawaysIcon {
+           from { opacity: 0; transform: scale(0); }
+           to { opacity: 1; transform: scale(1); }
+       }
+
+       @keyframes revealTakeawaysTitle {
+           from { opacity: 0; transform: translateX(-20px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes slideInTakeaway {
+           from { opacity: 0; transform: translateX(-30px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes revealMainCard {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideTopBar {
+           from { transform: scaleX(0); }
+           to { transform: scaleX(1); }
+       }
+
+       @keyframes revealIcon {
+           from { opacity: 0; transform: scale(0); }
+           to { opacity: 1; transform: scale(1); }
+       }
+
+       @keyframes slideInTable {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideInGridRow {
+           from { opacity: 0; transform: translateX(-30px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes revealNavigation {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+   </style>
 </head>
 <body>
-    <div class="slide-container">
-        <div class="slide-header">Slide 3 of 10</div>
+   <div class="slide-container">
+       <div class="slide-header">
+           Slide 3 of 10
+       </div>
 
-        <header class="header">
-            <h1>Exploratory Data Analysis</h1>
-            <p class="subtitle">Key data findings and business implications</p>
-        </header>
+       <header class="header">
+           <h1>Exploratory Data Analysis</h1>
+           <p class="subtitle">
+               Key data findings and business implications
+           </p>
+       </header>
 
-        <main class="content">
-            <!-- Key Takeaways Section -->
-            <div class="card takeaways">
-                <div class="card-header">
-                    <img src="icons/takeaways.png" alt="Key Takeaways" class="card-icon">
-                    <div class="card-title">Key Takeaways</div>
-                </div>
-                
-                <ul class="takeaways-list">
-                    <li class="takeaway-item">
-                        <div class="takeaway-number">1</div>
-                        <div class="takeaway-text">
-                            Data analysis reveals that <span class="takeaway-highlight">targeted mobile outreach to previously contacted clients</span> represents the highest-yield opportunity for campaign optimization
-                        </div>
-                    </li>
-                    <li class="takeaway-item">
-                        <div class="takeaway-number">2</div>
-                        <div class="takeaway-text">
-                            Client ID presented our most significant modeling decision: choosing <span class="takeaway-highlight">model integrity over apparent predictive power</span>
-                        </div>
-                    </li>
-                    <li class="takeaway-item">
-                        <div class="takeaway-number">3</div>
-                        <div class="takeaway-text">
-                            While our model achieved relatively good performance with available features, the <span class="takeaway-highlight">missing economic context features represent the biggest opportunity for improvement</span>. Research shows that macroeconomic indicators like interest rates and employment rates are among the strongest predictors of term deposit subscriptions
-                        </div>
-                    </li>
-                </ul>
-            </div>
+       <main class="content">
+           <!-- 🎯 COMPACT McKINSEY-STYLE KEY TAKEAWAYS SECTION -->
+           <div class="key-takeaways-section">
+               <div class="takeaways-header">
+                   <img src="icons/takeaways.png" alt="Key Takeaways" class="takeaways-icon">
+                   <div class="takeaways-title">Key Takeaways</div>
+               </div>
+               
+               <ul class="takeaways-list">
+                   <li class="takeaway-item">
+                       <div class="takeaway-number">1</div>
+                       <div class="takeaway-text">
+                           Data analysis reveals that <span class="takeaway-highlight">targeted mobile outreach to previously contacted clients</span> represents the highest-yield opportunity for campaign optimization
+                       </div>
+                   </li>
+                   <li class="takeaway-item">
+                       <div class="takeaway-number">2</div>
+                       <div class="takeaway-text">
+                           Client ID presented our most significant modeling decision: choosing <span class="takeaway-highlight">model integrity over apparent predictive power</span>
+                       </div>
+                   </li>
+                   <li class="takeaway-item">
+                       <div class="takeaway-number">3</div>
+                       <div class="takeaway-text">
+                           While our model achieved relatively good performance with available features, the <span class="takeaway-highlight">missing economic context features represent the biggest opportunity for improvement</span>. Research shows that macroeconomic indicators like interest rates and employment rates are among the strongest predictors of term deposit subscriptions
+                       </div>
+                   </li>
+               </ul>
+           </div>
 
-            <!-- Data Analysis Card -->
-            <div class="card analysis">
-                <div class="card-header">
-                    <img src="icons/analytics.png" alt="Analytics" class="card-icon">
-                    <div class="card-title">Feature Analysis & Strategic Insights</div>
-                </div>
-                
-                <div class="analysis-grid">
-                    <div class="grid-header">
-                        <div class="grid-header-cell">
-                            <img src="icons/feature.png" alt="Feature" class="grid-header-icon">
-                            <span>Feature</span>
-                        </div>
-                        <div class="grid-header-cell">
-                            <img src="icons/issues.png" alt="Issues" class="grid-header-icon">
-                            <span>Data Quality Issues</span>
-                        </div>
-                        <div class="grid-header-cell">
-                            <img src="icons/findings.png" alt="Findings" class="grid-header-icon">
-                            <span>Key Findings</span>
-                        </div>
-                        <div class="grid-header-cell">
-                            <img src="icons/solution.png" alt="Solutions" class="grid-header-icon">
-                            <span>Solutions</span>
-                        </div>
-                        <div class="grid-header-cell">
-                            <img src="icons/business.png" alt="Business" class="grid-header-icon">
-                            <span>Business Implications</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Grid rows with data -->
-                    <div class="grid-row" style="--row-index: 0">
-                        <div class="grid-cell feature">Subscription (Target Variable)</div>
-                        <div class="grid-cell issue">NIL</div>
-                        <div class="grid-cell finding">&lt;90% class imbalance. 11.3%. Average subscription rate</div>
-                        <div class="grid-cell solution">Implement F2-scoring with recall emphasis. Use balanced ML models. Utilize stratified splitting</div>
-                        <div class="grid-cell business">High class imbalance may signify low campaign efficiency. Need to understand why conversion rates are low</div>
-                    </div>
-                    
-                    <div class="grid-row client-id-row" style="--row-index: 1" onclick="showClientIdPopup()">
-                        <div class="grid-cell feature">Client ID</div>
-                        <div class="grid-cell issue">NIL</div>
-                        <div class="grid-cell finding">Shows temporal correlation. Larger client ID = higher subscription probability</div>
-                        <div class="grid-cell solution">Ignore. Correlation ≠ causation</div>
-                        <div class="grid-cell business">Marketing team efforts improving. Find out what they've done well</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 2">
-                        <div class="grid-cell feature">Campaign Calls</div>
-                        <div class="grid-cell issue">Negative Values</div>
-                        <div class="grid-cell finding">Inverse relationship between calls and subscription. 7-day follow-up window optimal</div>
-                        <div class="grid-cell solution">Absolute value conversion</div>
-                        <div class="grid-cell business">Reduce resources on multiple calls. Keep hot leads hot with quick follow-up</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 3">
-                        <div class="grid-cell feature">Previous Contact Days</div>
-                        <div class="grid-cell issue">Special Code (999 = never)</div>
-                        <div class="grid-cell finding">Previously contacted clients 7x more likely to subscribe</div>
-                        <div class="grid-cell solution">Create 999 as feature flag</div>
-                        <div class="grid-cell business">Marketing needs active follow-up lists. Continue nurturing even failed conversions</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 4">
-                        <div class="grid-cell feature">Personal, Housing Loan, Credit Default</div>
-                        <div class="grid-cell issue">Significant missing data. Extreme imbalance (only 3 credit defaults)</div>
-                        <div class="grid-cell finding">No correlation between missingness and subscription rate</div>
-                        <div class="grid-cell solution">Convert missing to 'unknown' category</div>
-                        <div class="grid-cell business">Bank should gather financial data from credit bureaus. Financials likely significant predictors</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 5">
-                        <div class="grid-cell feature">Age</div>
-                        <div class="grid-cell issue">Outliers (150 years)</div>
-                        <div class="grid-cell finding">Distinct U-shape curve. Younger and older clients more likely to subscribe</div>
-                        <div class="grid-cell solution">Median Imputation</div>
-                        <div class="grid-cell business">Target younger and older clients. Investigate why middle-aged have low rates</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 6">
-                        <div class="grid-cell feature">Occupation</div>
-                        <div class="grid-cell issue">Spelling issues, confusing categories (entrepreneur vs self-employed)</div>
-                        <div class="grid-cell finding">Students and Retirees highest subscription rates. Weak correlation overall</div>
-                        <div class="grid-cell solution">Recategorize and group similar occupations</div>
-                        <div class="grid-cell business">Advise marketing on clearer occupation distinctions</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 7">
-                        <div class="grid-cell feature">Education</div>
-                        <div class="grid-cell issue">Large number of categories that can be grouped</div>
-                        <div class="grid-cell finding">Weak correlation with target variable</div>
-                        <div class="grid-cell solution">Recategorize and reduce categories</div>
-                        <div class="grid-cell business">NA</div>
-                    </div>
-                    
-                    <div class="grid-row" style="--row-index: 8">
-                        <div class="grid-cell feature">Marital Status</div>
-                        <div class="grid-cell issue">"Unknown" category</div>
-                        <div class="grid-cell finding">Weak correlation. Single people highest subscription rate</div>
-                        <div class="grid-cell solution">Convert to binary 'is_single'</div>
-                        <div class="grid-cell business">Find out why married/divorced have low subscription rates</div>
-                    </div>
-                </div>
-            </div>
-        </main>
+           <!-- Centered Data Analysis Card -->
+           <div class="analysis-card">
+               <div class="card-header">
+                   <img src="icons/analytics.png" alt="Analytics" class="card-icon">
+                   <div>
+                       <div class="card-title">Feature Analysis & Strategic Insights</div>
+                   </div>
+               </div>
+               
+               <div class="analysis-grid">
+                   <div class="grid-header">
+                       <div class="grid-header-cell">
+                           <img src="icons/feature.png" alt="Feature" class="grid-header-icon">
+                           <span>Feature</span>
+                       </div>
+                       <div class="grid-header-cell">
+                           <img src="icons/issues.png" alt="Issues" class="grid-header-icon">
+                           <span>Data Quality Issues</span>
+                       </div>
+                       <div class="grid-header-cell">
+                           <img src="icons/findings.png" alt="Findings" class="grid-header-icon">
+                           <span>Key Findings</span>
+                       </div>
+                       <div class="grid-header-cell">
+                           <img src="icons/solution.png" alt="Solutions" class="grid-header-icon">
+                           <span>Solutions</span>
+                       </div>
+                       <div class="grid-header-cell">
+                           <img src="icons/business.png" alt="Business" class="grid-header-icon">
+                           <span>Business Implications</span>
+                       </div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Subscription (Target Variable)</div>
+                       <div class="grid-cell issue">NIL</div>
+                       <div class="grid-cell finding"><90% class imbalance. 11.3%. Average subscription rate</div>
+                       <div class="grid-cell solution">Implement F2-scoring with recall emphasis. Use balanced ML models. Utilize stratified splitting</div>
+                       <div class="grid-cell business">High class imbalance may signify low campaign efficiency. Need to understand why conversion rates are low</div>
+                   </div>
+                   
+                   <!-- Client ID Row with popup trigger -->
+                   <div class="grid-row client-id-row" onclick="showClientIdPopup()">
+                       <div class="grid-cell feature">Client ID</div>
+                       <div class="grid-cell issue">NIL</div>
+                       <div class="grid-cell finding">Shows temporal correlation. Larger client ID = higher subscription probability</div>
+                       <div class="grid-cell solution">Ignore. Correlation ≠ causation</div>
+                       <div class="grid-cell business">Marketing team efforts improving. Find out what they've done well</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Campaign Calls</div>
+                       <div class="grid-cell issue">Negative Values</div>
+                       <div class="grid-cell finding">Inverse relationship between calls and subscription. 7-day follow-up window optimal</div>
+                       <div class="grid-cell solution">Absolute value conversion</div>
+                       <div class="grid-cell business">Reduce resources on multiple calls. Keep hot leads hot with quick follow-up</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Previous Contact Days</div>
+                       <div class="grid-cell issue">Special Code (999 = never)</div>
+                       <div class="grid-cell finding">Previously contacted clients 7x more likely to subscribe</div>
+                       <div class="grid-cell solution">Create 999 as feature flag</div>
+                       <div class="grid-cell business">Marketing needs active follow-up lists. Continue nurturing even failed conversions</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Personal, Housing Loan, Credit Default</div>
+                       <div class="grid-cell issue">Significant missing data. Extreme imbalance (only 3 credit defaults)</div>
+                       <div class="grid-cell finding">No correlation between missingness and subscription rate</div>
+                       <div class="grid-cell solution">Convert missing to 'unknown' category</div>
+                       <div class="grid-cell business">Bank should gather financial data from credit bureaus. Financials likely significant predictors</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Age</div>
+                       <div class="grid-cell issue">Outliers (150 years)</div>
+                       <div class="grid-cell finding">Distinct U-shape curve. Younger and older clients more likely to subscribe</div>
+                       <div class="grid-cell solution">Median Imputation</div>
+                       <div class="grid-cell business">Target younger and older clients. Investigate why middle-aged have low rates</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Occupation</div>
+                       <div class="grid-cell issue">Spelling issues, confusing categories (entrepreneur vs self-employed)</div>
+                       <div class="grid-cell finding">Students and Retirees highest subscription rates. Weak correlation overall</div>
+                       <div class="grid-cell solution">Recategorize and group similar occupations</div>
+                       <div class="grid-cell business">Advise marketing on clearer occupation distinctions</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Education</div>
+                       <div class="grid-cell issue">Large number of categories that can be grouped</div>
+                       <div class="grid-cell finding">Weak correlation with target variable</div>
+                       <div class="grid-cell solution">Recategorize and reduce categories</div>
+                       <div class="grid-cell business">NA</div>
+                   </div>
+                   
+                   <div class="grid-row">
+                       <div class="grid-cell feature">Marital Status</div>
+                       <div class="grid-cell issue">"Unknown" category</div>
+                       <div class="grid-cell finding">Weak correlation. Single people highest subscription rate</div>
+                       <div class="grid-cell solution">Convert to binary 'is_single'</div>
+                       <div class="grid-cell business">Find out why married/divorced have low subscription rates</div>
+                   </div>
+               </div>
+           </div>
+       </main>
 
-        <!-- Client ID Popup -->
-        <div class="popup-overlay" id="clientIdPopup" onclick="hideClientIdPopup(event)">
-            <div class="popup-card" onclick="event.stopPropagation()">
-                <div class="popup-header">
-                    <div class="popup-title">
-                        <span class="popup-title-icon">🆔</span>
-                        Client ID Deep Dive Analysis
-                    </div>
-                    <div class="popup-close" onclick="hideClientIdPopup()">&times;</div>
-                </div>
-                
-                <div class="popup-content">
-                    <div class="popup-section">
-                        <div class="popup-section-title">
-                            📊 Initial Findings
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Client ID showed strong correlation (<span class="popup-highlight">0.746</span>) with subscription rates</span>
-                            </li>
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Clear upward trend: from <span class="popup-highlight">2.8%</span> (D1) to <span class="popup-highlight">45.9%</span> (D10) subscription rates across deciles</span>
-                            </li>
-                        </ul>
+       <!-- 🎯 CLIENT ID POPUP - Updated with Teal Theme and Chart -->
+       <div class="popup-overlay" id="clientIdPopup" onclick="hideClientIdPopup(event)">
+           <div class="popup-card" onclick="event.stopPropagation()">
+               <div class="popup-header">
+                   <div class="popup-title">
+                       <span class="popup-title-icon">🆔</span>
+                       Client ID Deep Dive Analysis
+                   </div>
+                   <div class="popup-close" onclick="hideClientIdPopup()">&times;</div>
+               </div>
+               
+               <div class="popup-content">
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <img src="icons/analytics.png" alt="Analytics" class="popup-section-icon">
+                           Initial Findings
+                       </div>
+                       <ul class="popup-list">
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Client ID showed strong correlation (<span class="popup-highlight">0.746</span>) with subscription rates</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Clear upward trend: from <span class="popup-highlight">2.8%</span> (D1) to <span class="popup-highlight">45.9%</span> (D10) subscription rates across deciles</span>
+                           </li>
+                       </ul>
 
-                        <div class="chart-container">
-                            <div class="chart-title">📈 Client ID Quantiles vs Subscription Rates</div>
-                            <svg class="chart-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Background -->
-                                <rect width="600" height="400" fill="#ffffff"/>
-                                
-                                <!-- Title -->
-                                <text x="300" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">10 Quantiles - Subscription Rates</text>
-                                
-                                <!-- Correlation box -->
-                                <rect x="20" y="50" width="120" height="30" fill="none" stroke="#333" stroke-width="1"/>
-                                <text x="80" y="70" text-anchor="middle" font-size="12" fill="#333">Correlation: 0.746</text>
-                                
-                                <!-- Y-axis label -->
-                                <text x="25" y="200" text-anchor="middle" font-size="12" fill="#333" transform="rotate(-90, 25, 200)">Subscription Rate (%)</text>
-                                
-                                <!-- X-axis label -->
-                                <text x="300" y="390" text-anchor="middle" font-size="12" fill="#333">D Quantile</text>
-                                
-                                <!-- Grid lines -->
-                                <g stroke="#e0e0e0" stroke-width="0.5">
-                                    <line x1="80" y1="100" x2="550" y2="100"/>
-                                    <line x1="80" y1="130" x2="550" y2="130"/>
-                                    <line x1="80" y1="160" x2="550" y2="160"/>
-                                    <line x1="80" y1="190" x2="550" y2="190"/>
-                                    <line x1="80" y1="220" x2="550" y2="220"/>
-                                    <line x1="80" y1="250" x2="550" y2="250"/>
-                                    <line x1="80" y1="280" x2="550" y2="280"/>
-                                    <line x1="80" y1="310" x2="550" y2="310"/>
-                                    <line x1="80" y1="340" x2="550" y2="340"/>
-                                </g>
-                                
-                                <!-- Axes -->
-                                <line x1="80" y1="100" x2="80" y2="340" stroke="#333" stroke-width="2"/>
-                                <line x1="80" y1="340" x2="550" y2="340" stroke="#333" stroke-width="2"/>
-                                
-                                <!-- Y-axis labels -->
-                                <text x="75" y="345" text-anchor="end" font-size="10" fill="#333">0</text>
-                                <text x="75" y="315" text-anchor="end" font-size="10" fill="#333">10</text>
-                                <text x="75" y="285" text-anchor="end" font-size="10" fill="#333">20</text>
-                                <text x="75" y="255" text-anchor="end" font-size="10" fill="#333">30</text>
-                                <text x="75" y="225" text-anchor="end" font-size="10" fill="#333">40</text>
-                                
-                                <!-- Bars -->
-                                <g fill="#5eead4">
-                                    <rect x="105" y="331.6" width="35" height="8.4"/>
-                                    <text x="122.5" y="325" text-anchor="middle" font-size="10" fill="#333">2.8%</text>
-                                    
-                                    <rect x="152" y="329.5" width="35" height="10.5"/>
-                                    <text x="169.5" y="323" text-anchor="middle" font-size="10" fill="#333">3.5%</text>
-                                    
-                                    <rect x="199" y="327.4" width="35" height="12.6"/>
-                                    <text x="216.5" y="321" text-anchor="middle" font-size="10" fill="#333">4.2%</text>
-                                    
-                                    <rect x="246" y="320.2" width="35" height="19.8"/>
-                                    <text x="263.5" y="314" text-anchor="middle" font-size="10" fill="#333">6.6%</text>
-                                    
-                                    <rect x="293" y="321.4" width="35" height="18.6"/>
-                                    <text x="310.5" y="315" text-anchor="middle" font-size="10" fill="#333">6.2%</text>
-                                    
-                                    <rect x="340" y="323.5" width="35" height="16.5"/>
-                                    <text x="357.5" y="317" text-anchor="middle" font-size="10" fill="#333">5.5%</text>
-                                    
-                                    <rect x="387" y="309.4" width="35" height="30.6"/>
-                                    <text x="404.5" y="303" text-anchor="middle" font-size="10" fill="#333">10.2%</text>
-                                    
-                                    <rect x="434" y="304" width="35" height="36"/>
-                                    <text x="451.5" y="298" text-anchor="middle" font-size="10" fill="#333">12.0%</text>
-                                    
-                                    <rect x="481" y="292.9" width="35" height="47.1"/>
-                                    <text x="498.5" y="286" text-anchor="middle" font-size="10" fill="#333">15.7%</text>
-                                    
-                                    <rect x="528" y="202.3" width="35" height="137.7"/>
-                                    <text x="545.5" y="196" text-anchor="middle" font-size="10" fill="#333">45.9%</text>
-                                </g>
-                                
-                                <!-- X-axis labels -->
-                                <g font-size="10" fill="#333" text-anchor="middle">
-                                    <text x="122.5" y="355">D1</text>
-                                    <text x="169.5" y="355">D2</text>
-                                    <text x="216.5" y="355">D3</text>
-                                    <text x="263.5" y="355">D4</text>
-                                    <text x="310.5" y="355">D5</text>
-                                    <text x="357.5" y="355">D6</text>
-                                    <text x="404.5" y="355">D7</text>
-                                    <text x="451.5" y="355">D8</text>
-                                    <text x="498.5" y="355">D9</text>
-                                    <text x="545.5" y="355">D10</text>
-                                </g>
-                            </svg>
-                        </div>
-                    </div>
+                       <!-- Chart Container -->
+                       <div class="chart-container">
+                           <div class="chart-title">
+                               📈 Client ID Quantiles vs Subscription Rates
+                           </div>
+                           <svg class="chart-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                               <!-- Background -->
+                               <rect width="600" height="400" fill="#ffffff"/>
+                               
+                               <!-- Title -->
+                               <text x="300" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">10 Quantiles - Subscription Rates</text>
+                               
+                               <!-- Correlation box -->
+                               <rect x="20" y="50" width="120" height="30" fill="none" stroke="#333" stroke-width="1"/>
+                               <text x="80" y="70" text-anchor="middle" font-size="12" fill="#333">Correlation: 0.746</text>
+                               
+                               <!-- Y-axis label -->
+                               <text x="25" y="200" text-anchor="middle" font-size="12" fill="#333" transform="rotate(-90, 25, 200)">Subscription Rate (%)</text>
+                               
+                               <!-- X-axis label -->
+                               <text x="300" y="390" text-anchor="middle" font-size="12" fill="#333">D Quantile</text>
+                               
+                               <!-- Grid lines and Y-axis labels -->
+                               <g stroke="#e0e0e0" stroke-width="0.5">
+                                   <line x1="80" y1="100" x2="550" y2="100"/>
+                                   <line x1="80" y1="130" x2="550" y2="130"/>
+                                   <line x1="80" y1="160" x2="550" y2="160"/>
+                                   <line x1="80" y1="190" x2="550" y2="190"/>
+                                   <line x1="80" y1="220" x2="550" y2="220"/>
+                                   <line x1="80" y1="250" x2="550" y2="250"/>
+                                   <line x1="80" y1="280" x2="550" y2="280"/>
+                                   <line x1="80" y1="310" x2="550" y2="310"/>
+                                   <line x1="80" y1="340" x2="550" y2="340"/>
+                               </g>
+                               
+                               <!-- Y-axis -->
+                               <line x1="80" y1="100" x2="80" y2="340" stroke="#333" stroke-width="2"/>
+                               
+                               <!-- X-axis -->
+                               <line x1="80" y1="340" x2="550" y2="340" stroke="#333" stroke-width="2"/>
+                               
+                               <!-- Y-axis labels -->
+                               <text x="75" y="345" text-anchor="end" font-size="10" fill="#333">0</text>
+                               <text x="75" y="315" text-anchor="end" font-size="10" fill="#333">10</text>
+                               <text x="75" y="285" text-anchor="end" font-size="10" fill="#333">20</text>
+                               <text x="75" y="255" text-anchor="end" font-size="10" fill="#333">30</text>
+                               <text x="75" y="225" text-anchor="end" font-size="10" fill="#333">40</text>
+                               
+                               <!-- Bars with teal color -->
+                               <g fill="#5eead4">
+                                   <!-- D1: 2.8% -->
+                                   <rect x="105" y="331.6" width="35" height="8.4"/>
+                                   <text x="122.5" y="325" text-anchor="middle" font-size="10" fill="#333">2.8%</text>
+                                   
+                                   <!-- D2: 3.5% -->
+                                   <rect x="152" y="329.5" width="35" height="10.5"/>
+                                   <text x="169.5" y="323" text-anchor="middle" font-size="10" fill="#333">3.5%</text>
+                                   
+                                   <!-- D3: 4.2% -->
+                                   <rect x="199" y="327.4" width="35" height="12.6"/>
+                                   <text x="216.5" y="321" text-anchor="middle" font-size="10" fill="#333">4.2%</text>
+                                   
+                                   <!-- D4: 6.6% -->
+                                   <rect x="246" y="320.2" width="35" height="19.8"/>
+                                   <text x="263.5" y="314" text-anchor="middle" font-size="10" fill="#333">6.6%</text>
+                                   
+                                   <!-- D5: 6.2% -->
+                                   <rect x="293" y="321.4" width="35" height="18.6"/>
+                                   <text x="310.5" y="315" text-anchor="middle" font-size="10" fill="#333">6.2%</text>
+                                   
+                                   <!-- D6: 5.5% -->
+                                   <rect x="340" y="323.5" width="35" height="16.5"/>
+                                   <text x="357.5" y="317" text-anchor="middle" font-size="10" fill="#333">5.5%</text>
+                                   
+                                   <!-- D7: 10.2% -->
+                                   <rect x="387" y="309.4" width="35" height="30.6"/>
+                                   <text x="404.5" y="303" text-anchor="middle" font-size="10" fill="#333">10.2%</text>
+                                   
+                                   <!-- D8: 12.0% -->
+                                   <rect x="434" y="304" width="35" height="36"/>
+                                   <text x="451.5" y="298" text-anchor="middle" font-size="10" fill="#333">12.0%</text>
+                                   
+                                   <!-- D9: 15.7% -->
+                                   <rect x="481" y="292.9" width="35" height="47.1"/>
+                                   <text x="498.5" y="286" text-anchor="middle" font-size="10" fill="#333">15.7%</text>
+                                   
+                                   <!-- D10: 45.9% -->
+                                   <rect x="528" y="202.3" width="35" height="137.7"/>
+                                   <text x="545.5" y="196" text-anchor="middle" font-size="10" fill="#333">45.9%</text>
+                               </g>
+                               
+                               <!-- X-axis labels -->
+                               <g font-size="10" fill="#333" text-anchor="middle">
+                                   <text x="122.5" y="355">D1</text>
+                                   <text x="169.5" y="355">D2</text>
+                                   <text x="216.5" y="355">D3</text>
+                                   <text x="263.5" y="355">D4</text>
+                                   <text x="310.5" y="355">D5</text>
+                                   <text x="357.5" y="355">D6</text>
+                                   <text x="404.5" y="355">D7</text>
+                                   <text x="451.5" y="355">D8</text>
+                                   <text x="498.5" y="355">D9</text>
+                                   <text x="545.5" y="355">D10</text>
+                               </g>
+                           </svg>
+                       </div>
+                   </div>
 
-                    <div class="popup-section">
-                        <div class="popup-section-title">🔍 Evaluation</div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">❌</span>
-                                <span class="popup-list-text"><span class="popup-warning">False Pattern</span>: High customer IDs correlated with success, but the ID itself doesn't cause higher subscription rates, but likely reflects campaign optimization over time</span>
-                            </li>
-                        </ul>
-                    </div>
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">🔍</span>
+                           Evaluation
+                       </div>
+                       <ul class="popup-list">
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">❌</span>
+                               <span class="popup-list-text"><span class="popup-warning">False Pattern</span>: High customer IDs correlated with success, but the ID itself doesn't cause higher subscription rates, but likely reflects campaign optimization over time</span>
+                           </li>
+                       </ul>
+                   </div>
 
-                    <div class="popup-section">
-                        <div class="popup-section-title">⚖️ Decision</div>
-                        <div class="popup-list-text">
-                            <span class="popup-warning">EXCLUDED</span> Client ID features to prevent data leakage and ensure model generalizability.
-                        </div>
-                    </div>
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">⚖️</span>
+                           Decision
+                       </div>
+                       <div class="popup-text">
+                           <span class="popup-warning">EXCLUDED</span> Client ID features to prevent data leakage and ensure model generalizability.
+                       </div>
+                   </div>
 
-                    <div class="popup-section">
-                        <div class="popup-section-title">📈 Recommended Data Collection Improvements</div>
-                        <div class="popup-list-text" style="margin-bottom: 1rem;">
-                            Instead of relying on Client ID as a proxy for temporal patterns, <span class="popup-highlight">future data collection should capture explicit temporal features</span> such as:
-                        </div>
-                        <ul class="popup-list">
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Campaign start/end dates and duration</span>
-                            </li>
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Seasonal indicators (holiday periods, end-of-quarter timing)</span>
-                            </li>
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Campaign batch/phase identifiers</span>
-                            </li>
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Economic context variables (market conditions, interest rates)</span>
-                            </li>
-                            <li class="popup-list-item">
-                                <span class="popup-list-bullet">•</span>
-                                <span class="popup-list-text">Campaign maturity metrics (days since campaign launch)</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+                   <div class="popup-section">
+                       <div class="popup-section-title">
+                           <span class="popup-section-icon">📈</span>
+                           Recommended Data Collection Improvements
+                       </div>
+                       <div class="popup-text">
+                           Instead of relying on Client ID as a proxy for temporal patterns, <span class="popup-highlight">future data collection should capture explicit temporal features</span> such as:
+                       </div>
+                       <ul class="popup-list">
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Campaign start/end dates and duration</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Seasonal indicators (holiday periods, end-of-quarter timing)</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Campaign batch/phase identifiers</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Economic context variables (market conditions, interest rates)</span>
+                           </li>
+                           <li class="popup-list-item">
+                               <span class="popup-list-bullet">•</span>
+                               <span class="popup-list-text">Campaign maturity metrics (days since campaign launch)</span>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
+       </div>
 
-        <nav class="navigation">
-            <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
-            <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
-            <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
-        </nav>
-    </div>
+       <nav class="navigation">
+           <button class="nav-btn" onclick="navigateToSlide('slide2.html')">← Previous</button>
+           <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
+           <button class="nav-btn" onclick="navigateToSlide('slide4.html')">Next →</button>
+       </nav>
+   </div>
 
-    <script>
-        function navigateToSlide(url) {
-            window.location.href = url;
-        }
+   <script>
+       function navigateToSlide(url) {
+           window.location.href = url;
+       }
 
-        function showClientIdPopup() {
-            const popup = document.getElementById('clientIdPopup');
-            popup.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
+       // 🎯 CLIENT ID POPUP FUNCTIONALITY
+       function showClientIdPopup() {
+           const popup = document.getElementById('clientIdPopup');
+           popup.classList.add('show');
+           document.body.style.overflow = 'hidden'; // Prevent background scrolling
+       }
 
-        function hideClientIdPopup(event) {
-            if (!event || event.target.id === 'clientIdPopup' || 
-                event.target.classList.contains('popup-close') || 
-                event.target.innerHTML === '&times;') {
-                const popup = document.getElementById('clientIdPopup');
-                popup.classList.remove('show');
-                document.body.style.overflow = 'auto';
-            }
-        }
+       function hideClientIdPopup(event) {
+           // Only hide if clicking overlay or close button, not popup content
+           if (!event || event.target.id === 'clientIdPopup' || event.target.classList.contains('popup-close') || event.target.innerHTML === '&times;') {
+               const popup = document.getElementById('clientIdPopup');
+               popup.classList.remove('show');
+               document.body.style.overflow = 'auto'; // Restore scrolling
+           }
+       }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const keyActions = {
-                'ArrowLeft': () => navigateToSlide('slide2.html'),
-                'Backspace': () => navigateToSlide('slide2.html'),
-                'ArrowRight': () => navigateToSlide('slide4.html'),
-                ' ': () => navigateToSlide('slide4.html'),
-                'h': () => navigateToSlide('index.html'),
-                'H': () => navigateToSlide('index.html'),
-                'f': () => document.documentElement.requestFullscreen?.(),
-                'F': () => document.documentElement.requestFullscreen?.(),
-                '0': () => navigateToSlide('slide10.html'),
-                'Escape': () => hideClientIdPopup()
-            };
-            
-            if (e.key >= '1' && e.key <= '9') {
-                navigateToSlide(`slide${e.key}.html`);
-            } else if (keyActions[e.key]) {
-                e.preventDefault();
-                keyActions[e.key]();
-            }
-        });
-    </script>
+       // Keyboard navigation
+       document.addEventListener('keydown', (e) => {
+           const keyActions = {
+               'ArrowLeft': () => navigateToSlide('slide2.html'),
+               'Backspace': () => navigateToSlide('slide2.html'),
+               'ArrowRight': () => navigateToSlide('slide4.html'),
+               ' ': () => navigateToSlide('slide4.html'),
+               'h': () => navigateToSlide('index.html'),
+               'H': () => navigateToSlide('index.html'),
+               'f': () => document.documentElement.requestFullscreen?.(),
+               'F': () => document.documentElement.requestFullscreen?.(),
+               '0': () => navigateToSlide('slide10.html'),
+               'Escape': () => hideClientIdPopup()
+           };
+           
+           if (e.key >= '1' && e.key <= '9') {
+               navigateToSlide(`slide${e.key}.html`);
+           } else if (keyActions[e.key]) {
+               e.preventDefault();
+               keyActions[e.key]();
+           }
+       });
+   </script>
 </body>
 </html>

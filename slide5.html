@@ -3,30 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Pipeline Architecture - Interactive Exploration</title>
+    <title>AIAP ML Pipeline - Architecture & Design</title>
     <style>
-        /* Modern ML Visualization Design inspired by TensorSpace.js and R2D3 */
         :root {
-            /* Color Palette inspired by modern ML tools */
-            --bg-primary: #0a0f1c;
-            --bg-secondary: #1a1f2e;
-            --bg-tertiary: #2a2f3e;
-            --accent-blue: #4facfe;
-            --accent-purple: #00f2fe;
-            --accent-orange: #ff6b6b;
-            --accent-green: #4ecdc4;
-            --text-primary: #ffffff;
-            --text-secondary: #b8c5d6;
-            --text-muted: #8a96a8;
-            --border-light: rgba(79, 172, 254, 0.2);
-            --glow-blue: 0 0 20px rgba(79, 172, 254, 0.3);
-            --glow-purple: 0 0 20px rgba(0, 242, 254, 0.3);
-            
-            /* Enhanced gradients */
-            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --gradient-purple: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            --gradient-dark: linear-gradient(135deg, #0c1022 0%, #1a1f2e 100%);
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --background-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-color: #dee2e6;
+            --code-bg: #2d3748;
+            --code-text: #e2e8f0;
         }
 
         * {
@@ -36,815 +25,1063 @@
         }
 
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            overflow: hidden;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
         }
 
-        /* Animated background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.1;
-        }
-
-        .floating-shapes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .shape {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--gradient-blue);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .shape:nth-child(1) { width: 60px; height: 60px; top: 10%; left: 10%; animation-delay: 0s; }
-        .shape:nth-child(2) { width: 40px; height: 40px; top: 20%; right: 20%; animation-delay: 5s; }
-        .shape:nth-child(3) { width: 80px; height: 80px; bottom: 30%; left: 30%; animation-delay: 10s; }
-        .shape:nth-child(4) { width: 50px; height: 50px; bottom: 20%; right: 10%; animation-delay: 15s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            25% { transform: translateY(-20px) rotate(90deg); }
-            50% { transform: translateY(-40px) rotate(180deg); }
-            75% { transform: translateY(-20px) rotate(270deg); }
-        }
-
-        /* Header with modern design */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(26, 31, 46, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-light);
-            padding: 1rem 2rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-blue);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .view-controls {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .control-btn {
-            background: rgba(79, 172, 254, 0.1);
-            border: 1px solid var(--border-light);
-            color: var(--text-secondary);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .control-btn:hover, .control-btn.active {
-            background: var(--gradient-blue);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--glow-blue);
-        }
-
-        /* Main container */
         .container {
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        /* Pipeline canvas with smooth transformations */
-        .pipeline-canvas {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-origin: center center;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
         }
 
-        .pipeline-container {
-            width: 4000px;
-            height: 1500px;
-            position: relative;
-            margin: 50px auto;
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
-        /* Enhanced pipeline stages */
-        .pipeline-stage {
-            position: absolute;
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-light);
-            border-radius: 20px;
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        main {
+            padding: 3rem 0;
+        }
+
+        .section {
+            background: white;
+            margin-bottom: 3rem;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-left: 6px solid var(--secondary-color);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            margin: 2rem 0 1.5rem 0;
+            font-size: 1.6rem;
+        }
+
+        .section h4 {
+            color: var(--primary-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        /* Pipeline Flow Visualization */
+        .pipeline-flow {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 2rem 0;
+            color: white;
+        }
+
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .flow-step {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
             padding: 2rem;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            min-height: 180px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 200px;
+            flex: 1;
+            max-width: 250px;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
         }
 
-        .pipeline-stage::before {
+        .flow-step:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-5px);
+        }
+
+        .flow-step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .flow-step h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .flow-step p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: rgba(255,255,255,0.8);
+            margin: 0 1rem;
+        }
+
+        .flow-arrow-down {
+            text-align: center;
+            font-size: 2rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Code Blocks */
+        .code-block {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            border: 1px solid #4a5568;
+        }
+
+        .code-block .comment { color: #68d391; }
+        .code-block .keyword { color: #63b3ed; }
+        .code-block .string { color: #fbb6ce; }
+        .code-block .function { color: #ffd93d; }
+        .code-block .class { color: #ff9500; }
+
+        /* Component Cards */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .component-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .component-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--gradient-blue);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
         }
 
-        .pipeline-stage:hover::before {
-            opacity: 1;
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: var(--secondary-color);
         }
 
-        .pipeline-stage:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--accent-blue);
-            box-shadow: var(--glow-blue), 0 20px 60px rgba(0, 0, 0, 0.4);
+        .component-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        /* Stage positioning with better spacing */
-        .stage-setup { 
-            top: 100px; 
-            left: 100px; 
-            width: 320px;
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        .component-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--secondary-color);
         }
 
-        .stage-data { 
-            top: 100px; 
-            left: 500px; 
-            width: 380px;
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        .component-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
         }
 
-        .stage-training { 
-            top: 100px; 
-            left: 960px; 
-            width: 400px;
-            background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
-        }
-
-        .stage-ensemble { 
-            top: 100px; 
-            left: 1440px; 
-            width: 380px;
-            background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
-        }
-
-        .stage-evaluation { 
-            top: 100px; 
-            left: 1900px; 
-            width: 400px;
-            background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
-        }
-
-        .stage-output { 
-            top: 100px; 
-            left: 2380px; 
-            width: 350px;
-            background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
-        }
-
-        /* Modern typography */
-        .stage-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .stage-subtitle {
+        .component-subtitle {
             font-size: 0.9rem;
-            color: rgba(255,255,255,0.8);
+            color: #666;
             margin-bottom: 1rem;
-            font-weight: 500;
         }
 
-        .stage-items {
-            list-style: none;
-            font-size: 0.85rem;
-            color: rgba(255,255,255,0.9);
+        /* Design Principles */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
         }
 
-        .stage-items li {
-            margin-bottom: 0.4rem;
-            padding-left: 1.2rem;
+        .principle-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
             position: relative;
-            line-height: 1.4;
-        }
-
-        .stage-items li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: rgba(255,255,255,0.6);
-            font-weight: bold;
-        }
-
-        /* Animated flow connections */
-        .flow-connection {
-            position: absolute;
-            top: 190px;
-            height: 3px;
-            background: var(--gradient-blue);
-            border-radius: 2px;
             overflow: hidden;
         }
 
-        .flow-connection::after {
+        .principle-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            animation: flow 3s infinite;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            pointer-events: none;
         }
 
-        @keyframes flow {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        .principle-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
         }
 
-        .connection-1 { left: 440px; width: 40px; animation-delay: 0s; }
-        .connection-2 { left: 900px; width: 40px; animation-delay: 0.5s; }
-        .connection-3 { left: 1380px; width: 40px; animation-delay: 1s; }
-        .connection-4 { left: 1840px; width: 40px; animation-delay: 1.5s; }
-        .connection-5 { left: 2320px; width: 40px; animation-delay: 2s; }
-
-        /* Enhanced detail panels */
-        .detail-panel {
-            position: absolute;
-            top: 350px;
-            background: var(--bg-tertiary);
-            border: 2px solid var(--border-light);
-            border-radius: 16px;
-            padding: 2rem;
-            width: 550px;
-            max-height: 450px;
-            overflow-y: auto;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(30px) scale(0.95);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(30px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .detail-panel.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
-        .detail-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            background: var(--gradient-blue);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid var(--border-light);
-            padding-bottom: 0.5rem;
-        }
-
-        .detail-principle {
-            background: rgba(79, 172, 254, 0.1);
-            border-left: 4px solid var(--accent-blue);
-            padding: 1.2rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-principle h4 {
-            color: var(--accent-blue);
-            margin-bottom: 0.8rem;
+        .principle-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
             font-weight: 600;
         }
 
-        .detail-principle p {
-            line-height: 1.6;
-            color: var(--text-secondary);
-        }
-
-        .detail-list {
-            list-style: none;
-            margin-left: 0;
-        }
-
-        .detail-list li {
-            color: var(--text-secondary);
-            margin-bottom: 0.8rem;
-            padding-left: 2rem;
-            position: relative;
+        .principle-description {
+            font-size: 1rem;
+            opacity: 0.9;
             line-height: 1.5;
         }
 
-        .detail-list li::before {
-            content: '▶';
-            position: absolute;
-            left: 0;
-            color: var(--accent-blue);
-            font-size: 0.8rem;
+        /* Configuration Section */
+        .config-section {
+            background: #f8f9fa;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
         }
 
-        /* Modern navigation */
-        .nav-sidebar {
-            position: fixed;
-            left: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .nav-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            border: none;
-            background: rgba(79, 172, 254, 0.1);
-            color: var(--accent-blue);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .config-title {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
             font-size: 1.2rem;
-            backdrop-filter: blur(10px);
+            font-weight: 600;
         }
 
-        .nav-btn:hover {
-            background: var(--gradient-blue);
-            color: white;
-            transform: scale(1.1);
-            box-shadow: var(--glow-blue);
-        }
-
-        /* Status indicator */
-        .status-indicator {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(26, 31, 46, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            border: 1px solid var(--border-light);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            z-index: 1000;
-        }
-
-        /* Responsive design */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .header {
-                padding: 1rem;
+            .header h1 {
+                font-size: 2.2rem;
+            }
+
+            .flow-row {
                 flex-direction: column;
-                gap: 1rem;
             }
-            
-            .nav-sidebar {
-                left: 1rem;
-                flex-direction: row;
-                top: auto;
-                bottom: 6rem;
-                transform: none;
+
+            .flow-arrow {
+                transform: rotate(90deg);
             }
-            
-            .detail-panel {
-                width: 90vw;
-                left: 5vw !important;
-                max-height: 60vh;
+
+            .section {
+                padding: 2rem;
             }
-            
-            .status-indicator {
-                bottom: 1rem;
-                font-size: 0.8rem;
-                padding: 0.8rem 1.5rem;
+
+            .component-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .principles-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Smooth entrance animations */
-        .pipeline-stage {
-            opacity: 0;
-            animation: slideInStage 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .stage-setup { animation-delay: 0.2s; }
-        .stage-data { animation-delay: 0.4s; }
-        .stage-training { animation-delay: 0.6s; }
-        .stage-ensemble { animation-delay: 0.8s; }
-        .stage-evaluation { animation-delay: 1s; }
-        .stage-output { animation-delay: 1.2s; }
-
-        @keyframes slideInStage {
-            from { 
-                opacity: 0; 
-                transform: translateY(40px) scale(0.9); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
-            }
-        }
-
-        /* Custom scrollbar */
-        .detail-panel::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .detail-panel::-webkit-scrollbar-track {
-            background: rgba(79, 172, 254, 0.1);
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
+            font-weight: 600;
         }
 
-        .detail-panel::-webkit-scrollbar-thumb {
-            background: var(--gradient-blue);
+        .file-path {
+            background: #e9ecef;
+            padding: 0.3rem 0.6rem;
             border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--primary-color);
         }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="floating-shapes">
-            <div class="shape"></div>
-            <div class="shape"></div>
-            <div class="shape"></div>
-            <div class="shape"></div>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">ML Pipeline Explorer</div>
-        <div class="view-controls">
-            <button class="control-btn active" onclick="setView('overview')">Overview</button>
-            <button class="control-btn" onclick="setView('config')">Configuration</button>
-            <button class="control-btn" onclick="setView('data')">Data Flow</button>
-            <button class="control-btn" onclick="setView('training')">Training</button>
-            <button class="control-btn" onclick="setView('results')">Results</button>
+    <header>
+        <div class="container">
+            <div class="header">
+                <h1>🏗️ ML Pipeline Architecture</h1>
+                <p>End-to-End Machine Learning Pipeline for Bank Marketing Prediction - Design Considerations, Component Architecture, and Implementation Flow</p>
+            </div>
         </div>
     </header>
 
-    <!-- Navigation Sidebar -->
-    <div class="nav-sidebar">
-        <button class="nav-btn" onclick="zoomOut()" title="Zoom Out">−</button>
-        <button class="nav-btn" onclick="zoomIn()" title="Zoom In">+</button>
-        <button class="nav-btn" onclick="resetView()" title="Reset View">⌂</button>
-    </div>
-
-    <!-- Main Container -->
-    <div class="container">
-        <div class="pipeline-canvas" id="pipelineCanvas">
-            <div class="pipeline-container">
-                <!-- Pipeline Stages -->
-                <div class="pipeline-stage stage-setup" onclick="showDetail('setup')">
-                    <div class="stage-title">Setup & Configuration</div>
-                    <div class="stage-subtitle">config/config.yaml</div>
-                    <ul class="stage-items">
-                        <li>Centralized settings</li>
-                        <li>Easy experimentation</li>
-                        <li>Environment setup</li>
-                        <li>Logging configuration</li>
-                    </ul>
-                </div>
-
-                <div class="pipeline-stage stage-data" onclick="showDetail('data')">
-                    <div class="stage-title">Data Processing</div>
-                    <div class="stage-subtitle">src/data_loader.py</div>
-                    <ul class="stage-items">
-                        <li>SQLite ingestion</li>
-                        <li>Configurable cleaning</li>
-                        <li>Feature engineering</li>
-                        <li>Train/test splitting</li>
-                    </ul>
-                </div>
-
-                <div class="pipeline-stage stage-training" onclick="showDetail('training')">
-                    <div class="stage-title">Model Training</div>
-                    <div class="stage-subtitle">src/train_and_evaluate.py</div>
-                    <ul class="stage-items">
-                        <li>Nested cross-validation</li>
-                        <li>Grid search optimization</li>
-                        <li>Seven model types</li>
-                        <li>Automated selection</li>
-                    </ul>
-                </div>
-
-                <div class="pipeline-stage stage-ensemble" onclick="showDetail('ensemble')">
-                    <div class="stage-title">Pipeline Creation</div>
-                    <div class="stage-subtitle">src/model.py</div>
-                    <ul class="stage-items">
-                        <li>Dynamic feature detection</li>
-                        <li>Automated preprocessing</li>
-                        <li>Model ensembling</li>
-                        <li>Scikit-learn integration</li>
-                    </ul>
-                </div>
-
-                <div class="pipeline-stage stage-evaluation" onclick="showDetail('evaluation')">
-                    <div class="stage-title">Evaluation & Optimization</div>
-                    <div class="stage-subtitle">Performance Analysis</div>
-                    <ul class="stage-items">
-                        <li>Unbiased estimates</li>
-                        <li>Threshold optimization</li>
-                        <li>Feature importance</li>
-                        <li>Visualization generation</li>
-                    </ul>
-                </div>
-
-                <div class="pipeline-stage stage-output" onclick="showDetail('output')">
-                    <div class="stage-title">Results & Reporting</div>
-                    <div class="stage-subtitle">Output Generation</div>
-                    <ul class="stage-items">
-                        <li>CSV metric exports</li>
-                        <li>Interactive visualizations</li>
-                        <li>Model comparisons</li>
-                        <li>Executive summaries</li>
-                    </ul>
-                </div>
-
-                <!-- Flow Connections -->
-                <div class="flow-connection connection-1"></div>
-                <div class="flow-connection connection-2"></div>
-                <div class="flow-connection connection-3"></div>
-                <div class="flow-connection connection-4"></div>
-                <div class="flow-connection connection-5"></div>
-
-                <!-- Detail Panels -->
-                <div class="detail-panel" id="detail-setup" style="left: 100px;">
-                    <div class="detail-title">Configuration Management</div>
-                    <div class="detail-principle">
-                        <h4>Key Design Principle:</h4>
-                        <p>Enable configurability to facilitate easy experimentation.</p>
+    <main class="container">
+        <!-- Pipeline Flow Overview -->
+        <section class="section">
+            <h2>🔄 Pipeline Flow Overview</h2>
+            <p>The ML pipeline follows a <span class="highlight">modular, configurable architecture</span> based on scikit-learn best practices with nested cross-validation for robust model evaluation.</p>
+            
+            <div class="pipeline-flow">
+                <div class="flow-container">
+                    <!-- Row 1: Data Loading -->
+                    <div class="flow-row">
+                        <div class="flow-step">
+                            <span class="flow-step-icon">📥</span>
+                            <h4>Data Loading</h4>
+                            <p>SQLite database connection with automatic download. Handles data ingestion and basic validation.</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <span class="flow-step-icon">✂️</span>
+                            <h4>Train/Test Split</h4>
+                            <p>Stratified split to maintain class distribution. Configurable test size and random state.</p>
+                        </div>
                     </div>
-                    <div class="detail-functions">
-                        <h4>Features:</h4>
-                        <ul class="detail-list">
-                            <li>Centralized settings for all pipeline components</li>
-                            <li>Enables easy experimentation without code changes</li>
-                            <li>Environment-specific configurations</li>
-                            <li>Automated logging and directory setup</li>
-                        </ul>
+                    
+                    <div class="flow-arrow-down">↓</div>
+                    
+                    <!-- Row 2: Preprocessing -->
+                    <div class="flow-row">
+                        <div class="flow-step">
+                            <span class="flow-step-icon">🧹</span>
+                            <h4>Data Preprocessing</h4>
+                            <p>Data cleaning, missing value handling, and type standardization. Prepares raw data for feature engineering.</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <span class="flow-step-icon">⚙️</span>
+                            <h4>Feature Engineering</h4>
+                            <p>Advanced feature creation with suffix naming convention. Categorical encoding and numerical transformations.</p>
+                        </div>
                     </div>
-                </div>
-
-                <div class="detail-panel" id="detail-data" style="left: 500px;">
-                    <div class="detail-title">Data Ingestion, Cleaning and Preprocessing</div>
-                    <div class="detail-principle">
-                        <h4>Key Design Principle:</h4>
-                        <p>Offers the capability to choose various features and determine their preprocessing approaches.</p>
+                    
+                    <div class="flow-arrow-down">↓</div>
+                    
+                    <!-- Row 3: Model Training -->
+                    <div class="flow-row">
+                        <div class="flow-step">
+                            <span class="flow-step-icon">🎯</span>
+                            <h4>Nested Cross-Validation</h4>
+                            <p>Unbiased model evaluation with hyperparameter tuning. Outer loop for evaluation, inner loop for optimization.</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <span class="flow-step-icon">🏆</span>
+                            <h4>Final Model Training</h4>
+                            <p>Train final models with best parameters on full training set. Generate predictions and feature importance.</p>
+                        </div>
                     </div>
-                    <div class="detail-functions">
-                        <h4>Functions:</h4>
-                        <ul class="detail-list">
-                            <li>Comprehensive and configurable data cleaning and feature engineering</li>
-                            <li>Choose core features for model and how to preprocess them</li>
-                            <li>Select engineered features for experimentation based on insights gained from EDA</li>
-                            <li>Automated data quality checks and validation</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-panel" id="detail-training" style="left: 960px;">
-                    <div class="detail-title">Training & Evaluation</div>
-                    <div class="detail-principle">
-                        <h4>Key Design Principles:</h4>
-                        <p>1. Create unbiased performance estimates with nested cross validation<br>
-                        2. Automated selection of best model and perform threshold optimization<br>
-                        3. Allow ease of evaluation with proper recording and visualization techniques</p>
-                    </div>
-                    <div class="detail-functions">
-                        <h4>Capabilities:</h4>
-                        <ul class="detail-list">
-                            <li>Configurable splits for nested cross validation</li>
-                            <li>Usage of GridSearchCV for hyper parameter tuning</li>
-                            <li>Save evaluation results to csv for easy access and evaluation</li>
-                            <li>Automated model comparison and selection</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-panel" id="detail-ensemble" style="left: 1440px;">
-                    <div class="detail-title">Create Scikit-learn Pipeline</div>
-                    <div class="detail-principle">
-                        <h4>Key Design Principle:</h4>
-                        <p>Automate and streamline pipeline creation</p>
-                    </div>
-                    <div class="detail-functions">
-                        <h4>Features:</h4>
-                        <ul class="detail-list">
-                            <li>Dynamic feature type detection (categorical vs numeric) based on selected features</li>
-                            <li>Automated preprocessing pipeline construction based on selected models</li>
-                            <li>Seven model implementations to choose from for experimentation</li>
-                            <li>Intelligent ensemble creation from best performing models</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-panel" id="detail-evaluation" style="left: 1900px;">
-                    <div class="detail-title">Performance Evaluation</div>
-                    <div class="detail-principle">
-                        <h4>Key Design Principle:</h4>
-                        <p>Comprehensive model assessment and optimization for business impact</p>
-                    </div>
-                    <div class="detail-functions">
-                        <h4>Features:</h4>
-                        <ul class="detail-list">
-                            <li>Multiple evaluation metrics for comprehensive assessment</li>
-                            <li>Feature importance analysis and visualization</li>
-                            <li>Business-focused threshold optimization</li>
-                            <li>Automated report and visualization generation</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="detail-panel" id="detail-output" style="left: 2380px;">
-                    <div class="detail-title">Results & Reporting</div>
-                    <div class="detail-principle">
-                        <h4>Key Design Principle:</h4>
-                        <p>Comprehensive documentation and result preservation for stakeholder communication</p>
-                    </div>
-                    <div class="detail-functions">
-                        <h4>Outputs:</h4>
-                        <ul class="detail-list">
-                            <li>Performance metrics and model comparisons in CSV format</li>
-                            <li>Interactive feature importance visualizations</li>
-                            <li>Model predictions and probability distributions</li>
-                            <li>Executive summary reports for business stakeholders</li>
-                        </ul>
+                    
+                    <div class="flow-arrow-down">↓</div>
+                    
+                    <!-- Row 4: Evaluation -->
+                    <div class="flow-row">
+                        <div class="flow-step">
+                            <span class="flow-step-icon">📊</span>
+                            <h4>Model Evaluation</h4>
+                            <p>Comprehensive metrics calculation, threshold optimization, and performance visualization.</p>
+                        </div>
+                        <div class="flow-arrow">→</div>
+                        <div class="flow-step">
+                            <span class="flow-step-icon">💾</span>
+                            <h4>Results & Artifacts</h4>
+                            <p>Save trained models, metrics, visualizations, and feature importance analysis.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <!-- Status Indicator -->
-    <div class="status-indicator" id="statusIndicator">
-        Pipeline Overview → Click any component to explore details
-    </div>
+        <!-- Design Principles -->
+        <section class="section">
+            <h2>🎯 Core Design Principles</h2>
+            <p>The pipeline architecture is built on four fundamental principles that ensure <span class="highlight">maintainability, reproducibility, and production readiness</span>.</p>
+            
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🔧</div>
+                    <div class="principle-title">Modularity</div>
+                    <div class="principle-description">
+                        Each component has a single responsibility with clear interfaces. Components can be developed, tested, and modified independently.
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">⚙️</div>
+                    <div class="principle-title">Configurability</div>
+                    <div class="principle-description">
+                        All parameters externalized to config.yaml. Easy experimentation without code changes. Environment-specific configurations supported.
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🔄</div>
+                    <div class="principle-title">Reproducibility</div>
+                    <div class="principle-description">
+                        Fixed random seeds, versioned dependencies, deterministic processing. Results can be consistently reproduced across environments.
+                    </div>
+                </div>
+                
+                <div class="principle-card">
+                    <div class="principle-icon">🛡️</div>
+                    <div class="principle-title">Robustness</div>
+                    <div class="principle-description">
+                        Nested cross-validation for unbiased evaluation. Comprehensive error handling and validation. Production-ready code quality.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Component Architecture -->
+        <section class="section">
+            <h2>🏗️ Component Architecture</h2>
+            <p>The pipeline consists of <span class="highlight">7 core components</span>, each handling a specific aspect of the ML workflow with well-defined interfaces and responsibilities.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">📥</span>
+                        <div>
+                            <div class="component-title">Data Loader</div>
+                            <div class="component-subtitle">src/data_loader.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Database connection, data ingestion, and basic validation</p>
+                    <div class="code-block">
+<span class="keyword">class</span> <span class="class">DataLoader</span>:
+    <span class="keyword">def</span> <span class="function">get_data</span>(self):
+        <span class="comment"># SQLite connection with auto-download</span>
+        <span class="comment"># Basic data validation</span>
+        <span class="keyword">return</span> cleaned_dataframe
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Automatic database download if missing</li>
+                        <li>Connection pooling and error handling</li>
+                        <li>Configurable query and table selection</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🧹</span>
+                        <div>
+                            <div class="component-title">Data Preprocessor</div>
+                            <div class="component-subtitle">src/preprocessor.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Data cleaning, validation, and train/test splitting</p>
+                    <div class="code-block">
+<span class="keyword">class</span> <span class="class">DataPreprocessor</span>:
+    <span class="keyword">def</span> <span class="function">preprocess</span>(self, df):
+        <span class="comment"># Clean and standardize data</span>
+        <span class="comment"># Handle missing values</span>
+        <span class="keyword">return</span> processed_dataframe
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Configurable cleaning strategies</li>
+                        <li>Stratified train/test splitting</li>
+                        <li>Cross-validation splitter creation</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">⚙️</span>
+                        <div>
+                            <div class="component-title">Feature Engineer</div>
+                            <div class="component-subtitle">src/feature_engineering.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Advanced feature creation with suffix naming convention</p>
+                    <div class="code-block">
+<span class="keyword">class</span> <span class="class">FeatureEngineer</span>:
+    <span class="keyword">def</span> <span class="function">engineer_features</span>(self, df):
+        <span class="comment"># *_cat: Categorical features</span>
+        <span class="comment"># *_bin: Binary features</span>
+        <span class="comment"># *_num: Numerical features</span>
+        <span class="keyword">return</span> engineered_dataframe
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Suffix-based feature naming for clear preprocessing</li>
+                        <li>Age groups, occupation categories, temporal features</li>
+                        <li>Comprehensive validation and testing</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🤖</span>
+                        <div>
+                            <div class="component-title">Model Factory</div>
+                            <div class="component-subtitle">src/model.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Model creation, preprocessing pipelines, and feature importance</p>
+                    <div class="code-block">
+<span class="keyword">class</span> <span class="class">ModelFactory</span>:
+    <span class="keyword">def</span> <span class="function">create_model</span>(self, name, X):
+        <span class="comment"># Auto-detect feature types by suffix</span>
+        <span class="comment"># Create sklearn Pipeline</span>
+        <span class="keyword">return</span> pipeline_model
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Automatic feature type detection by suffix</li>
+                        <li>Model-specific preprocessing optimization</li>
+                        <li>Enhanced feature importance extraction</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🎯</span>
+                        <div>
+                            <div class="component-title">Model Trainer</div>
+                            <div class="component-subtitle">src/train.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Nested cross-validation, hyperparameter tuning, final training</p>
+                    <div class="code-block">
+<span class="keyword">class</span> <span class="class">ModelTrainer</span>:
+    <span class="keyword">def</span> <span class="function">nested_cross_validation</span>(self, X, y):
+        <span class="comment"># Outer CV: Unbiased evaluation</span>
+        <span class="comment"># Inner CV: Hyperparameter tuning</span>
+        <span class="keyword">return</span> cv_results
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Robust nested CV implementation</li>
+                        <li>Multiple model evaluation and comparison</li>
+                        <li>Feature analysis and importance ranking</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">📊</span>
+                        <div>
+                            <div class="component-title">Model Evaluator</div>
+                            <div class="component-subtitle">src/evaluate.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Performance metrics, threshold optimization, visualizations</p>
+                    <div class="code-block">
+<span class="keyword">class</span> <span class="class">ModelEvaluator</span>:
+    <span class="keyword">def</span> <span class="function">evaluate_models</span>(self, models, X, y):
+        <span class="comment"># Calculate comprehensive metrics</span>
+        <span class="comment"># Optimize classification thresholds</span>
+        <span class="keyword">return</span> evaluation_results
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>Comprehensive metric calculation (F1, F2, ROC-AUC, MCC)</li>
+                        <li>Threshold optimization for class imbalance</li>
+                        <li>Automated visualization generation</li>
+                    </ul>
+                </div>
+
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🔧</span>
+                        <div>
+                            <div class="component-title">Utilities</div>
+                            <div class="component-subtitle">src/utils.py</div>
+                        </div>
+                    </div>
+                    <p><strong>Responsibility:</strong> Configuration management, logging, directory setup</p>
+                    <div class="code-block">
+<span class="keyword">def</span> <span class="function">load_config</span>(config_path):
+    <span class="comment"># Load and validate configuration</span>
+    <span class="keyword">return</span> validated_config
+
+<span class="keyword">def</span> <span class="function">setup_logging</span>(config):
+    <span class="comment"># Configure structured logging</span>
+    <span class="keyword">return</span> logger
+                    </div>
+                    <p><strong>Key Features:</strong></p>
+                    <ul>
+                        <li>YAML configuration loading and validation</li>
+                        <li>Structured logging with timestamps</li>
+                        <li>Directory setup and file management</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuration Management -->
+        <section class="section">
+            <h2>⚙️ Configuration Management</h2>
+            <p>All pipeline parameters are <span class="highlight">externalized to config.yaml</span> enabling easy experimentation and environment-specific configurations without code changes.</p>
+            
+            <div class="config-section">
+                <div class="config-title">📁 Configuration Structure: <span class="file-path">config/config.yaml</span></div>
+                <div class="code-block">
+<span class="comment"># Database Configuration</span>
+<span class="keyword">database:</span>
+  path: <span class="string">"data/bmarket.db"</span>
+  url: <span class="string">"https://techassessment.blob.core.windows.net/aiap20-assessment-data/bmarket.db"</span>
+
+<span class="comment"># Target Variable Configuration</span>
+<span class="keyword">target_column:</span> <span class="string">"Subscription Status"</span>
+<span class="keyword">target_mapping:</span>
+  <span class="string">"yes"</span>: 1
+  <span class="string">"no"</span>: 0
+
+<span class="comment"># Train/Test Split Configuration</span>
+<span class="keyword">train_test_split:</span>
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+  outer_splits: 5    <span class="comment"># Nested CV outer folds</span>
+  inner_splits: 3    <span class="comment"># Nested CV inner folds</span>
+
+<span class="comment"># Feature Engineering Configuration</span>
+<span class="keyword">feature_engineering:</span>
+  <span class="keyword">age_features:</span>
+    enabled: true
+    senior_threshold: 60
+    create_age_bins: true
+    age_bins: [0, 30, 40, 50, 60, 70, 100, 200]
+  
+  <span class="keyword">occupation_features:</span>
+    enabled: true
+    create_occupation_groups: true
+    white_collar: [<span class="string">'admin'</span>, <span class="string">'management'</span>, <span class="string">'technician'</span>]
+    blue_collar: [<span class="string">'blue-collar'</span>, <span class="string">'services'</span>, <span class="string">'housemaid'</span>]
+
+<span class="comment"># Model Configuration</span>
+<span class="keyword">models:</span>
+  <span class="keyword">global:</span>
+    random_state: 42
+    n_jobs: -1
+    scoring: <span class="string">'f2'</span>               <span class="comment"># Primary metric for model selection</span>
+    
+  <span class="keyword">logistic_regression:</span>
+    enabled: true
+    default_params:
+      max_iter: 1000
+      class_weight: <span class="string">'balanced'</span>
+    param_grid:
+      C: [0.01, 0.1, 1.0, 10.0, 100.0]
+      penalty: [<span class="string">'l1'</span>, <span class="string">'l2'</span>]
+      solver: [<span class="string">'liblinear'</span>]
+      
+  <span class="keyword">random_forest:</span>
+    enabled: true
+    default_params:
+      class_weight: <span class="string">'balanced'</span>
+      n_estimators: 100
+    param_grid:
+      n_estimators: [50, 100, 200]
+      max_depth: [10, 20, 30, null]
+      min_samples_split: [2, 5, 10]
+      
+  <span class="keyword">xgboost:</span>
+    enabled: true
+    default_params:
+      objective: <span class="string">'binary:logistic'</span>
+      eval_metric: <span class="string">'logloss'</span>
+      verbosity: 0
+    param_grid:
+      n_estimators: [50, 100, 200]
+      max_depth: [3, 6, 10]
+      learning_rate: [0.01, 0.1, 0.2]
+
+<span class="comment"># Evaluation Configuration</span>
+<span class="keyword">evaluation:</span>
+  primary_metrics: [<span class="string">'f1'</span>, <span class="string">'f2'</span>, <span class="string">'mcc'</span>, <span class="string">'roc_auc'</span>, <span class="string">'average_precision'</span>]
+  secondary_metrics: [<span class="string">'accuracy'</span>, <span class="string">'precision'</span>, <span class="string">'recall'</span>]
+  
+<span class="comment"># Output Configuration</span>
+<span class="keyword">output:</span>
+  results_base_dir: <span class="string">'results'</span>
+  timestamp_results: true
+  save_models: true
+  save_predictions: true
+  save_feature_importance: true
+                </div>
+            </div>
+            
+            <h3>Configuration Benefits</h3>
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🔬</span>
+                        <div>
+                            <div class="component-title">Easy Experimentation</div>
+                        </div>
+                    </div>
+                    <p>Change hyperparameters, feature engineering strategies, or evaluation metrics without touching code. Perfect for rapid prototyping and A/B testing different approaches.</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🌍</span>
+                        <div>
+                            <div class="component-title">Environment Flexibility</div>
+                        </div>
+                    </div>
+                    <p>Different configurations for development, testing, and production environments. Override specific parameters via environment variables or command-line arguments.</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">📋</span>
+                        <div>
+                            <div class="component-title">Comprehensive Validation</div>
+                        </div>
+                    </div>
+                    <p>Built-in configuration validation ensures parameter consistency and catches errors early. Clear error messages guide users to correct configuration issues.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Execution Flow -->
+        <section class="section">
+            <h2>🚀 Execution Flow & Implementation</h2>
+            <p>The pipeline execution follows a <span class="highlight">systematic, logged process</span> with clear checkpoints and comprehensive output generation.</p>
+            
+            <h3>Main Execution Script: <span class="file-path">main.py</span></h3>
+            <div class="code-block">
+<span class="comment">#!/usr/bin/env python3</span>
+<span class="string">"""
+AIAP Bank Marketing Prediction Pipeline
+Main execution script orchestrating the complete ML workflow
+"""</span>
+
+<span class="keyword">import</span> logging
+<span class="keyword">import</span> time
+<span class="keyword">from</span> pathlib <span class="keyword">import</span> Path
+
+<span class="keyword">from</span> src.utils <span class="keyword">import</span> load_config, setup_logging, setup_directories
+<span class="keyword">from</span> src.data_loader <span class="keyword">import</span> DataLoader
+<span class="keyword">from</span> src.preprocessor <span class="keyword">import</span> DataPreprocessor
+<span class="keyword">from</span> src.feature_engineering <span class="keyword">import</span> FeatureEngineer
+<span class="keyword">from</span> src.train <span class="keyword">import</span> ModelTrainer
+<span class="keyword">from</span> src.evaluate <span class="keyword">import</span> ModelEvaluator
+
+<span class="keyword">def</span> <span class="function">main</span>():
+    <span class="comment"># 1. Setup and Configuration</span>
+    start_time = time.time()
+    run_id = time.strftime(<span class="string">"%Y%m%d_%H%M%S"</span>)
+    
+    config = load_config()
+    logger, log_file = setup_logging(config[<span class="string">'logging'</span>])
+    directories = setup_directories(config[<span class="string">'output'</span>], run_id)
+    
+    logger.info(<span class="string">f"🚀 Starting AIAP ML Pipeline - Run ID: {run_id}"</span>)
+    
+    <span class="comment"># 2. Data Loading and Preprocessing</span>
+    logger.info(<span class="string">"📥 Loading and preprocessing data..."</span>)
+    loader = DataLoader(config)
+    data = loader.get_data()
+    
+    preprocessor = DataPreprocessor(config)
+    X, y, X_train, X_test, y_train, y_test, outer_cv, inner_cv = preprocessor.get_data_for_modeling(data)
+    
+    <span class="comment"># 3. Feature Engineering</span>
+    logger.info(<span class="string">"⚙️ Applying feature engineering..."</span>)
+    feature_engineer = FeatureEngineer(config)
+    X_train_engineered = feature_engineer.engineer_features(X_train)
+    X_test_engineered = feature_engineer.engineer_features(X_test)
+    
+    <span class="comment"># 4. Model Training with Nested Cross-Validation</span>
+    logger.info(<span class="string">"🎯 Training models with nested cross-validation..."</span>)
+    trainer = ModelTrainer(config)
+    cv_results = trainer.train_all_models(X_train_engineered, y_train, outer_cv, inner_cv)
+    final_models = trainer.train_final_models(X_train_engineered, y_train)
+    
+    <span class="comment"># 5. Model Evaluation and Selection</span>
+    logger.info(<span class="string">"📊 Evaluating models and selecting best performer..."</span>)
+    evaluator = ModelEvaluator(config)
+    test_results = evaluator.evaluate_multiple_models(final_models, X_test_engineered, y_test, directories[<span class="string">'results_dir'</span>])
+    
+    best_model_name, best_model, best_model_info = evaluator.select_best_model(
+        test_results, final_models, X_test_engineered, y_test, <span class="string">'f2'</span>
+    )
+    
+    <span class="comment"># 6. Save Results and Generate Reports</span>
+    trainer.save_models(directories[<span class="string">'results_dir'</span>])
+    generate_summary_report(start_time, X_train_engineered, y_train, final_models, 
+                          best_model_name, best_model_info, run_id, directories[<span class="string">'results_dir'</span>])
+    
+    logger.info(<span class="string">f"✅ Pipeline completed successfully in {time.time() - start_time:.2f} seconds"</span>)
+    logger.info(<span class="string">f"📁 Results saved to: {directories['results_dir']}"</span>)
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    main()
+            </div>
+            
+            <h3>Bash Execution Script: <span class="file-path">run.sh</span></h3>
+            <div class="code-block">
+<span class="comment">#!/bin/bash</span>
+<span class="comment"># AIAP Bank Marketing Prediction Pipeline Execution Script</span>
+
+set -e  <span class="comment"># Exit on any error</span>
+
+echo <span class="string">"🏦 AIAP Bank Marketing ML Pipeline"</span>
+echo <span class="string">"=================================="</span>
+echo <span class="string">"Starting pipeline execution..."</span>
+echo
+
+<span class="comment"># Activate virtual environment if it exists</span>
+<span class="keyword">if</span> [ -d <span class="string">"venv"</span> ]; then
+    echo <span class="string">"📦 Activating virtual environment..."</span>
+    source venv/bin/activate
+<span class="keyword">fi</span>
+
+<span class="comment"># Check if Python and required packages are available</span>
+echo <span class="string">"🔍 Checking Python environment..."</span>
+python --version
+pip list | grep -E <span class="string">"(pandas|scikit-learn|xgboost)"</span> || {
+    echo <span class="string">"❌ Required packages not found. Installing from requirements.txt..."</span>
+    pip install -r requirements.txt
+}
+
+<span class="comment"># Run the main pipeline</span>
+echo <span class="string">"🚀 Executing ML pipeline..."</span>
+python main.py
+
+echo
+echo <span class="string">"✅ Pipeline execution completed!"</span>
+echo <span class="string">"📁 Check the 'results/' directory for outputs"</span>
+            </div>
+        </section>
+
+        <!-- Key Implementation Decisions -->
+        <section class="section">
+            <h2>🎯 Key Implementation Decisions</h2>
+            <p>Critical design decisions that ensure <span class="highlight">production readiness and robustness</span> of the ML pipeline.</p>
+            
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🔄</span>
+                        <div>
+                            <div class="component-title">Nested Cross-Validation</div>
+                            <div class="component-subtitle">Unbiased Model Evaluation</div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+<span class="comment"># Outer CV: Unbiased performance estimation</span>
+outer_cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+<span class="comment"># Inner CV: Hyperparameter optimization</span>
+inner_cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
+
+<span class="keyword">for</span> train_idx, test_idx <span class="keyword">in</span> outer_cv.split(X, y):
+    <span class="comment"># Inner loop optimizes hyperparameters</span>
+    <span class="comment"># Outer loop evaluates generalization</span>
+                    </div>
+                    <p><strong>Why:</strong> Provides unbiased estimate of model performance by separating hyperparameter optimization from performance evaluation. Essential for reliable model selection.</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🏷️</span>
+                        <div>
+                            <div class="component-title">Suffix-Based Feature Naming</div>
+                            <div class="component-subtitle">Clear Preprocessing Strategy</div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+<span class="comment"># Clear feature type indication</span>
+features = {
+    <span class="string">'age_num'</span>: <span class="string">'Numerical feature (scaled for LR)'</span>,
+    <span class="string">'occupation_group_cat'</span>: <span class="string">'Categorical (one-hot encoded)'</span>,
+    <span class="string">'is_senior_bin'</span>: <span class="string">'Binary feature (kept as-is)'</span>,
+    <span class="string">'campaign_calls_cnt'</span>: <span class="string">'Count feature (numerical)'</span>,
+    <span class="string">'engagement_score'</span>: <span class="string">'Calculated score (numerical)'</span>
+}
+                    </div>
+                    <p><strong>Why:</strong> Eliminates ambiguity in preprocessing. The ModelFactory automatically detects feature types and applies appropriate transformations (scaling, encoding, etc.).</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">⚖️</span>
+                        <div>
+                            <div class="component-title">Class Imbalance Handling</div>
+                            <div class="component-subtitle">8:1 Ratio Management</div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+<span class="comment"># Model-specific imbalance handling</span>
+models = {
+    <span class="string">'logistic_regression'</span>: {<span class="string">'class_weight'</span>: <span class="string">'balanced'</span>},
+    <span class="string">'random_forest'</span>: {<span class="string">'class_weight'</span>: <span class="string">'balanced'</span>},
+    <span class="string">'xgboost'</span>: {<span class="string">'scale_pos_weight'</span>: 8}
+}
+
+<span class="comment"># F2 score prioritizes recall for minority class</span>
+primary_metric = <span class="string">'f2'</span>
+                    </div>
+                    <p><strong>Why:</strong> Dataset has significant class imbalance (subscription rate ~11%). Using balanced class weights and F2 score ensures models don't simply predict majority class.</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🎯</span>
+                        <div>
+                            <div class="component-title">Threshold Optimization</div>
+                            <div class="component-subtitle">Business-Focused Optimization</div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+<span class="comment"># Optimize threshold for business metric</span>
+thresholds = np.arange(0.1, 0.9, 0.01)
+<span class="keyword">for</span> threshold <span class="keyword">in</span> thresholds:
+    y_pred = (y_proba >= threshold).astype(int)
+    f2_score = fbeta_score(y_true, y_pred, beta=2)
+    
+optimal_threshold = thresholds[np.argmax(f2_scores)]
+                    </div>
+                    <p><strong>Why:</strong> Default 0.5 threshold rarely optimal for imbalanced datasets. Optimizing for F2 score balances precision and recall with emphasis on capturing positive cases.</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">🔍</span>
+                        <div>
+                            <div class="component-title">Feature Importance Analysis</div>
+                            <div class="component-subtitle">Interpretability & Insights</div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+<span class="comment"># Extract and aggregate feature importance</span>
+<span class="keyword">def</span> <span class="function">get_feature_importance_by_original</span>(model, X):
+    <span class="comment"># Map transformed features back to originals</span>
+    <span class="comment"># Aggregate importance for grouped features</span>
+    <span class="keyword">return</span> aggregated_importance
+                    </div>
+                    <p><strong>Why:</strong> Provides business insights into which client characteristics drive subscription decisions. Essential for stakeholder communication and feature prioritization.</p>
+                </div>
+                
+                <div class="component-card">
+                    <div class="component-header">
+                        <span class="component-icon">💾</span>
+                        <div>
+                            <div class="component-title">Comprehensive Artifacts</div>
+                            <div class="component-subtitle">Production Readiness</div>
+                        </div>
+                    </div>
+                    <div class="code-block">
+<span class="comment"># Save all pipeline artifacts</span>
+artifacts = {
+    <span class="string">'models'</span>: <span class="string">'trained_models/*.pkl'</span>,
+    <span class="string">'metrics'</span>: <span class="string">'model_evaluation_results.csv'</span>,
+    <span class="string">'features'</span>: <span class="string">'feature_importance.csv'</span>,
+    <span class="string">'visualizations'</span>: <span class="string">'figures/*.png'</span>,
+    <span class="string">'config'</span>: <span class="string">'run_config.yaml'</span>
+}
+                    </div>
+                    <p><strong>Why:</strong> Enables model deployment, monitoring, and debugging. All artifacts are timestamped and version-controlled for reproducibility and auditability.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--primary-color); color: white; text-align: center; padding: 2rem 0; margin-top: 3rem;">
+        <div class="container">
+            <p>&copy; 2025 AIAP Bank Marketing ML Pipeline Architecture Documentation</p>
+            <p style="margin-top: 0.5rem; opacity: 0.8;">Built for AI Singapore Technical Assessment - Focus on Production-Ready ML Engineering</p>
+        </div>
+    </footer>
 
     <script>
-        let currentZoom = 1;
-        let currentView = 'overview';
-        let activeDetail = null;
-
-        const canvas = document.getElementById('pipelineCanvas');
-        const statusIndicator = document.getElementById('statusIndicator');
-
-        // Smooth zoom functions
-        function zoomIn() {
-            currentZoom = Math.min(currentZoom * 1.3, 2.5);
-            updateCanvas();
-        }
-
-        function zoomOut() {
-            currentZoom = Math.max(currentZoom / 1.3, 0.6);
-            updateCanvas();
-        }
-
-        function resetView() {
-            currentZoom = 1;
-            currentView = 'overview';
-            canvas.style.transform = 'scale(1) translate(0, 0)';
-            hideAllDetails();
-            updateControls();
-            updateStatus('Pipeline Overview → Click any component to explore details');
-        }
-
-        function updateCanvas() {
-            canvas.style.transform = `scale(${currentZoom})`;
-        }
-
-        // View management
-        function setView(view) {
-            currentView = view;
-            hideAllDetails();
-            
-            const transforms = {
-                'overview': 'scale(1) translate(0, 0)',
-                'config': 'scale(1.8) translate(-200px, -50px)',
-                'data': 'scale(1.8) translate(-600px, -50px)',
-                'training': 'scale(1.8) translate(-1200px, -50px)',
-                'results': 'scale(1.8) translate(-1800px, -50px)'
+        // Add smooth scrolling and simple animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
             };
 
-            canvas.style.transform = transforms[view] || transforms['overview'];
-            updateControls();
-            updateStatus(`${view.charAt(0).toUpperCase() + view.slice(1)} View → Explore pipeline components`);
-        }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'slideInUp 0.6s ease forwards';
+                    }
+                });
+            }, observerOptions);
 
-        function updateControls() {
-            document.querySelectorAll('.control-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[onclick="setView('${currentView}')"]`)?.classList.add('active');
-        }
-
-        // Detail panel management
-        function showDetail(stageId) {
-            hideAllDetails();
-            activeDetail = stageId;
-            
-            const detailPanel = document.getElementById(`detail-${stageId}`);
-            if (detailPanel) {
-                detailPanel.classList.add('active');
-            }
-
-            // Highlight active stage
-            document.querySelectorAll('.pipeline-stage').forEach(stage => {
-                stage.classList.remove('active');
+            // Observe all cards
+            document.querySelectorAll('.component-card, .principle-card').forEach(card => {
+                observer.observe(card);
             });
-            document.querySelector(`.stage-${stageId}`)?.classList.add('active');
 
-            updateStatus(`Exploring: ${stageId.charAt(0).toUpperCase() + stageId.slice(1)} Component Details`);
-        }
-
-        function hideAllDetails() {
-            document.querySelectorAll('.detail-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
-            document.querySelectorAll('.pipeline-stage').forEach(stage => {
-                stage.classList.remove('active');
-            });
-            activeDetail = null;
-        }
-
-        function updateStatus(message) {
-            statusIndicator.textContent = message;
-        }
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const keyActions = {
-                'ArrowLeft': () => zoomOut(),
-                'ArrowRight': () => zoomIn(),
-                '=': () => zoomIn(),
-                '+': () => zoomIn(),
-                '-': () => zoomOut(),
-                'r': () => resetView(),
-                'R': () => resetView(),
-                'Escape': () => { hideAllDetails(); updateStatus('Pipeline Overview → Click any component to explore details'); },
-                '1': () => setView('config'),
-                '2': () => setView('data'),
-                '3': () => setView('training'),
-                '4': () => setView('results'),
-                '0': () => setView('overview')
-            };
-            
-            if (keyActions[e.key]) {
-                e.preventDefault();
-                keyActions[e.key]();
-            }
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .component-card, .principle-card {
+                    opacity: 0;
+                }
+            `;
+            document.head.appendChild(style);
         });
-
-        // Mouse wheel zoom
-        canvas.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            if (e.deltaY < 0) {
-                zoomIn();
-            } else {
-                zoomOut();
-            }
-        });
-
-        // Initialize
-        updateControls();
     </script>
 </body>
 </html>

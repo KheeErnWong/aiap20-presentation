@@ -121,6 +121,150 @@
            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
        }
 
+       /* 🎯 McKINSEY-STYLE KEY TAKEAWAYS SECTION */
+       .key-takeaways-section {
+           background: var(--secondary-bg);
+           padding: 2.5rem;
+           border-radius: 16px;
+           box-shadow: var(--shadow-lg);
+           border: 1px solid var(--border-blue);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           max-width: 1600px;
+           width: 100%;
+           margin-bottom: 2rem;
+           transform: translateY(30px);
+           opacity: 0;
+           animation: revealTakeaways var(--timing-medium) var(--easing-smooth) 1.6s forwards;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .key-takeaways-section::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 6px;
+           background: var(--blue-gradient);
+           transform: scaleX(0);
+           animation: slideTakeawaysBar var(--timing-slow) var(--easing-tech) 2s forwards;
+       }
+
+       .key-takeaways-section:hover {
+           transform: translateY(-5px);
+           box-shadow: var(--shadow-lg), 0 0 50px rgba(59, 130, 246, 0.2);
+           border-color: rgba(59, 130, 246, 0.6);
+       }
+
+       .takeaways-header {
+           display: flex;
+           align-items: center;
+           gap: 1rem;
+           margin-bottom: 2rem;
+       }
+
+       .takeaways-icon {
+           font-size: 2.5rem;
+           color: var(--accent-blue);
+           opacity: 0;
+           transform: scale(0);
+           animation: revealTakeawaysIcon var(--timing-fast) var(--easing-bounce) 2.4s forwards;
+       }
+
+       .takeaways-title {
+           font-size: 2rem;
+           font-weight: 700;
+           color: var(--text-primary);
+           opacity: 0;
+           transform: translateX(-20px);
+           animation: revealTakeawaysTitle var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+       }
+
+       .takeaways-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .takeaway-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 1rem;
+           margin-bottom: 1.5rem;
+           padding: 1.5rem;
+           background: var(--card-bg);
+           border-radius: 12px;
+           border-left: 4px solid var(--accent-blue);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateX(-30px);
+           position: relative;
+           overflow: hidden;
+       }
+
+       .takeaway-item::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 4px;
+           height: 100%;
+           background: var(--blue-gradient);
+           transition: width var(--timing-medium) var(--easing-smooth);
+       }
+
+       .takeaway-item:hover::before {
+           width: 8px;
+       }
+
+       .takeaway-item:nth-child(1) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3s forwards; }
+       .takeaway-item:nth-child(2) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3.3s forwards; }
+       .takeaway-item:nth-child(3) { animation: slideInTakeaway var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
+
+       .takeaway-item:hover {
+           transform: translateX(8px);
+           border-left-color: var(--accent-light);
+           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+           background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+       }
+
+       .takeaway-number {
+           color: var(--accent-blue);
+           font-weight: 800;
+           font-size: 1.4rem;
+           min-width: 30px;
+           height: 30px;
+           border-radius: 50%;
+           background: rgba(59, 130, 246, 0.1);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           margin-top: 2px;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           border: 2px solid rgba(59, 130, 246, 0.2);
+       }
+
+       .takeaway-item:hover .takeaway-number {
+           background: rgba(59, 130, 246, 0.2);
+           border-color: var(--accent-light);
+           color: var(--accent-light);
+           transform: scale(1.1);
+       }
+
+       .takeaway-text {
+           color: var(--text-secondary);
+           font-size: 1.05rem;
+           line-height: 1.6;
+           font-weight: 500;
+           flex: 1;
+       }
+
+       .takeaway-highlight {
+           color: var(--accent-light);
+           font-weight: 700;
+       }
+
        /* Main Analysis Card - Centered and Expanded */
        .analysis-card {
            background: var(--secondary-bg);
@@ -133,7 +277,7 @@
            width: 100%;
            transform: translateY(30px);
            opacity: 0;
-           animation: revealMainCard var(--timing-medium) var(--easing-smooth) 1.8s forwards;
+           animation: revealMainCard var(--timing-medium) var(--easing-smooth) 4s forwards;
            position: relative;
            overflow: hidden;
        }
@@ -147,7 +291,7 @@
            height: 6px;
            background: var(--amber-gradient);
            transform: scaleX(0);
-           animation: slideTopBar var(--timing-slow) var(--easing-tech) 2.2s forwards;
+           animation: slideTopBar var(--timing-slow) var(--easing-tech) 4.4s forwards;
        }
 
        .analysis-card:hover {
@@ -170,7 +314,7 @@
            color: var(--accent-amber);
            opacity: 0;
            transform: scale(0);
-           animation: revealIcon var(--timing-fast) var(--easing-bounce) 2.6s forwards;
+           animation: revealIcon var(--timing-fast) var(--easing-bounce) 4.8s forwards;
        }
 
        .card-title {
@@ -194,7 +338,7 @@
            border: 1px solid var(--border-amber);
            opacity: 0;
            transform: translateY(20px);
-           animation: slideInTable var(--timing-medium) var(--easing-smooth) 3s forwards;
+           animation: slideInTable var(--timing-medium) var(--easing-smooth) 5.2s forwards;
            box-shadow: var(--shadow-md);
        }
 
@@ -239,15 +383,15 @@
            position: relative;
        }
 
-       .grid-row:nth-child(2) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.4s forwards; }
-       .grid-row:nth-child(3) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 3.7s forwards; }
-       .grid-row:nth-child(4) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4s forwards; }
-       .grid-row:nth-child(5) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.3s forwards; }
-       .grid-row:nth-child(6) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.6s forwards; }
-       .grid-row:nth-child(7) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 4.9s forwards; }
-       .grid-row:nth-child(8) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.2s forwards; }
-       .grid-row:nth-child(9) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.5s forwards; }
-       .grid-row:nth-child(10) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.8s forwards; }
+       .grid-row:nth-child(2) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.6s forwards; }
+       .grid-row:nth-child(3) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 5.9s forwards; }
+       .grid-row:nth-child(4) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 6.2s forwards; }
+       .grid-row:nth-child(5) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 6.5s forwards; }
+       .grid-row:nth-child(6) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 6.8s forwards; }
+       .grid-row:nth-child(7) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 7.1s forwards; }
+       .grid-row:nth-child(8) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 7.4s forwards; }
+       .grid-row:nth-child(9) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 7.7s forwards; }
+       .grid-row:nth-child(10) { animation: slideInGridRow var(--timing-fast) var(--easing-smooth) 8s forwards; }
 
        .grid-row:hover {
            background: rgba(245, 158, 11, 0.08);
@@ -571,28 +715,6 @@
            color: var(--accent-light);
        }
 
-       /* Strategic Insight Summary - Modified to remove title and resize */
-       .strategic-insight {
-           margin-top: 2rem;
-           background: rgba(59, 130, 246, 0.08);
-           padding: 1.5rem;
-           border-radius: 12px;
-           border-left: 4px solid var(--accent-blue);
-           opacity: 0;
-           transform: translateY(20px);
-           animation: revealInsight var(--timing-medium) var(--easing-smooth) 6.2s forwards;
-           text-align: center;
-       }
-
-       .insight-content {
-           font-size: 1.0rem;
-           color: var(--text-primary);
-           line-height: 1.6;
-           font-weight: 500;
-           margin: 0 auto;
-           text-align: left;
-       }
-
        .navigation {
            position: fixed;
            bottom: 2rem;
@@ -602,7 +724,7 @@
            z-index: 100;
            opacity: 0;
            transform: translateY(20px);
-           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 6.8s forwards;
+           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 8.4s forwards;
        }
 
        .nav-btn {
@@ -667,6 +789,31 @@
            to { opacity: 1; }
        }
 
+       @keyframes revealTakeaways {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideTakeawaysBar {
+           from { transform: scaleX(0); }
+           to { transform: scaleX(1); }
+       }
+
+       @keyframes revealTakeawaysIcon {
+           from { opacity: 0; transform: scale(0); }
+           to { opacity: 1; transform: scale(1); }
+       }
+
+       @keyframes revealTakeawaysTitle {
+           from { opacity: 0; transform: translateX(-20px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes slideInTakeaway {
+           from { opacity: 0; transform: translateX(-30px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
        @keyframes revealMainCard {
            from { opacity: 0; transform: translateY(30px); }
            to { opacity: 1; transform: translateY(0); }
@@ -692,11 +839,6 @@
            to { opacity: 1; transform: translateX(0); }
        }
 
-       @keyframes revealInsight {
-           from { opacity: 0; transform: translateY(20px); }
-           to { opacity: 1; transform: translateY(0); }
-       }
-
        @keyframes revealNavigation {
            from { opacity: 0; transform: translateY(20px); }
            to { opacity: 1; transform: translateY(0); }
@@ -704,7 +846,7 @@
 
        /* Responsive Design */
        @media (max-width: 1600px) {
-           .analysis-card {
+           .analysis-card, .key-takeaways-section {
                max-width: 1400px;
            }
            
@@ -730,7 +872,7 @@
            .header h1 { font-size: 2.5rem; }
            .subtitle { font-size: 1.2rem; }
 
-           .analysis-card {
+           .analysis-card, .key-takeaways-section {
                padding: 2.5rem;
                max-width: 1200px;
            }
@@ -740,8 +882,12 @@
                padding: 0.8rem 0.6rem;
            }
 
-           .insight-content {
-               font-size: 1.2rem;
+           .takeaways-title {
+               font-size: 1.8rem;
+           }
+
+           .takeaway-text {
+               font-size: 1rem;
            }
        }
 
@@ -750,7 +896,7 @@
                padding: 2rem;
            }
 
-           .analysis-card {
+           .analysis-card, .key-takeaways-section {
                padding: 2rem;
            }
            
@@ -766,22 +912,26 @@
                font-size: 1.1rem; 
            }
 
-           .card-header {
+           .card-header, .takeaways-header {
                flex-direction: column;
                gap: 1rem;
                text-align: center;
            }
 
-           .card-icon {
+           .card-icon, .takeaways-icon {
                font-size: 2.5rem;
            }
 
-           .card-title {
+           .card-title, .takeaways-title {
                font-size: 2rem;
            }
 
            .card-subtitle {
                font-size: 1.1rem;
+           }
+
+           .takeaway-text {
+               font-size: 0.95rem;
            }
 
            /* Mobile grid adjustments */
@@ -807,10 +957,6 @@
            .grid-cell {
                padding: 1rem;
                font-size: 0.9rem;
-           }
-
-           .insight-content {
-               font-size: 1.1rem;
            }
 
            .metric-badge {
@@ -856,7 +1002,7 @@
                padding: 2rem; 
            }
 
-           .analysis-card {
+           .analysis-card, .key-takeaways-section {
                padding: 2rem;
            }
        }
@@ -884,6 +1030,35 @@
        </header>
 
        <main class="content">
+           <!-- 🎯 McKINSEY-STYLE KEY TAKEAWAYS SECTION -->
+           <div class="key-takeaways-section">
+               <div class="takeaways-header">
+                   <div class="takeaways-icon">💡</div>
+                   <div class="takeaways-title">Key Takeaways</div>
+               </div>
+               
+               <ul class="takeaways-list">
+                   <li class="takeaway-item">
+                       <div class="takeaway-number">1</div>
+                       <div class="takeaway-text">
+                           Data analysis reveals that <span class="takeaway-highlight">targeted mobile outreach to previously contacted clients</span> represents the highest-yield opportunity for campaign optimization
+                       </div>
+                   </li>
+                   <li class="takeaway-item">
+                       <div class="takeaway-number">2</div>
+                       <div class="takeaway-text">
+                           Client ID presented our most significant modeling decision: choosing <span class="takeaway-highlight">model integrity over apparent predictive power</span>
+                       </div>
+                   </li>
+                   <li class="takeaway-item">
+                       <div class="takeaway-number">3</div>
+                       <div class="takeaway-text">
+                           While our model achieved relatively good performance with available features, the <span class="takeaway-highlight">missing economic context features represent the biggest opportunity for improvement</span>. Research shows that macroeconomic indicators like interest rates and employment rates are among the strongest predictors of term deposit subscriptions
+                       </div>
+                   </li>
+               </ul>
+           </div>
+
            <!-- Centered Data Analysis Card -->
            <div class="analysis-card">
                <div class="card-header">
@@ -988,17 +1163,6 @@
                        <div class="grid-cell finding">Weak correlation. Single people highest subscription rate</div>
                        <div class="grid-cell solution">Convert to binary 'is_single'</div>
                        <div class="grid-cell business">Find out why married/divorced have low subscription rates</div>
-                   </div>
-               </div>
-
-               <!-- Strategic Insight Summary - Removed title, reduced padding -->
-               <div class="strategic-insight">
-                   <div class="insight-content">
-                       <ul>
-                           <li>Data analysis reveals that targeted mobile outreach to previously contacted clients represents the highest-yield opportunity for campaign optimization</li>
-                           <li>Focus areas include students and seniors demographics</li>
-                           <li>Mobile-first approach shows significantly better engagement rates</li>
-                       </ul>
                    </div>
                </div>
            </div>
@@ -1148,7 +1312,7 @@
                        <ul class="popup-list">
                            <li class="popup-list-item">
                                <span class="popup-list-bullet">❌</span>
-                               <span class="popup-list-text"><span class="popup-warning">False Pattern</span>: High customer IDs correlated with success, but the ID itself doesn't cause higher subscription rates, but likely reflects campaign optimization over time. Feature fails as soon as new customers get random/sequential IDs </span>
+                               <span class="popup-list-text"><span class="popup-warning">False Pattern</span>: High customer IDs correlated with success, but the ID itself doesn't cause higher subscription rates, but likely reflects campaign optimization over time</span>
                            </li>
                        </ul>
                    </div>
@@ -1178,7 +1342,7 @@
                            </li>
                            <li class="popup-list-item">
                                <span class="popup-list-bullet">•</span>
-                               <span class="popup-list-text">Seasonal indicators (holiday periods, bonus season, end-of-quarter timing)</span>
+                               <span class="popup-list-text">Seasonal indicators (holiday periods, end-of-quarter timing)</span>
                            </li>
                            <li class="popup-list-item">
                                <span class="popup-list-bullet">•</span>

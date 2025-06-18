@@ -495,4 +495,356 @@
         }
 
         .detail-panel::-webkit-scrollbar-thumb {
-            background: var(--gradient-blue)
+            background: var(--gradient-blue);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">ML Pipeline Explorer</div>
+        <div class="view-controls">
+            <button class="control-btn active" onclick="setView('overview')">Overview</button>
+            <button class="control-btn" onclick="setView('config')">Configuration</button>
+            <button class="control-btn" onclick="setView('data')">Data Flow</button>
+            <button class="control-btn" onclick="setView('training')">Training</button>
+            <button class="control-btn" onclick="setView('results')">Results</button>
+        </div>
+    </header>
+
+    <!-- Navigation Sidebar -->
+    <div class="nav-sidebar">
+        <button class="nav-btn" onclick="zoomOut()" title="Zoom Out">−</button>
+        <button class="nav-btn" onclick="zoomIn()" title="Zoom In">+</button>
+        <button class="nav-btn" onclick="resetView()" title="Reset View">⌂</button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="pipeline-canvas" id="pipelineCanvas">
+            <div class="pipeline-container">
+                <!-- Pipeline Stages -->
+                <div class="pipeline-stage stage-setup" onclick="showDetail('setup')">
+                    <div class="stage-title">Setup & Configuration</div>
+                    <div class="stage-subtitle">config/config.yaml</div>
+                    <ul class="stage-items">
+                        <li>Centralized settings</li>
+                        <li>Easy experimentation</li>
+                        <li>Environment setup</li>
+                        <li>Logging configuration</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-data" onclick="showDetail('data')">
+                    <div class="stage-title">Data Processing</div>
+                    <div class="stage-subtitle">src/data_loader.py</div>
+                    <ul class="stage-items">
+                        <li>SQLite ingestion</li>
+                        <li>Configurable cleaning</li>
+                        <li>Feature engineering</li>
+                        <li>Train/test splitting</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-training" onclick="showDetail('training')">
+                    <div class="stage-title">Model Training</div>
+                    <div class="stage-subtitle">src/train_and_evaluate.py</div>
+                    <ul class="stage-items">
+                        <li>Nested cross-validation</li>
+                        <li>Grid search optimization</li>
+                        <li>Seven model types</li>
+                        <li>Automated selection</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-ensemble" onclick="showDetail('ensemble')">
+                    <div class="stage-title">Pipeline Creation</div>
+                    <div class="stage-subtitle">src/model.py</div>
+                    <ul class="stage-items">
+                        <li>Dynamic feature detection</li>
+                        <li>Automated preprocessing</li>
+                        <li>Model ensembling</li>
+                        <li>Scikit-learn integration</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-evaluation" onclick="showDetail('evaluation')">
+                    <div class="stage-title">Evaluation & Optimization</div>
+                    <div class="stage-subtitle">Performance Analysis</div>
+                    <ul class="stage-items">
+                        <li>Unbiased estimates</li>
+                        <li>Threshold optimization</li>
+                        <li>Feature importance</li>
+                        <li>Visualization generation</li>
+                    </ul>
+                </div>
+
+                <div class="pipeline-stage stage-output" onclick="showDetail('output')">
+                    <div class="stage-title">Results & Reporting</div>
+                    <div class="stage-subtitle">Output Generation</div>
+                    <ul class="stage-items">
+                        <li>CSV metric exports</li>
+                        <li>Interactive visualizations</li>
+                        <li>Model comparisons</li>
+                        <li>Executive summaries</li>
+                    </ul>
+                </div>
+
+                <!-- Flow Connections -->
+                <div class="flow-connection connection-1"></div>
+                <div class="flow-connection connection-2"></div>
+                <div class="flow-connection connection-3"></div>
+                <div class="flow-connection connection-4"></div>
+                <div class="flow-connection connection-5"></div>
+
+                <!-- Detail Panels -->
+                <div class="detail-panel" id="detail-setup" style="left: 100px;">
+                    <div class="detail-title">Configuration Management</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Enable configurability to facilitate easy experimentation.</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Features:</h4>
+                        <ul class="detail-list">
+                            <li>Centralized settings for all pipeline components</li>
+                            <li>Enables easy experimentation without code changes</li>
+                            <li>Environment-specific configurations</li>
+                            <li>Automated logging and directory setup</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-data" style="left: 500px;">
+                    <div class="detail-title">Data Ingestion, Cleaning and Preprocessing</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Offers the capability to choose various features and determine their preprocessing approaches.</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Functions:</h4>
+                        <ul class="detail-list">
+                            <li>Comprehensive and configurable data cleaning and feature engineering</li>
+                            <li>Choose core features for model and how to preprocess them</li>
+                            <li>Select engineered features for experimentation based on insights gained from EDA</li>
+                            <li>Automated data quality checks and validation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-training" style="left: 960px;">
+                    <div class="detail-title">Training & Evaluation</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principles:</h4>
+                        <p>1. Create unbiased performance estimates with nested cross validation<br>
+                        2. Automated selection of best model and perform threshold optimization<br>
+                        3. Allow ease of evaluation with proper recording and visualization techniques</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Capabilities:</h4>
+                        <ul class="detail-list">
+                            <li>Configurable splits for nested cross validation</li>
+                            <li>Usage of GridSearchCV for hyper parameter tuning</li>
+                            <li>Save evaluation results to csv for easy access and evaluation</li>
+                            <li>Automated model comparison and selection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-ensemble" style="left: 1440px;">
+                    <div class="detail-title">Create Scikit-learn Pipeline</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Automate and streamline pipeline creation</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Features:</h4>
+                        <ul class="detail-list">
+                            <li>Dynamic feature type detection (categorical vs numeric) based on selected features</li>
+                            <li>Automated preprocessing pipeline construction based on selected models</li>
+                            <li>Seven model implementations to choose from for experimentation</li>
+                            <li>Intelligent ensemble creation from best performing models</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-evaluation" style="left: 1900px;">
+                    <div class="detail-title">Performance Evaluation</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Comprehensive model assessment and optimization for business impact</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Features:</h4>
+                        <ul class="detail-list">
+                            <li>Multiple evaluation metrics for comprehensive assessment</li>
+                            <li>Feature importance analysis and visualization</li>
+                            <li>Business-focused threshold optimization</li>
+                            <li>Automated report and visualization generation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-panel" id="detail-output" style="left: 2380px;">
+                    <div class="detail-title">Results & Reporting</div>
+                    <div class="detail-principle">
+                        <h4>Key Design Principle:</h4>
+                        <p>Comprehensive documentation and result preservation for stakeholder communication</p>
+                    </div>
+                    <div class="detail-functions">
+                        <h4>Outputs:</h4>
+                        <ul class="detail-list">
+                            <li>Performance metrics and model comparisons in CSV format</li>
+                            <li>Interactive feature importance visualizations</li>
+                            <li>Model predictions and probability distributions</li>
+                            <li>Executive summary reports for business stakeholders</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div class="status-indicator" id="statusIndicator">
+        Pipeline Overview → Click any component to explore details
+    </div>
+
+    <script>
+        let currentZoom = 1;
+        let currentView = 'overview';
+        let activeDetail = null;
+
+        const canvas = document.getElementById('pipelineCanvas');
+        const statusIndicator = document.getElementById('statusIndicator');
+
+        // Smooth zoom functions
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.3, 2.5);
+            updateCanvas();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.3, 0.6);
+            updateCanvas();
+        }
+
+        function resetView() {
+            currentZoom = 1;
+            currentView = 'overview';
+            canvas.style.transform = 'scale(1) translate(0, 0)';
+            hideAllDetails();
+            updateControls();
+            updateStatus('Pipeline Overview → Click any component to explore details');
+        }
+
+        function updateCanvas() {
+            canvas.style.transform = `scale(${currentZoom})`;
+        }
+
+        // View management
+        function setView(view) {
+            currentView = view;
+            hideAllDetails();
+            
+            const transforms = {
+                'overview': 'scale(1) translate(0, 0)',
+                'config': 'scale(1.8) translate(-200px, -50px)',
+                'data': 'scale(1.8) translate(-600px, -50px)',
+                'training': 'scale(1.8) translate(-1200px, -50px)',
+                'results': 'scale(1.8) translate(-1800px, -50px)'
+            };
+
+            canvas.style.transform = transforms[view] || transforms['overview'];
+            updateControls();
+            updateStatus(`${view.charAt(0).toUpperCase() + view.slice(1)} View → Explore pipeline components`);
+        }
+
+        function updateControls() {
+            document.querySelectorAll('.control-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[onclick="setView('${currentView}')"]`)?.classList.add('active');
+        }
+
+        // Detail panel management
+        function showDetail(stageId) {
+            hideAllDetails();
+            activeDetail = stageId;
+            
+            const detailPanel = document.getElementById(`detail-${stageId}`);
+            if (detailPanel) {
+                detailPanel.classList.add('active');
+            }
+
+            // Highlight active stage
+            document.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            document.querySelector(`.stage-${stageId}`)?.classList.add('active');
+
+            updateStatus(`Exploring: ${stageId.charAt(0).toUpperCase() + stageId.slice(1)} Component Details`);
+        }
+
+        function hideAllDetails() {
+            document.querySelectorAll('.detail-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.querySelectorAll('.pipeline-stage').forEach(stage => {
+                stage.classList.remove('active');
+            });
+            activeDetail = null;
+        }
+
+        function updateStatus(message) {
+            statusIndicator.textContent = message;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const keyActions = {
+                'ArrowLeft': () => zoomOut(),
+                'ArrowRight': () => zoomIn(),
+                '=': () => zoomIn(),
+                '+': () => zoomIn(),
+                '-': () => zoomOut(),
+                'r': () => resetView(),
+                'R': () => resetView(),
+                'Escape': () => { hideAllDetails(); updateStatus('Pipeline Overview → Click any component to explore details'); },
+                '1': () => setView('config'),
+                '2': () => setView('data'),
+                '3': () => setView('training'),
+                '4': () => setView('results'),
+                '0': () => setView('overview')
+            };
+            
+            if (keyActions[e.key]) {
+                e.preventDefault();
+                keyActions[e.key]();
+            }
+        });
+
+        // Mouse wheel zoom
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY < 0) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+        });
+
+        // Initialize
+        updateControls();
+    </script>
+</body>
+</html>

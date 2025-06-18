@@ -194,10 +194,11 @@
       }
 
       .education-icon {
-          font-size: 2.5rem;
-          color: var(--accent-light);
+          width: 2.5rem;
+          height: 2.5rem;
+          object-fit: contain;
           min-width: 50px;
-          transition: transform var(--timing-fast) var(--easing-bounce);
+          transition: all var(--timing-fast) var(--easing-smooth);
       }
 
       .education-card:hover .education-icon {
@@ -318,12 +319,18 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.4rem;
           margin-bottom: 0.8rem;
           transition: all var(--timing-fast) var(--easing-smooth);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
           position: relative;
           z-index: 3;
+      }
+
+      .step-icon {
+          width: 1.4rem;
+          height: 1.4rem;
+          object-fit: contain;
+          transition: all var(--timing-fast) var(--easing-smooth);
       }
 
       .step-circle.active {
@@ -594,15 +601,14 @@
       }
 
       .hobby-icon {
-          font-size: 1.6rem;
-          width: 30px;
-          text-align: center;
-          transition: all var(--timing-fast) var(--easing-bounce);
+          width: 1.6rem;
+          height: 1.6rem;
+          object-fit: contain;
+          transition: all var(--timing-fast) var(--easing-smooth);
       }
 
       .hobby-item:hover .hobby-icon {
           transform: rotate(8deg) scale(1.1);
-          color: var(--accent-light);
       }
 
       .hobby-text {
@@ -797,6 +803,21 @@
           .section-title { font-size: 1.8rem; }
           .why-ml-content { font-size: 1.1rem; }
           .expectations-content p { font-size: 1.1rem; }
+
+          .education-icon {
+              width: 2.2rem;
+              height: 2.2rem;
+          }
+
+          .step-icon {
+              width: 1.2rem;
+              height: 1.2rem;
+          }
+
+          .hobby-icon {
+              width: 1.4rem;
+              height: 1.4rem;
+          }
       }
 
       @media (max-width: 768px) {
@@ -879,6 +900,21 @@
           .video-hover-container {
               cursor: default;
           }
+
+          .education-icon {
+              width: 2rem;
+              height: 2rem;
+          }
+
+          .step-icon {
+              width: 1.1rem;
+              height: 1.1rem;
+          }
+
+          .hobby-icon {
+              width: 1.3rem;
+              height: 1.3rem;
+          }
       }
 
       @media (max-height: 900px) {
@@ -917,7 +953,7 @@
               <h2 class="section-title">Career Journey</h2>
               <div class="section-content">
                   <div class="education-card">
-                      <div class="education-icon">🎓</div>
+                      <img src="icons/explore.png" alt="Education" class="education-icon">
                       <div class="education-details">
                           <h4>Education</h4>
                           <p>Degree in Engineering Science (EEE)</p>
@@ -933,37 +969,49 @@
                       </div>
                       <div class="timeline-steps">
                           <div class="timeline-step">
-                              <div class="step-circle">⚡</div>
+                              <div class="step-circle">
+                                  <img src="icons/pipeline.png" alt="Electrical Engineer" class="step-icon">
+                              </div>
                               <div class="step-year">2017</div>
                               <div class="step-title">Electrical Engineer</div>
                               <div class="step-company">Keppel FELS</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">💡</div>
+                              <div class="step-circle">
+                                  <img src="icons/impact.png" alt="Intrapreneur" class="step-icon">
+                              </div>
                               <div class="step-year">2018</div>
                               <div class="step-title">Intrapreneur: Online bunkering platform</div>
                               <div class="step-company">Keppel FELS</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">🏥</div>
+                              <div class="step-circle">
+                                  <img src="icons/metrics.png" alt="Project Manager" class="step-icon">
+                              </div>
                               <div class="step-year">2019</div>
                               <div class="step-title">Project Manager</div>
                               <div class="step-company">Synapxe</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">📈</div>
+                              <div class="step-circle">
+                                  <img src="icons/data.png" alt="Algorithmic Trader" class="step-icon">
+                              </div>
                               <div class="step-year">2021</div>
                               <div class="step-title">Algorithmic Trader</div>
                               <div class="step-company">Grasshopper</div>
                           </div>
                           <div class="timeline-step">
-                              <div class="step-circle">📋</div>
+                              <div class="step-circle">
+                                  <img src="icons/channel.png" alt="ISO Quality Rep" class="step-icon">
+                              </div>
                               <div class="step-year">2023</div>
                               <div class="step-title">ISO Quality Rep</div>
                               <div class="step-company">Thai Eastern Wire</div>
                           </div>
                           <div class="timeline-step current">
-                              <div class="step-circle current">🤖</div>
+                              <div class="step-circle current">
+                                  <img src="icons/explore.png" alt="AI/ML Engineer" class="step-icon">
+                              </div>
                               <div class="step-year">2025</div>
                               <div class="step-title">Budding AI/ML Engineer</div>
                               <div class="step-company">AIAP Applicant</div>
@@ -989,19 +1037,19 @@
                       <h3>My Hobbies</h3>
                       <div class="hobbies-grid">
                           <div class="hobby-item">
-                              <div class="hobby-icon">⛳</div>
+                              <img src="icons/explore.png" alt="Golf" class="hobby-icon">
                               <div class="hobby-text">Passionate golfer</div>
                           </div>
                           <div class="hobby-item">
-                              <div class="hobby-icon">🗺️</div>
+                              <img src="icons/pipeline.png" alt="Travel" class="hobby-icon">
                               <div class="hobby-text">Avid travel planner</div>
                           </div>
                           <div class="hobby-item">
-                              <div class="hobby-icon">🏠</div>
+                              <img src="icons/metrics.png" alt="Home automation" class="hobby-icon">
                               <div class="hobby-text">Home automation hobbyist</div>
                           </div>
                           <div class="hobby-item">
-                              <div class="hobby-icon">👨‍🍳</div>
+                              <img src="icons/data.png" alt="Cooking" class="hobby-icon">
                               <div class="hobby-text">Beginner cook</div>
                           </div>
                       </div>

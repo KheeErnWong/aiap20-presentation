@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
    <meta charset="UTF-8">
@@ -992,4 +992,23 @@
        document.addEventListener('keydown', (e) => {
            const keyActions = {
                'ArrowLeft': () => navigateToSlide('slide4.html'),
-     
+               'Backspace': () => navigateToSlide('slide4.html'),
+               'ArrowRight': () => navigateToSlide('slide6.html'),
+               ' ': () => navigateToSlide('slide6.html'),
+               'h': () => navigateToSlide('index.html'),
+               'H': () => navigateToSlide('index.html'),
+               'f': () => document.documentElement.requestFullscreen?.(),
+               'F': () => document.documentElement.requestFullscreen?.(),
+               '0': () => navigateToSlide('slide10.html')
+           };
+           
+           if (e.key >= '1' && e.key <= '9') {
+               navigateToSlide(`slide${e.key}.html`);
+           } else if (keyActions[e.key]) {
+               e.preventDefault();
+               keyActions[e.key]();
+           }
+       });
+   </script>
+</body>
+</html>

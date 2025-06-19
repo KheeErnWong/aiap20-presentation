@@ -24,6 +24,18 @@
             --timing-slow: 1.2s;
             --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
             --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Model Performance Colors */
+            --gold: #fbbf24;
+            --silver: #9ca3af;
+            --bronze: #f97316;
+            --blue-1: #3b82f6;
+            --blue-2: #1e40af;
+            --purple: #8b5cf6;
+            --cyan: #06b6d4;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --amber: #d97706;
         }
 
         * {
@@ -135,45 +147,79 @@
             filter: brightness(0) saturate(100%) invert(47%) sepia(82%) saturate(1352%) hue-rotate(204deg) brightness(98%) contrast(91%);
         }
 
-        /* F2 Score Chart */
+        /* Compact F2 Score Chart */
         .f2-chart {
-            margin: 1.5rem 0;
+            margin: 1rem 0;
         }
 
         .chart-item {
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
-            padding: 0.8rem;
-            background: rgba(59, 130, 246, 0.1);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-blue);
+            margin-bottom: 0.5rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
             transition: all var(--timing-fast) var(--easing-smooth);
             opacity: 0;
             transform: translateX(-30px);
+            position: relative;
+            overflow: hidden;
         }
 
-        .chart-item:nth-child(1) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.5s forwards; }
-        .chart-item:nth-child(2) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.7s forwards; }
-        .chart-item:nth-child(3) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.9s forwards; }
-        .chart-item:nth-child(4) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.1s forwards; }
-        .chart-item:nth-child(5) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.3s forwards; }
-        .chart-item:nth-child(6) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.5s forwards; }
-        .chart-item:nth-child(7) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.7s forwards; }
-        .chart-item:nth-child(8) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.9s forwards; }
-        .chart-item:nth-child(9) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 4.1s forwards; }
-        .chart-item:nth-child(10) { animation: slideInChart var(--timing-medium) var(--easing-smooth) 4.3s forwards; }
+        /* Color-coded models */
+        .chart-item:nth-child(1) { 
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.1));
+            border-left: 4px solid var(--gold);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.5s forwards;
+        }
+        .chart-item:nth-child(2) { 
+            background: linear-gradient(135deg, rgba(156, 163, 175, 0.2), rgba(156, 163, 175, 0.1));
+            border-left: 4px solid var(--silver);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+        }
+        .chart-item:nth-child(3) { 
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(249, 115, 22, 0.1));
+            border-left: 4px solid var(--bronze);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.7s forwards;
+        }
+        .chart-item:nth-child(4) { 
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+            border-left: 4px solid var(--blue-1);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.8s forwards;
+        }
+        .chart-item:nth-child(5) { 
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.2), rgba(30, 64, 175, 0.1));
+            border-left: 4px solid var(--blue-2);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 2.9s forwards;
+        }
+        .chart-item:nth-child(6) { 
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.1));
+            border-left: 4px solid var(--purple);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.0s forwards;
+        }
+        .chart-item:nth-child(7) { 
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.1));
+            border-left: 4px solid var(--cyan);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.1s forwards;
+        }
+        .chart-item:nth-child(8) { 
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+            border-left: 4px solid var(--emerald);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.2s forwards;
+        }
+        .chart-item:nth-child(9) { 
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(244, 63, 94, 0.1));
+            border-left: 4px solid var(--rose);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.3s forwards;
+        }
+        .chart-item:nth-child(10) { 
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(217, 119, 6, 0.1));
+            border-left: 4px solid var(--amber);
+            animation: slideInChart var(--timing-medium) var(--easing-smooth) 3.4s forwards;
+        }
 
         .chart-item:hover {
-            background: rgba(59, 130, 246, 0.2);
-            transform: translateX(5px);
-            border-left-color: var(--accent-light);
-        }
-
-        .chart-item.top-performer {
-            background: rgba(96, 165, 250, 0.2);
-            border-left-color: var(--accent-light);
-            box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .model-info {
@@ -181,6 +227,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
+            min-height: 1.5rem;
         }
 
         .model-name {
@@ -188,41 +235,88 @@
             color: var(--text-primary);
             flex: 1;
             margin-right: 1rem;
+            font-size: 0.95rem;
         }
 
         .model-name.optimized::after {
             content: "⚡";
             margin-left: 0.5rem;
-            color: var(--accent-light);
+            color: var(--gold);
         }
 
         .f2-score {
             font-size: 1.1rem;
             font-weight: 700;
-            color: var(--accent-light);
-            background: rgba(59, 130, 246, 0.2);
-            padding: 0.3rem 0.8rem;
-            border-radius: 6px;
-            min-width: 80px;
+            color: var(--text-primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            min-width: 70px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: rgba(59, 130, 246, 0.3);
-            border-radius: 3px;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
+        /* Color-coded F2 scores */
+        .chart-item:nth-child(1) .f2-score { background: rgba(251, 191, 36, 0.3); color: var(--gold); }
+        .chart-item:nth-child(2) .f2-score { background: rgba(156, 163, 175, 0.3); color: var(--silver); }
+        .chart-item:nth-child(3) .f2-score { background: rgba(249, 115, 22, 0.3); color: var(--bronze); }
+        .chart-item:nth-child(4) .f2-score { background: rgba(59, 130, 246, 0.3); color: var(--blue-1); }
+        .chart-item:nth-child(5) .f2-score { background: rgba(30, 64, 175, 0.3); color: var(--blue-2); }
+        .chart-item:nth-child(6) .f2-score { background: rgba(139, 92, 246, 0.3); color: var(--purple); }
+        .chart-item:nth-child(7) .f2-score { background: rgba(6, 182, 212, 0.3); color: var(--cyan); }
+        .chart-item:nth-child(8) .f2-score { background: rgba(16, 185, 129, 0.3); color: var(--emerald); }
+        .chart-item:nth-child(9) .f2-score { background: rgba(244, 63, 94, 0.3); color: var(--rose); }
+        .chart-item:nth-child(10) .f2-score { background: rgba(217, 119, 6, 0.3); color: var(--amber); }
 
-        .progress-fill {
+        .performance-bar {
+            position: absolute;
+            right: 0;
+            top: 0;
             height: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-light));
-            border-radius: 3px;
+            border-radius: 0 6px 6px 0;
+            opacity: 0.15;
             width: 0;
-            transition: width 1s var(--easing-smooth);
+            transition: width 1.5s var(--easing-smooth);
         }
+
+        /* Performance bars with same colors */
+        .chart-item:nth-child(1) .performance-bar { background: var(--gold); }
+        .chart-item:nth-child(2) .performance-bar { background: var(--silver); }
+        .chart-item:nth-child(3) .performance-bar { background: var(--bronze); }
+        .chart-item:nth-child(4) .performance-bar { background: var(--blue-1); }
+        .chart-item:nth-child(5) .performance-bar { background: var(--blue-2); }
+        .chart-item:nth-child(6) .performance-bar { background: var(--purple); }
+        .chart-item:nth-child(7) .performance-bar { background: var(--cyan); }
+        .chart-item:nth-child(8) .performance-bar { background: var(--emerald); }
+        .chart-item:nth-child(9) .performance-bar { background: var(--rose); }
+        .chart-item:nth-child(10) .performance-bar { background: var(--amber); }
+
+        /* Rank indicators */
+        .rank-indicator {
+            position: absolute;
+            left: -0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-bg);
+        }
+
+        .chart-item:nth-child(1) .rank-indicator { background: var(--gold); }
+        .chart-item:nth-child(2) .rank-indicator { background: var(--silver); }
+        .chart-item:nth-child(3) .rank-indicator { background: var(--bronze); }
+        .chart-item:nth-child(4) .rank-indicator { background: var(--blue-1); }
+        .chart-item:nth-child(5) .rank-indicator { background: var(--blue-2); }
+        .chart-item:nth-child(6) .rank-indicator { background: var(--purple); }
+        .chart-item:nth-child(7) .rank-indicator { background: var(--cyan); }
+        .chart-item:nth-child(8) .rank-indicator { background: var(--emerald); }
+        .chart-item:nth-child(9) .rank-indicator { background: var(--rose); }
+        .chart-item:nth-child(10) .rank-indicator { background: var(--amber); }
 
         /* Business Impact Section */
         .impact-grid {
@@ -418,6 +512,10 @@
                 padding: 0.6rem 1.2rem;
                 font-size: 0.9rem;
             }
+
+            .rank-indicator {
+                display: none;
+            }
         }
 
         @media (max-height: 900px) {
@@ -499,104 +597,94 @@
                 </h2>
                 
                 <div class="f2-chart">
-                    <div class="chart-item top-performer">
+                    <div class="chart-item">
+                        <div class="rank-indicator">1</div>
                         <div class="model-info">
                             <span class="model-name optimized">Best Ensemble (Optimized)</span>
                             <span class="f2-score">0.474</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="94.8"></div>
-                        </div>
+                        <div class="performance-bar" data-width="100"></div>
                     </div>
                     
-                    <div class="chart-item top-performer">
+                    <div class="chart-item">
+                        <div class="rank-indicator">2</div>
                         <div class="model-info">
                             <span class="model-name optimized">Basic Ensemble (Optimized)</span>
                             <span class="f2-score">0.472</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="94.4"></div>
-                        </div>
+                        <div class="performance-bar" data-width="96"></div>
                     </div>
                     
-                    <div class="chart-item top-performer">
+                    <div class="chart-item">
+                        <div class="rank-indicator">3</div>
                         <div class="model-info">
                             <span class="model-name optimized">Balanced Bagging (Optimized)</span>
                             <span class="f2-score">0.468</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="93.6"></div>
-                        </div>
+                        <div class="performance-bar" data-width="88"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">4</div>
                         <div class="model-info">
                             <span class="model-name">Best Ensemble</span>
                             <span class="f2-score">0.465</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="93.0"></div>
-                        </div>
+                        <div class="performance-bar" data-width="82"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">5</div>
                         <div class="model-info">
                             <span class="model-name">Basic Ensemble</span>
                             <span class="f2-score">0.459</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="91.8"></div>
-                        </div>
+                        <div class="performance-bar" data-width="70"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">6</div>
                         <div class="model-info">
                             <span class="model-name">Balanced Bagging</span>
                             <span class="f2-score">0.458</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="91.6"></div>
-                        </div>
+                        <div class="performance-bar" data-width="68"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">7</div>
                         <div class="model-info">
                             <span class="model-name">XGBoost</span>
                             <span class="f2-score">0.452</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="90.4"></div>
-                        </div>
+                        <div class="performance-bar" data-width="56"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">8</div>
                         <div class="model-info">
                             <span class="model-name">Easy Ensemble</span>
                             <span class="f2-score">0.450</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="90.0"></div>
-                        </div>
+                        <div class="performance-bar" data-width="52"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">9</div>
                         <div class="model-info">
                             <span class="model-name">Logistic Regression</span>
                             <span class="f2-score">0.447</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="89.4"></div>
-                        </div>
+                        <div class="performance-bar" data-width="46"></div>
                     </div>
                     
                     <div class="chart-item">
+                        <div class="rank-indicator">10</div>
                         <div class="model-info">
                             <span class="model-name">Random Forest</span>
                             <span class="f2-score">0.425</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" data-width="85.0"></div>
-                        </div>
+                        <div class="performance-bar" data-width="20"></div>
                     </div>
                 </div>
             </section>
@@ -663,13 +751,13 @@
             window.location.href = url;
         }
 
-        // Animate progress bars after chart items load
+        // Animate performance bars after chart items load
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const progressFills = document.querySelectorAll('.progress-fill');
-                progressFills.forEach(fill => {
-                    const width = fill.getAttribute('data-width');
-                    fill.style.width = width + '%';
+                const performanceBars = document.querySelectorAll('.performance-bar');
+                performanceBars.forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
                 });
             }, 2500);
 

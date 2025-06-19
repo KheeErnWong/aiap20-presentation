@@ -24,8 +24,6 @@
             --timing-slow: 1.2s;
             --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
             --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --success-green: #10b981;
-            --warning-amber: #f59e0b;
         }
 
         * {
@@ -110,7 +108,7 @@
             animation: revealSection var(--timing-medium) var(--easing-smooth) 1.8s forwards;
         }
 
-        .section.business-impact {
+        .section.metrics-dashboard {
             animation: revealSection var(--timing-medium) var(--easing-smooth) 2.2s forwards;
         }
 
@@ -137,194 +135,315 @@
             filter: brightness(0) saturate(100%) invert(47%) sepia(82%) saturate(1352%) hue-rotate(204deg) brightness(98%) contrast(91%);
         }
 
-        /* Metric Cards Layout */
+        /* Professional Table-Style Performance Chart */
+        .performance-table {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table-header {
+            background: rgba(59, 130, 246, 0.15);
+            display: grid;
+            grid-template-columns: 60px 1fr 80px 100px;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-light);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 80px 100px;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            opacity: 0;
+            transform: translateX(-30px);
+            align-items: center;
+        }
+
+        /* Staggered animation for table rows */
+        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.5s forwards; }
+        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.7s forwards; }
+        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.9s forwards; }
+        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.1s forwards; }
+        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.3s forwards; }
+        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.5s forwards; }
+        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.7s forwards; }
+        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.9s forwards; }
+        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.1s forwards; }
+        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.3s forwards; }
+
+        .table-row:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateX(5px);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Top 3 performers styling */
+        .table-row.top-performer {
+            background: rgba(96, 165, 250, 0.08);
+            border-left: 3px solid var(--accent-light);
+        }
+
+        .table-row.top-performer:hover {
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        .rank-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .rank-cell.top-rank {
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        .model-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .optimization-badge {
+            background: rgba(96, 165, 250, 0.2);
+            color: var(--accent-light);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        .score-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .score-cell.top-score {
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        .indicator-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .performance-indicator {
+            width: 80px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .indicator-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-light));
+            border-radius: 3px;
+            width: 0;
+            transition: width 1.5s var(--easing-smooth);
+        }
+
+        .top-performer .indicator-fill {
+            background: linear-gradient(90deg, var(--accent-light), #93c5fd);
+        }
+
+        /* Key Metrics Dashboard */
+        .dashboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Hero F2 Score Section */
+        .hero-metric {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.1));
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-blue);
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: scaleIn var(--timing-medium) var(--easing-bounce) 2.8s forwards;
+        }
+
+        .hero-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 0.5rem;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .hero-label {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .hero-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Metrics Grid */
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
-            margin-bottom: 1.5rem;
         }
 
         .metric-card {
-            background: rgba(59, 130, 246, 0.1);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-blue);
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all var(--timing-fast) var(--easing-smooth);
             opacity: 0;
-            transform: scale(0.9);
-            text-align: center;
+            transform: translateY(20px);
         }
 
-        .metric-card:nth-child(1) { animation: scaleInMetric var(--timing-medium) var(--easing-bounce) 2.5s forwards; }
-        .metric-card:nth-child(2) { animation: scaleInMetric var(--timing-medium) var(--easing-bounce) 2.7s forwards; }
-        .metric-card:nth-child(3) { animation: scaleInMetric var(--timing-medium) var(--easing-bounce) 2.9s forwards; }
-        .metric-card:nth-child(4) { animation: scaleInMetric var(--timing-medium) var(--easing-bounce) 3.1s forwards; }
+        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.0s forwards; }
+        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.2s forwards; }
+        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.4s forwards; }
+        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
 
         .metric-card:hover {
-            transform: scale(1.05);
-            background: rgba(59, 130, 246, 0.2);
+            background: rgba(59, 130, 246, 0.08);
+            transform: translateY(-3px);
             box-shadow: var(--shadow-md);
         }
 
-        .metric-card.primary {
-            background: rgba(96, 165, 250, 0.2);
-            border-color: var(--accent-light);
+        .metric-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
         }
 
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-light);
-            display: block;
-            margin-bottom: 0.3rem;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-        }
-
-        .metric-card.primary .metric-value {
-            font-size: 2.4rem;
-            color: #93c5fd;
-        }
-
-        .metric-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .metric-description {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* Performance Summary */
-        .performance-summary {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp var(--timing-medium) var(--easing-smooth) 3.3s forwards;
-        }
-
-        .summary-title {
+        .metric-name {
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--accent-light);
-            margin-bottom: 0.8rem;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .metric-description {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Business Translation Section */
+        .business-translation {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp var(--timing-medium) var(--easing-smooth) 3.8s forwards;
+        }
+
+        .translation-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .summary-points {
-            list-style: none;
-            space-y: 0.5rem;
-        }
-
-        .summary-points li {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.4rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .summary-points li::before {
-            content: "▸";
-            color: var(--accent-blue);
-            font-weight: bold;
-            margin-top: 0.1rem;
-        }
-
-        /* Business Impact Section */
-        .impact-grid {
+        .translation-content {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 1rem;
-            margin-bottom: 1.5rem;
         }
 
-        .impact-card {
-            background: rgba(59, 130, 246, 0.1);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px solid var(--border-blue);
+        .translation-item {
             text-align: center;
-            transition: all var(--timing-fast) var(--easing-smooth);
-            opacity: 0;
-            transform: scale(0.9);
         }
 
-        .impact-card:nth-child(1) { animation: scaleIn var(--timing-medium) var(--easing-bounce) 2.8s forwards; }
-        .impact-card:nth-child(2) { animation: scaleIn var(--timing-medium) var(--easing-bounce) 3.0s forwards; }
-        .impact-card:nth-child(3) { animation: scaleIn var(--timing-medium) var(--easing-bounce) 3.2s forwards; }
-        .impact-card:nth-child(4) { animation: scaleIn var(--timing-medium) var(--easing-bounce) 3.4s forwards; }
-
-        .impact-card:hover {
-            transform: scale(1.05);
-            background: rgba(59, 130, 246, 0.2);
-            box-shadow: var(--shadow-md);
-        }
-
-        .impact-number {
-            font-size: 1.8rem;
+        .translation-value {
+            font-size: 1.3rem;
             font-weight: 700;
-            color: var(--accent-light);
+            color: #10b981;
             display: block;
             margin-bottom: 0.3rem;
         }
 
-        .impact-label {
+        .translation-desc {
             font-size: 0.8rem;
             color: var(--text-secondary);
-            font-weight: 500;
         }
 
-        /* Production Readiness */
+        /* Production Readiness Checklist */
         .production-readiness {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
-            padding: 1.2rem;
-            border-radius: 8px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
             margin-top: 1rem;
             opacity: 0;
             transform: translateY(20px);
-            animation: slideUp var(--timing-medium) var(--easing-smooth) 3.6s forwards;
+            animation: slideUp var(--timing-medium) var(--easing-smooth) 4.0s forwards;
         }
 
         .readiness-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: var(--success-green);
+            color: var(--accent-light);
             margin-bottom: 0.8rem;
+        }
+
+        .readiness-list {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 0.5rem;
         }
 
-        .readiness-checks {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.4rem;
-        }
-
-        .check-item {
+        .readiness-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
+            gap: 0.8rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
         }
 
-        .check-icon {
-            color: var(--success-green);
+        .checkmark {
+            color: #10b981;
             font-weight: bold;
+            font-size: 1.1rem;
         }
 
         /* Navigation */
@@ -386,6 +505,14 @@
                 width: 1.6rem;
                 height: 1.6rem;
             }
+
+            .table-header,
+            .table-row {
+                padding: 0.8rem 1rem;
+                gap: 0.8rem;
+            }
+
+            .hero-score { font-size: 3rem; }
         }
 
         @media (max-width: 768px) {
@@ -411,12 +538,29 @@
                 width: 1.4rem;
                 height: 1.4rem;
             }
-            
-            .metrics-grid,
-            .impact-grid {
+
+            .table-header,
+            .table-row {
+                grid-template-columns: 40px 1fr 70px;
+                padding: 0.8rem;
+                gap: 0.5rem;
+            }
+
+            .indicator-cell {
+                display: none;
+            }
+
+            .metrics-grid {
                 grid-template-columns: 1fr;
                 gap: 0.8rem;
             }
+
+            .translation-content {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .hero-score { font-size: 2.5rem; }
             
             .navigation {
                 bottom: 1rem;
@@ -474,13 +618,13 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes scaleInMetric {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes slideInRow {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
 
@@ -505,104 +649,237 @@
                     <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
                     </svg>
-                    Key Performance Metrics
+                    Model F2 Performance
                 </h2>
                 
-                <div class="metrics-grid">
-                    <div class="metric-card primary">
-                        <span class="metric-value" data-target="0.474">0.000</span>
-                        <div class="metric-label">F2 Score</div>
-                        <div class="metric-description">Primary metric prioritizing recall over precision</div>
+                <div class="performance-table">
+                    <div class="table-header">
+                        <div>Rank</div>
+                        <div>Model</div>
+                        <div>F2 Score</div>
+                        <div>Performance</div>
                     </div>
                     
-                    <div class="metric-card">
-                        <span class="metric-value" data-target="81.7">0.0%</span>
-                        <div class="metric-label">Recall</div>
-                        <div class="metric-description">Captures 82% of actual subscribers</div>
+                    <div class="table-row top-performer">
+                        <div class="rank-cell top-rank">1</div>
+                        <div class="model-cell">
+                            Best Ensemble
+                            <span class="optimization-badge">OPT</span>
+                        </div>
+                        <div class="score-cell top-score">0.474</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="100"></div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="metric-card">
-                        <span class="metric-value" data-target="17.7">0.0%</span>
-                        <div class="metric-label">Precision</div>
-                        <div class="metric-description">18% of predictions convert</div>
+                    <div class="table-row top-performer">
+                        <div class="rank-cell top-rank">2</div>
+                        <div class="model-cell">
+                            Basic Ensemble
+                            <span class="optimization-badge">OPT</span>
+                        </div>
+                        <div class="score-cell top-score">0.472</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="96"></div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="metric-card">
-                        <span class="metric-value" data-target="0.212">0.000</span>
-                        <div class="metric-label">MCC</div>
-                        <div class="metric-description">Genuine predictive power beyond chance</div>
+                    <div class="table-row top-performer">
+                        <div class="rank-cell top-rank">3</div>
+                        <div class="model-cell">
+                            Balanced Bagging
+                            <span class="optimization-badge">OPT</span>
+                        </div>
+                        <div class="score-cell top-score">0.468</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="88"></div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="performance-summary">
-                    <h3 class="summary-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Performance Analysis
-                    </h3>
-                    <ul class="summary-points">
-                        <li><strong>Threshold optimization (0.46)</strong> brought meaningful F2 improvement</li>
-                        <li><strong>High recall strategy</strong> aligns with business goal of maximizing customer identification</li>
-                        <li><strong>Lower precision trade-off</strong> is acceptable for recall-focused marketing strategy</li>
-                        <li><strong>Strong MCC value</strong> indicates genuine predictive capability over random targeting</li>
-                    </ul>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">4</div>
+                        <div class="model-cell">Best Ensemble</div>
+                        <div class="score-cell">0.465</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="82"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">5</div>
+                        <div class="model-cell">Basic Ensemble</div>
+                        <div class="score-cell">0.459</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="70"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">6</div>
+                        <div class="model-cell">Balanced Bagging</div>
+                        <div class="score-cell">0.458</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="68"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">7</div>
+                        <div class="model-cell">XGBoost</div>
+                        <div class="score-cell">0.452</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="56"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">8</div>
+                        <div class="model-cell">Easy Ensemble</div>
+                        <div class="score-cell">0.450</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="52"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">9</div>
+                        <div class="model-cell">Logistic Regression</div>
+                        <div class="score-cell">0.447</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="46"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="rank-cell">10</div>
+                        <div class="model-cell">Random Forest</div>
+                        <div class="score-cell">0.425</div>
+                        <div class="indicator-cell">
+                            <div class="performance-indicator">
+                                <div class="indicator-fill" data-width="20"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <section class="section business-impact">
+            <section class="section metrics-dashboard">
                 <h2 class="section-title">
                     <svg class="section-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        <path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2.5 2.25l1.41-1.41L16 14.42V6.5C16 5.12 14.88 4 13.5 4S11 5.12 11 6.5v1.79l5 5V14.42l2.91 2.92z"/>
                     </svg>
-                    Business Translation
+                    Key Performance Analysis
                 </h2>
+                
+                <div class="dashboard-container">
+                    <!-- Hero F2 Score -->
+                    <div class="hero-metric">
+                        <div class="hero-score">0.474</div>
+                        <div class="hero-label">F2 Score (Primary Metric)</div>
+                        <div class="hero-description">
+                            Prioritizes recall over precision - optimal threshold at 0.46 brings meaningful improvement for identifying potential subscribers
+                        </div>
+                    </div>
 
-                <div class="impact-grid">
-                    <div class="impact-card">
-                        <span class="impact-number" data-target="35">0%</span>
-                        <span class="impact-label">Customer Targeting</span>
-                    </div>
-                    
-                    <div class="impact-card">
-                        <span class="impact-number" data-target="22">0%</span>
-                        <span class="impact-label">Success Rate</span>
-                    </div>
-                    
-                    <div class="impact-card">
-                        <span class="impact-number" data-target="65">0%</span>
-                        <span class="impact-label">Call Reduction</span>
-                    </div>
-                    
-                    <div class="impact-card">
-                        <span class="impact-number" data-target="77">0%</span>
-                        <span class="impact-label">Subscriber Capture</span>
-                    </div>
-                </div>
+                    <!-- Metrics Grid -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-name">High Recall</span>
+                                <span class="metric-value">0.817</span>
+                            </div>
+                            <div class="metric-description">
+                                Captures 82% of actual subscribers - aligns with business goal of maximizing customer identification and minimizing missed opportunities
+                            </div>
+                        </div>
 
-                <div class="production-readiness">
-                    <h3 class="readiness-title">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        Production Ready
-                    </h3>
-                    <div class="readiness-checks">
-                        <div class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Strong foundation for deployment - meaningful improvement over random targeting</span>
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-name">Lower Precision</span>
+                                <span class="metric-value">0.177</span>
+                            </div>
+                            <div class="metric-description">
+                                ~18% of predicted subscribers convert - acceptable trade-off for recall-focused strategy, though some marketing resources target non-converters
+                            </div>
                         </div>
-                        <div class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Threshold optimization proven crucial (0.46 vs default 0.5)</span>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-name">MCC Score</span>
+                                <span class="metric-value">0.212</span>
+                            </div>
+                            <div class="metric-description">
+                                Shows genuine predictive power beyond random chance - reasonable performance considering dataset's class imbalance
+                            </div>
                         </div>
-                        <div class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Recall-focused approach aligns with business priority of minimizing missed opportunities</span>
+
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-name">F1 Score</span>
+                                <span class="metric-value">0.291</span>
+                            </div>
+                            <div class="metric-description">
+                                Balanced precision-recall metric confirms model's solid overall performance and validates the recall-focused approach
+                            </div>
                         </div>
-                        <div class="check-item">
-                            <span class="check-icon">✓</span>
-                            <span>Resource efficiency: Target ~35% of customers while capturing 77-82% of potential subscribers</span>
+                    </div>
+
+                    <!-- Business Translation -->
+                    <div class="business-translation">
+                        <div class="translation-title">
+                            <span>📊</span>
+                            Business Translation
+                        </div>
+                        <div class="translation-content">
+                            <div class="translation-item">
+                                <span class="translation-value">~35%</span>
+                                <span class="translation-desc">Resource Efficiency</span>
+                            </div>
+                            <div class="translation-item">
+                                <span class="translation-value">22%</span>
+                                <span class="translation-desc">Success Rate (vs 11% baseline)</span>
+                            </div>
+                            <div class="translation-item">
+                                <span class="translation-value">65%</span>
+                                <span class="translation-desc">Call Volume Reduction</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Production Readiness -->
+                    <div class="production-readiness">
+                        <div class="readiness-title">Production Readiness</div>
+                        <div class="readiness-list">
+                            <div class="readiness-item">
+                                <span class="checkmark">✅</span>
+                                <span>Strong foundation for deployment - meaningful improvement over random targeting</span>
+                            </div>
+                            <div class="readiness-item">
+                                <span class="checkmark">✅</span>
+                                <span>Threshold optimization crucial (0.46 vs default 0.5)</span>
+                            </div>
+                            <div class="readiness-item">
+                                <span class="checkmark">✅</span>
+                                <span>Recall-focused approach aligns with business priorities</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -621,40 +898,16 @@
             window.location.href = url;
         }
 
-        // Animate metric values after cards load
+        // Animate performance indicators after table loads
         window.addEventListener('load', () => {
             setTimeout(() => {
-                const metricValues = document.querySelectorAll('.metric-value');
-                metricValues.forEach(value => {
-                    const target = parseFloat(value.getAttribute('data-target'));
-                    const isPercentage = target > 1;
-                    const decimals = target < 1 ? 3 : 1;
-                    animateCounter(value, target, decimals, isPercentage);
+                const indicatorFills = document.querySelectorAll('.indicator-fill');
+                indicatorFills.forEach(fill => {
+                    const width = fill.getAttribute('data-width');
+                    fill.style.width = width + '%';
                 });
             }, 2500);
-
-            // Animate impact numbers
-            setTimeout(() => {
-                const impactNumbers = document.querySelectorAll('.impact-number');
-                impactNumbers.forEach(number => {
-                    const target = parseInt(number.getAttribute('data-target'));
-                    animateCounter(number, target, 0, true);
-                });
-            }, 3000);
         });
-
-        function animateCounter(element, target, decimals = 0, isPercentage = false) {
-            let current = 0;
-            const increment = target / 60;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                element.textContent = current.toFixed(decimals) + (isPercentage ? '%' : '');
-            }, 25);
-        }
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {

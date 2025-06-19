@@ -116,16 +116,16 @@
            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
        }
 
-       /* Key Architecture Features Section - NEW */
+       /* Key Architecture Features Section - REDUCED HEIGHT */
        .architecture-features-section {
            background: var(--secondary-bg);
-           padding: 2rem;
+           padding: 1.5rem; /* Reduced from 2rem */
            border-radius: 12px;
            box-shadow: var(--shadow-md);
            border: 1px solid var(--border-blue);
            max-width: 1600px;
            width: 100%;
-           margin-bottom: 2rem;
+           margin-bottom: 1.5rem; /* Reduced from 2rem */
            opacity: 0;
            transform: translateY(30px);
            animation: revealArchFeatures var(--timing-medium) var(--easing-smooth) 1.8s forwards;
@@ -147,14 +147,14 @@
 
        .arch-features-header {
            text-align: center;
-           margin-bottom: 2rem;
+           margin-bottom: 1.2rem; /* Reduced from 2rem */
        }
 
        .arch-features-title {
-           font-size: 2rem;
+           font-size: 1.8rem; /* Reduced from 2rem */
            font-weight: 700;
            color: var(--accent-blue);
-           margin-bottom: 0.5rem;
+           margin-bottom: 0.3rem; /* Reduced from 0.5rem */
            opacity: 0;
            transform: translateY(20px);
            animation: revealArchTitle var(--timing-medium) var(--easing-bounce) 2.4s forwards;
@@ -163,12 +163,12 @@
        .arch-features-grid {
            display: grid;
            grid-template-columns: 1fr 1fr;
-           gap: 2rem;
+           gap: 1.5rem; /* Reduced from 2rem */
        }
 
        .arch-feature-column {
            background: var(--card-bg);
-           padding: 1.5rem;
+           padding: 1.2rem; /* Reduced from 1.5rem */
            border-radius: 10px;
            border-left: 4px solid var(--accent-light);
            transition: all var(--timing-fast) var(--easing-smooth);
@@ -200,9 +200,9 @@
        }
 
        .arch-column-title {
-           font-size: 1.3rem;
+           font-size: 1.2rem; /* Reduced from 1.3rem */
            font-weight: 600;
-           margin-bottom: 1rem;
+           margin-bottom: 0.8rem; /* Reduced from 1rem */
            color: var(--text-primary);
        }
 
@@ -224,10 +224,10 @@
            display: flex;
            align-items: flex-start;
            gap: 0.8rem;
-           margin-bottom: 0.8rem;
-           font-size: 0.95rem;
+           margin-bottom: 0.6rem; /* Reduced from 0.8rem */
+           font-size: 0.9rem; /* Reduced from 0.95rem */
            color: var(--text-secondary);
-           line-height: 1.5;
+           line-height: 1.4; /* Reduced from 1.5 */
            opacity: 0;
            transform: translateX(-20px);
        }
@@ -380,6 +380,19 @@
        .phase-card.data-preprocessing .phase-icon { animation-delay: 5.1s; }
        .phase-card.model-development .phase-icon { animation-delay: 5.4s; }
        .phase-card.evaluation .phase-icon { animation-delay: 5.7s; }
+
+       /* ADD COLORED PHASE TITLES - MISSING FROM PREVIOUS VERSION */
+       .phase-title {
+           font-size: 1.4rem;
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+           color: var(--text-primary);
+       }
+
+       .phase-card.setup .phase-title { color: var(--accent-blue); }
+       .phase-card.data-preprocessing .phase-title { color: var(--accent-amber); }
+       .phase-card.model-development .phase-title { color: var(--accent-teal); }
+       .phase-card.evaluation .phase-title { color: var(--accent-blue); }
 
        .phase-description {
            font-size: 0.9rem;
@@ -688,7 +701,7 @@
        </header>
 
        <main class="content">
-           <!-- Key Architecture Features Section - NEW TOP SECTION -->
+           <!-- Key Architecture Features Section - REDUCED HEIGHT -->
            <div class="architecture-features-section">
                <div class="arch-features-header">
                    <h2 class="arch-features-title">Key ML Architecture Features</h2>
@@ -752,6 +765,7 @@
                    <div class="phase-card setup">
                        <div class="phase-header">
                            <img src="icons/setup.png" alt="Setup" class="phase-icon">
+                           <h3 class="phase-title">Setup</h3>
                            <p class="phase-description">Configuration, logging, and environment initialization</p>
                        </div>
                        <div class="phase-details">
@@ -800,6 +814,7 @@
                    <div class="phase-card data-preprocessing">
                        <div class="phase-header">
                            <img src="icons/data-processing.png" alt="Data Preprocessing" class="phase-icon">
+                           <h3 class="phase-title">Data Preprocessing</h3>
                            <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
                        </div>
                        <div class="phase-details">
@@ -848,6 +863,7 @@
                    <div class="phase-card model-development">
                        <div class="phase-header">
                            <img src="icons/model-development.png" alt="Model Development" class="phase-icon">
+                           <h3 class="phase-title">Model Development</h3>
                            <p class="phase-description">Algorithm selection, tuning, and cross-validation</p>
                        </div>
                        <div class="phase-details">
@@ -896,6 +912,7 @@
                    <div class="phase-card evaluation">
                        <div class="phase-header">
                            <img src="icons/evaluation.png" alt="Evaluation" class="phase-icon">
+                           <h3 class="phase-title">Evaluation</h3>
                            <p class="phase-description">Performance metrics, model comparison, and deployment</p>
                        </div>
                        <div class="phase-details">

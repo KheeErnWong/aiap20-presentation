@@ -80,7 +80,7 @@
             font-size: 1.1rem; /* Reduced from 1.2rem */
             color: var(--text-secondary);
             font-weight: 300;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             line-height: 1.5;
             opacity: 0;
@@ -724,7 +724,7 @@
 <body>
     <div class="container">
         <header class="header">
-            <h1>Performance Results</h1>
+            <h1>Model Evaluation</h1>
             <p class="subtitle">
                 F2 Score emphasizes recall over precision - optimizing for identifying potential subscribers while minimizing missed opportunities
             </p>
@@ -936,7 +936,7 @@
                                 <span class="metric-value">0.817</span>
                             </div>
                             <div class="metric-description">
-                                Captures 82% of actual subscribers - aligns with business goal of maximizing customer identification and minimizing missed opportunities
+                                Identifies 4 out of 5 potential term deposit subscribers
                             </div>
                         </div>
 
@@ -946,7 +946,7 @@
                                 <span class="metric-value">0.177</span>
                             </div>
                             <div class="metric-description">
-                                ~18% of predicted subscribers convert - acceptable trade-off for recall-focused strategy, though some marketing resources target non-converters
+                                Trade-off: Only 1 out of 5 chance that identified potential customers will convert to subscribers
                             </div>
                         </div>
 
@@ -966,7 +966,7 @@
                                 <span class="metric-value">0.291</span>
                             </div>
                             <div class="metric-description">
-                                Balanced precision-recall metric confirms model's solid overall performance and validates the recall-focused approach
+                                Balanced precision-recall metric confirms model's solid overall performance despite missing financial data
                             </div>
                         </div>
                     </div>

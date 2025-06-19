@@ -3,1085 +3,601 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIAP ML Pipeline - Architecture & Design</title>
+    <title>AIAP Batch 20: Bank Marketing ML Pipeline Architecture</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#4285f4',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#1a73e8',
+                lineColor: '#5f6368',
+                sectionBkgColor: '#f8f9fa',
+                altSectionBkgColor: '#e8eaed',
+                gridColor: '#dadce0',
+                tertiaryColor: '#fff'
+            },
+            flowchart: {
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            class: {
+                htmlLabels: true
+            }
+        });
+    </script>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --success-color: #27ae60;
-            --warning-color: #f39c12;
-            --background-color: #f8f9fa;
-            --text-color: #2c3e50;
-            --border-color: #dee2e6;
-            --code-bg: #2d3748;
-            --code-text: #e2e8f0;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-
+        
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Main Content */
-        main {
-            padding: 3rem 0;
-        }
-
-        .section {
+            padding: 20px;
             background: white;
-            margin-bottom: 3rem;
-            padding: 3rem;
+            margin-top: 20px;
+            margin-bottom: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border-left: 6px solid var(--secondary-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
-        .section h2 {
-            color: var(--primary-color);
-            margin-bottom: 2rem;
-            font-size: 2.2rem;
-            border-bottom: 3px solid var(--border-color);
-            padding-bottom: 1rem;
-        }
-
-        .section h3 {
-            color: var(--secondary-color);
-            margin: 2rem 0 1.5rem 0;
-            font-size: 1.6rem;
-        }
-
-        .section h4 {
-            color: var(--primary-color);
-            margin: 1.5rem 0 1rem 0;
-            font-size: 1.3rem;
-        }
-
-        /* Pipeline Flow Visualization */
-        .pipeline-flow {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            padding: 3rem;
-            margin: 2rem 0;
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
             color: white;
+            border-radius: 8px;
         }
-
-        .flow-container {
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4285f4;
+        }
+        
+        .section h2 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .section h3 {
+            color: #5f6368;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        .diagram-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 3px solid #4285f4;
+        }
+        
+        .feature-card h4 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .badge {
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 2px;
+            display: inline-block;
+        }
+        
+        .workflow-steps {
             display: flex;
-            flex-direction: column;
-            gap: 2rem;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
         }
-
-        .flow-row {
+        
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 10px;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .step-number {
+            background: #4285f4;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            gap: 1.5rem;
+            margin: 0 auto 10px;
+            font-weight: bold;
         }
-
-        .flow-step {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 200px;
-            flex: 1;
-            max-width: 250px;
-            border: 2px solid rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-
-        .flow-step:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-5px);
-        }
-
-        .flow-step-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .flow-step h4 {
-            color: white;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .flow-step p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            line-height: 1.4;
-        }
-
-        .flow-arrow {
-            font-size: 2rem;
-            color: rgba(255,255,255,0.8);
-            margin: 0 1rem;
-        }
-
-        .flow-arrow-down {
-            text-align: center;
-            font-size: 2rem;
-            color: rgba(255,255,255,0.8);
-        }
-
-        /* Code Blocks */
-        .code-block {
-            background: var(--code-bg);
-            color: var(--code-text);
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-            font-family: 'Consolas', 'Monaco', monospace;
-            line-height: 1.6;
-            font-size: 0.9rem;
-            border: 1px solid #4a5568;
-        }
-
-        .code-block .comment { color: #68d391; }
-        .code-block .keyword { color: #63b3ed; }
-        .code-block .string { color: #fbb6ce; }
-        .code-block .function { color: #ffd93d; }
-        .code-block .class { color: #ff9500; }
-
-        /* Component Cards */
-        .component-grid {
+        
+        .stats-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
         }
-
-        .component-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .component-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--secondary-color), var(--success-color));
-        }
-
-        .component-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: var(--secondary-color);
-        }
-
-        .component-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .component-icon {
-            font-size: 2rem;
-            margin-right: 1rem;
-            color: var(--secondary-color);
-        }
-
-        .component-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .component-subtitle {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        /* Design Principles */
-        .principles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .principle-card {
+        
+        .stat-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 2rem;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 8px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-
-        .principle-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            transform: rotate(45deg);
-            pointer-events: none;
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
-
-        .principle-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.9;
+        
+        .mermaid {
+            text-align: center;
         }
-
-        .principle-title {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .principle-description {
-            font-size: 1rem;
-            opacity: 0.9;
-            line-height: 1.5;
-        }
-
-        /* Configuration Section */
-        .config-section {
-            background: #f8f9fa;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .config-title {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        /* Responsive Design */
+        
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.2rem;
+            .container {
+                margin: 10px;
+                padding: 15px;
             }
-
-            .flow-row {
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .workflow-steps {
                 flex-direction: column;
             }
-
-            .flow-arrow {
-                transform: rotate(90deg);
-            }
-
-            .section {
-                padding: 2rem;
-            }
-
-            .component-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .principles-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Utility Classes */
-        .text-center { text-align: center; }
-        .mt-2 { margin-top: 2rem; }
-        .mb-2 { margin-bottom: 2rem; }
-        
-        .highlight {
-            background: linear-gradient(120deg, #a8e6cf 0%, #dcedc1 100%);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-
-        .file-path {
-            background: #e9ecef;
-            padding: 0.3rem 0.6rem;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: var(--primary-color);
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header">
-                <h1>🏗️ ML Pipeline Architecture</h1>
-                <p>End-to-End Machine Learning Pipeline for Bank Marketing Prediction - Design Considerations, Component Architecture, and Implementation Flow</p>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏦 Bank Marketing ML Pipeline</h1>
+            <p>AIAP® Batch 20 Technical Assessment - Advanced Machine Learning Architecture</p>
+        </div>
+
+        <!-- Architecture Overview -->
+        <div class="section">
+            <h2>🏗️ System Architecture Overview</h2>
+            <p>Our ML pipeline implements a sophisticated, configuration-driven architecture with modular components, suffix-based feature engineering, and robust model evaluation through nested cross-validation.</p>
+            
+            <div class="diagram-container">
+                <pre class="mermaid">
+flowchart TD
+    subgraph "Configuration Layer"
+        Config[ConfigManager<br/>📋 YAML Config<br/>🔧 Setup & Validation]
+    end
+    
+    subgraph "Data Pipeline"
+        DB[(SQLite Database<br/>bmarket.db)]
+        DL[DataLoader<br/>📥 Auto Download<br/>🔗 SQLAlchemy Engine]
+        DP[DataPreprocessor<br/>🧹 Data Quality Fixes<br/>📊 Train/Test Split]
+        FE[FeatureEngineer<br/>⚡ Suffix Convention<br/>🎯 Advanced Features]
+    end
+    
+    subgraph "ML Pipeline"
+        MT[ModelTrainer<br/>🤖 3+ Models<br/>🔄 Nested CV<br/>🎛️ Hyperparameter Tuning]
+        ME[ModelEvaluator<br/>📈 Multi-Metrics<br/>🎯 Threshold Optimization<br/>📊 Visualizations]
+    end
+    
+    subgraph "Model Factory"
+        MF[ModelFactory<br/>🏭 Model Creation<br/>🔍 Feature Type Detection<br/>⚙️ Pipeline Assembly]
+        FIE[FeatureImportanceExtractor<br/>🎯 Importance Analysis<br/>📊 Suffix-based Grouping]
+    end
+    
+    Config -.->|configures| DL
+    Config -.->|configures| DP
+    Config -.->|configures| FE
+    Config -.->|configures| MT
+    Config -.->|configures| ME
+    
+    DB --> DL
+    DL -->|Raw Data| DP
+    DP -->|Cleaned Data| FE
+    FE -->|Engineered Features| MT
+    
+    MF -.->|creates models| MT
+    FIE -.->|analyzes| MT
+    
+    MT -->|Trained Models| ME
+    ME -->|Best Model + Metrics| Output[📤 Final Results<br/>📊 Performance Reports<br/>💾 Saved Models]
+    
+    classDef configStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef dataStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef mlStyle fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef factoryStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef outputStyle fill:#ffebee,stroke:#d32f2f,stroke-width:2px
+    
+    class Config configStyle
+    class DL,DP,FE,DB dataStyle
+    class MT,ME mlStyle
+    class MF,FIE factoryStyle
+    class Output outputStyle
+                </pre>
             </div>
         </div>
-    </header>
 
-    <main class="container">
-        <!-- Pipeline Flow Overview -->
-        <section class="section">
-            <h2>🔄 Pipeline Flow Overview</h2>
-            <p>The ML pipeline follows a <span class="highlight">modular, configurable architecture</span> based on scikit-learn best practices with nested cross-validation for robust model evaluation.</p>
+        <!-- Detailed Class Architecture -->
+        <div class="section">
+            <h2>🔧 Detailed Component Architecture</h2>
+            <p>Complete class diagram showing all components, methods, and relationships in the ML pipeline.</p>
             
-            <div class="pipeline-flow">
-                <div class="flow-container">
-                    <!-- Row 1: Data Loading -->
-                    <div class="flow-row">
-                        <div class="flow-step">
-                            <span class="flow-step-icon">📥</span>
-                            <h4>Data Loading</h4>
-                            <p>SQLite database connection with automatic download. Handles data ingestion and basic validation.</p>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <span class="flow-step-icon">✂️</span>
-                            <h4>Train/Test Split</h4>
-                            <p>Stratified split to maintain class distribution. Configurable test size and random state.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flow-arrow-down">↓</div>
-                    
-                    <!-- Row 2: Preprocessing -->
-                    <div class="flow-row">
-                        <div class="flow-step">
-                            <span class="flow-step-icon">🧹</span>
-                            <h4>Data Preprocessing</h4>
-                            <p>Data cleaning, missing value handling, and type standardization. Prepares raw data for feature engineering.</p>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <span class="flow-step-icon">⚙️</span>
-                            <h4>Feature Engineering</h4>
-                            <p>Advanced feature creation with suffix naming convention. Categorical encoding and numerical transformations.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flow-arrow-down">↓</div>
-                    
-                    <!-- Row 3: Model Training -->
-                    <div class="flow-row">
-                        <div class="flow-step">
-                            <span class="flow-step-icon">🎯</span>
-                            <h4>Nested Cross-Validation</h4>
-                            <p>Unbiased model evaluation with hyperparameter tuning. Outer loop for evaluation, inner loop for optimization.</p>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <span class="flow-step-icon">🏆</span>
-                            <h4>Final Model Training</h4>
-                            <p>Train final models with best parameters on full training set. Generate predictions and feature importance.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flow-arrow-down">↓</div>
-                    
-                    <!-- Row 4: Evaluation -->
-                    <div class="flow-row">
-                        <div class="flow-step">
-                            <span class="flow-step-icon">📊</span>
-                            <h4>Model Evaluation</h4>
-                            <p>Comprehensive metrics calculation, threshold optimization, and performance visualization.</p>
-                        </div>
-                        <div class="flow-arrow">→</div>
-                        <div class="flow-step">
-                            <span class="flow-step-icon">💾</span>
-                            <h4>Results & Artifacts</h4>
-                            <p>Save trained models, metrics, visualizations, and feature importance analysis.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="diagram-container">
+                <pre class="mermaid">
+classDiagram
+    %% Configuration and Utilities
+    class ConfigManager {
+        +dict config
+        +load_config() dict
+        +validate_config(config)
+        +setup_logging(config)
+        +setup_directories(config) dict
+        +timer(description) context
+        +generate_summary_report(...)
+    }
+
+    %% Data Loading
+    class DataLoader {
+        -dict config
+        -Engine _engine
+        +__init__(config)
+        +download_database(url, save_path) bool
+        +get_db_path() Path
+        +get_engine() Engine
+        +get_table_names() List[str]
+        +load_data(query, table_name) DataFrame
+        +get_data() DataFrame
+    }
+
+    %% Data Preprocessing
+    class DataPreprocessor {
+        -dict config
+        -dict preprocess_config
+        +__init__(config)
+        +preprocess(df) DataFrame
+        +prepare_target(df) Series
+        +create_train_test_split(X, y) tuple
+        +create_cv_splitter() CVSplitter
+        +create_nested_cv(X, y) tuple
+        +get_data_for_modeling(df) tuple
+        -_clean_age_column(df, config) DataFrame
+        -_clean_occupation(df, config) DataFrame
+        -_clean_campaign_calls(df, config) DataFrame
+        -_validate_overall_cleaning(df)
+    }
+
+    %% Feature Engineering
+    class FeatureEngineer {
+        -dict config
+        -dict feature_eng_config
+        -dict validation_results
+        +__init__(config)
+        +engineer_features(df) DataFrame
+        -_create_client_id_features(df) DataFrame
+        -_create_age_features(df) DataFrame
+        -_create_occupation_features(df) DataFrame
+        -_create_campaign_features(df) DataFrame
+        -_create_temporal_features(df) DataFrame
+        -_apply_final_cleanup(df) DataFrame
+        -_validate_features(df, original_df)
+    }
+
+    %% Model Factory and Utilities
+    class ModelFactory {
+        -dict config
+        -dict model_config
+        -dict global_config
+        -int random_state
+        +__init__(config)
+        +detect_feature_types(X) tuple
+        +create_model(model_name, X) Pipeline
+        -_get_model_params(model_name) dict
+        -_create_specific_model(model_name, params) Any
+        -_detect_by_suffix(column_name) bool
+        -_is_categorical_by_suffix(column_name) bool
+    }
+
+    class FeatureImportanceExtractor {
+        <<static>>
+        +get_feature_importance(model, X) DataFrame
+        +get_feature_importance_by_original_feature(model, X) DataFrame
+    }
+
+    class ModelUtils {
+        <<static>>
+        +get_scoring_metric(metric_name) scorer
+        +get_most_common_params(param_lists) dict
+    }
+
+    %% Model Training
+    class ModelTrainer {
+        -dict config
+        -dict model_config
+        -dict global_config
+        -ModelFactory model_factory
+        -FeatureImportanceExtractor feature_extractor
+        -ModelUtils model_utils
+        -dict cv_results
+        -dict final_models
+        -dict feature_analysis
+        +__init__(config)
+        +analyze_feature_distribution(X) dict
+        +train_all_models(X_train, y_train, outer_cv, inner_cv) dict
+        +train_final_models(X_train, y_train) dict
+        +save_models(output_dir, models_to_save)
+        +get_cv_results() dict
+        +get_final_models() dict
+        +get_feature_analysis() dict
+        -_analyze_model_feature_importance(model, X_train, model_name)
+    }
+
+    %% Model Evaluation
+    class ModelEvaluator {
+        -dict config
+        -dict eval_config
+        -list primary_metrics
+        -list secondary_metrics
+        +__init__(config)
+        +calculate_metrics(y_true, y_pred, y_proba) dict
+        +evaluate_single_model(model, X_test, y_test, model_name) dict
+        +evaluate_multiple_models(models_dict, X_test, y_test, output_dir) dict
+        +optimize_threshold(model, X_test, y_test, metric) tuple
+        +select_best_model(results_dict, models_dict, X_test, y_test, selection_metric) tuple
+        -_create_model_plots(y_true, y_pred, y_proba, model_name, output_dir)
+        -_create_comparison_plots(results_dict, predictions_dict, y_true, output_dir)
+        -_save_results_csv(results_dict, output_dir)
+    }
+
+    %% Relationships
+    ConfigManager ||--o DataLoader : configures
+    ConfigManager ||--o DataPreprocessor : configures
+    ConfigManager ||--o FeatureEngineer : configures
+    ConfigManager ||--o ModelFactory : configures
+    ConfigManager ||--o ModelTrainer : configures
+    ConfigManager ||--o ModelEvaluator : configures
+    
+    DataLoader --> DataPreprocessor : provides raw data
+    DataPreprocessor --> FeatureEngineer : provides cleaned data
+    FeatureEngineer --> ModelTrainer : provides engineered features
+    
+    ModelFactory --* ModelTrainer : creates models
+    FeatureImportanceExtractor --* ModelTrainer : extracts importance
+    ModelUtils --* ModelTrainer : provides utilities
+    
+    ModelTrainer --> ModelEvaluator : provides trained models
+                </pre>
             </div>
-        </section>
-
-        <!-- Design Principles -->
-        <section class="section">
-            <h2>🎯 Core Design Principles</h2>
-            <p>The pipeline architecture is built on four fundamental principles that ensure <span class="highlight">maintainability, reproducibility, and production readiness</span>.</p>
-            
-            <div class="principles-grid">
-                <div class="principle-card">
-                    <div class="principle-icon">🔧</div>
-                    <div class="principle-title">Modularity</div>
-                    <div class="principle-description">
-                        Each component has a single responsibility with clear interfaces. Components can be developed, tested, and modified independently.
-                    </div>
-                </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">⚙️</div>
-                    <div class="principle-title">Configurability</div>
-                    <div class="principle-description">
-                        All parameters externalized to config.yaml. Easy experimentation without code changes. Environment-specific configurations supported.
-                    </div>
-                </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">🔄</div>
-                    <div class="principle-title">Reproducibility</div>
-                    <div class="principle-description">
-                        Fixed random seeds, versioned dependencies, deterministic processing. Results can be consistently reproduced across environments.
-                    </div>
-                </div>
-                
-                <div class="principle-card">
-                    <div class="principle-icon">🛡️</div>
-                    <div class="principle-title">Robustness</div>
-                    <div class="principle-description">
-                        Nested cross-validation for unbiased evaluation. Comprehensive error handling and validation. Production-ready code quality.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Component Architecture -->
-        <section class="section">
-            <h2>🏗️ Component Architecture</h2>
-            <p>The pipeline consists of <span class="highlight">7 core components</span>, each handling a specific aspect of the ML workflow with well-defined interfaces and responsibilities.</p>
-            
-            <div class="component-grid">
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">📥</span>
-                        <div>
-                            <div class="component-title">Data Loader</div>
-                            <div class="component-subtitle">src/data_loader.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Database connection, data ingestion, and basic validation</p>
-                    <div class="code-block">
-<span class="keyword">class</span> <span class="class">DataLoader</span>:
-    <span class="keyword">def</span> <span class="function">get_data</span>(self):
-        <span class="comment"># SQLite connection with auto-download</span>
-        <span class="comment"># Basic data validation</span>
-        <span class="keyword">return</span> cleaned_dataframe
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>Automatic database download if missing</li>
-                        <li>Connection pooling and error handling</li>
-                        <li>Configurable query and table selection</li>
-                    </ul>
-                </div>
-
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🧹</span>
-                        <div>
-                            <div class="component-title">Data Preprocessor</div>
-                            <div class="component-subtitle">src/preprocessor.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Data cleaning, validation, and train/test splitting</p>
-                    <div class="code-block">
-<span class="keyword">class</span> <span class="class">DataPreprocessor</span>:
-    <span class="keyword">def</span> <span class="function">preprocess</span>(self, df):
-        <span class="comment"># Clean and standardize data</span>
-        <span class="comment"># Handle missing values</span>
-        <span class="keyword">return</span> processed_dataframe
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>Configurable cleaning strategies</li>
-                        <li>Stratified train/test splitting</li>
-                        <li>Cross-validation splitter creation</li>
-                    </ul>
-                </div>
-
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">⚙️</span>
-                        <div>
-                            <div class="component-title">Feature Engineer</div>
-                            <div class="component-subtitle">src/feature_engineering.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Advanced feature creation with suffix naming convention</p>
-                    <div class="code-block">
-<span class="keyword">class</span> <span class="class">FeatureEngineer</span>:
-    <span class="keyword">def</span> <span class="function">engineer_features</span>(self, df):
-        <span class="comment"># *_cat: Categorical features</span>
-        <span class="comment"># *_bin: Binary features</span>
-        <span class="comment"># *_num: Numerical features</span>
-        <span class="keyword">return</span> engineered_dataframe
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>Suffix-based feature naming for clear preprocessing</li>
-                        <li>Age groups, occupation categories, temporal features</li>
-                        <li>Comprehensive validation and testing</li>
-                    </ul>
-                </div>
-
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🤖</span>
-                        <div>
-                            <div class="component-title">Model Factory</div>
-                            <div class="component-subtitle">src/model.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Model creation, preprocessing pipelines, and feature importance</p>
-                    <div class="code-block">
-<span class="keyword">class</span> <span class="class">ModelFactory</span>:
-    <span class="keyword">def</span> <span class="function">create_model</span>(self, name, X):
-        <span class="comment"># Auto-detect feature types by suffix</span>
-        <span class="comment"># Create sklearn Pipeline</span>
-        <span class="keyword">return</span> pipeline_model
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>Automatic feature type detection by suffix</li>
-                        <li>Model-specific preprocessing optimization</li>
-                        <li>Enhanced feature importance extraction</li>
-                    </ul>
-                </div>
-
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🎯</span>
-                        <div>
-                            <div class="component-title">Model Trainer</div>
-                            <div class="component-subtitle">src/train.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Nested cross-validation, hyperparameter tuning, final training</p>
-                    <div class="code-block">
-<span class="keyword">class</span> <span class="class">ModelTrainer</span>:
-    <span class="keyword">def</span> <span class="function">nested_cross_validation</span>(self, X, y):
-        <span class="comment"># Outer CV: Unbiased evaluation</span>
-        <span class="comment"># Inner CV: Hyperparameter tuning</span>
-        <span class="keyword">return</span> cv_results
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>Robust nested CV implementation</li>
-                        <li>Multiple model evaluation and comparison</li>
-                        <li>Feature analysis and importance ranking</li>
-                    </ul>
-                </div>
-
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">📊</span>
-                        <div>
-                            <div class="component-title">Model Evaluator</div>
-                            <div class="component-subtitle">src/evaluate.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Performance metrics, threshold optimization, visualizations</p>
-                    <div class="code-block">
-<span class="keyword">class</span> <span class="class">ModelEvaluator</span>:
-    <span class="keyword">def</span> <span class="function">evaluate_models</span>(self, models, X, y):
-        <span class="comment"># Calculate comprehensive metrics</span>
-        <span class="comment"># Optimize classification thresholds</span>
-        <span class="keyword">return</span> evaluation_results
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>Comprehensive metric calculation (F1, F2, ROC-AUC, MCC)</li>
-                        <li>Threshold optimization for class imbalance</li>
-                        <li>Automated visualization generation</li>
-                    </ul>
-                </div>
-
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🔧</span>
-                        <div>
-                            <div class="component-title">Utilities</div>
-                            <div class="component-subtitle">src/utils.py</div>
-                        </div>
-                    </div>
-                    <p><strong>Responsibility:</strong> Configuration management, logging, directory setup</p>
-                    <div class="code-block">
-<span class="keyword">def</span> <span class="function">load_config</span>(config_path):
-    <span class="comment"># Load and validate configuration</span>
-    <span class="keyword">return</span> validated_config
-
-<span class="keyword">def</span> <span class="function">setup_logging</span>(config):
-    <span class="comment"># Configure structured logging</span>
-    <span class="keyword">return</span> logger
-                    </div>
-                    <p><strong>Key Features:</strong></p>
-                    <ul>
-                        <li>YAML configuration loading and validation</li>
-                        <li>Structured logging with timestamps</li>
-                        <li>Directory setup and file management</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Configuration Management -->
-        <section class="section">
-            <h2>⚙️ Configuration Management</h2>
-            <p>All pipeline parameters are <span class="highlight">externalized to config.yaml</span> enabling easy experimentation and environment-specific configurations without code changes.</p>
-            
-            <div class="config-section">
-                <div class="config-title">📁 Configuration Structure: <span class="file-path">config/config.yaml</span></div>
-                <div class="code-block">
-<span class="comment"># Database Configuration</span>
-<span class="keyword">database:</span>
-  path: <span class="string">"data/bmarket.db"</span>
-  url: <span class="string">"https://techassessment.blob.core.windows.net/aiap20-assessment-data/bmarket.db"</span>
-
-<span class="comment"># Target Variable Configuration</span>
-<span class="keyword">target_column:</span> <span class="string">"Subscription Status"</span>
-<span class="keyword">target_mapping:</span>
-  <span class="string">"yes"</span>: 1
-  <span class="string">"no"</span>: 0
-
-<span class="comment"># Train/Test Split Configuration</span>
-<span class="keyword">train_test_split:</span>
-  test_size: 0.2
-  random_state: 42
-  stratify: true
-  outer_splits: 5    <span class="comment"># Nested CV outer folds</span>
-  inner_splits: 3    <span class="comment"># Nested CV inner folds</span>
-
-<span class="comment"># Feature Engineering Configuration</span>
-<span class="keyword">feature_engineering:</span>
-  <span class="keyword">age_features:</span>
-    enabled: true
-    senior_threshold: 60
-    create_age_bins: true
-    age_bins: [0, 30, 40, 50, 60, 70, 100, 200]
-  
-  <span class="keyword">occupation_features:</span>
-    enabled: true
-    create_occupation_groups: true
-    white_collar: [<span class="string">'admin'</span>, <span class="string">'management'</span>, <span class="string">'technician'</span>]
-    blue_collar: [<span class="string">'blue-collar'</span>, <span class="string">'services'</span>, <span class="string">'housemaid'</span>]
-
-<span class="comment"># Model Configuration</span>
-<span class="keyword">models:</span>
-  <span class="keyword">global:</span>
-    random_state: 42
-    n_jobs: -1
-    scoring: <span class="string">'f2'</span>               <span class="comment"># Primary metric for model selection</span>
-    
-  <span class="keyword">logistic_regression:</span>
-    enabled: true
-    default_params:
-      max_iter: 1000
-      class_weight: <span class="string">'balanced'</span>
-    param_grid:
-      C: [0.01, 0.1, 1.0, 10.0, 100.0]
-      penalty: [<span class="string">'l1'</span>, <span class="string">'l2'</span>]
-      solver: [<span class="string">'liblinear'</span>]
-      
-  <span class="keyword">random_forest:</span>
-    enabled: true
-    default_params:
-      class_weight: <span class="string">'balanced'</span>
-      n_estimators: 100
-    param_grid:
-      n_estimators: [50, 100, 200]
-      max_depth: [10, 20, 30, null]
-      min_samples_split: [2, 5, 10]
-      
-  <span class="keyword">xgboost:</span>
-    enabled: true
-    default_params:
-      objective: <span class="string">'binary:logistic'</span>
-      eval_metric: <span class="string">'logloss'</span>
-      verbosity: 0
-    param_grid:
-      n_estimators: [50, 100, 200]
-      max_depth: [3, 6, 10]
-      learning_rate: [0.01, 0.1, 0.2]
-
-<span class="comment"># Evaluation Configuration</span>
-<span class="keyword">evaluation:</span>
-  primary_metrics: [<span class="string">'f1'</span>, <span class="string">'f2'</span>, <span class="string">'mcc'</span>, <span class="string">'roc_auc'</span>, <span class="string">'average_precision'</span>]
-  secondary_metrics: [<span class="string">'accuracy'</span>, <span class="string">'precision'</span>, <span class="string">'recall'</span>]
-  
-<span class="comment"># Output Configuration</span>
-<span class="keyword">output:</span>
-  results_base_dir: <span class="string">'results'</span>
-  timestamp_results: true
-  save_models: true
-  save_predictions: true
-  save_feature_importance: true
-                </div>
-            </div>
-            
-            <h3>Configuration Benefits</h3>
-            <div class="component-grid">
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🔬</span>
-                        <div>
-                            <div class="component-title">Easy Experimentation</div>
-                        </div>
-                    </div>
-                    <p>Change hyperparameters, feature engineering strategies, or evaluation metrics without touching code. Perfect for rapid prototyping and A/B testing different approaches.</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🌍</span>
-                        <div>
-                            <div class="component-title">Environment Flexibility</div>
-                        </div>
-                    </div>
-                    <p>Different configurations for development, testing, and production environments. Override specific parameters via environment variables or command-line arguments.</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">📋</span>
-                        <div>
-                            <div class="component-title">Comprehensive Validation</div>
-                        </div>
-                    </div>
-                    <p>Built-in configuration validation ensures parameter consistency and catches errors early. Clear error messages guide users to correct configuration issues.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Execution Flow -->
-        <section class="section">
-            <h2>🚀 Execution Flow & Implementation</h2>
-            <p>The pipeline execution follows a <span class="highlight">systematic, logged process</span> with clear checkpoints and comprehensive output generation.</p>
-            
-            <h3>Main Execution Script: <span class="file-path">main.py</span></h3>
-            <div class="code-block">
-<span class="comment">#!/usr/bin/env python3</span>
-<span class="string">"""
-AIAP Bank Marketing Prediction Pipeline
-Main execution script orchestrating the complete ML workflow
-"""</span>
-
-<span class="keyword">import</span> logging
-<span class="keyword">import</span> time
-<span class="keyword">from</span> pathlib <span class="keyword">import</span> Path
-
-<span class="keyword">from</span> src.utils <span class="keyword">import</span> load_config, setup_logging, setup_directories
-<span class="keyword">from</span> src.data_loader <span class="keyword">import</span> DataLoader
-<span class="keyword">from</span> src.preprocessor <span class="keyword">import</span> DataPreprocessor
-<span class="keyword">from</span> src.feature_engineering <span class="keyword">import</span> FeatureEngineer
-<span class="keyword">from</span> src.train <span class="keyword">import</span> ModelTrainer
-<span class="keyword">from</span> src.evaluate <span class="keyword">import</span> ModelEvaluator
-
-<span class="keyword">def</span> <span class="function">main</span>():
-    <span class="comment"># 1. Setup and Configuration</span>
-    start_time = time.time()
-    run_id = time.strftime(<span class="string">"%Y%m%d_%H%M%S"</span>)
-    
-    config = load_config()
-    logger, log_file = setup_logging(config[<span class="string">'logging'</span>])
-    directories = setup_directories(config[<span class="string">'output'</span>], run_id)
-    
-    logger.info(<span class="string">f"🚀 Starting AIAP ML Pipeline - Run ID: {run_id}"</span>)
-    
-    <span class="comment"># 2. Data Loading and Preprocessing</span>
-    logger.info(<span class="string">"📥 Loading and preprocessing data..."</span>)
-    loader = DataLoader(config)
-    data = loader.get_data()
-    
-    preprocessor = DataPreprocessor(config)
-    X, y, X_train, X_test, y_train, y_test, outer_cv, inner_cv = preprocessor.get_data_for_modeling(data)
-    
-    <span class="comment"># 3. Feature Engineering</span>
-    logger.info(<span class="string">"⚙️ Applying feature engineering..."</span>)
-    feature_engineer = FeatureEngineer(config)
-    X_train_engineered = feature_engineer.engineer_features(X_train)
-    X_test_engineered = feature_engineer.engineer_features(X_test)
-    
-    <span class="comment"># 4. Model Training with Nested Cross-Validation</span>
-    logger.info(<span class="string">"🎯 Training models with nested cross-validation..."</span>)
-    trainer = ModelTrainer(config)
-    cv_results = trainer.train_all_models(X_train_engineered, y_train, outer_cv, inner_cv)
-    final_models = trainer.train_final_models(X_train_engineered, y_train)
-    
-    <span class="comment"># 5. Model Evaluation and Selection</span>
-    logger.info(<span class="string">"📊 Evaluating models and selecting best performer..."</span>)
-    evaluator = ModelEvaluator(config)
-    test_results = evaluator.evaluate_multiple_models(final_models, X_test_engineered, y_test, directories[<span class="string">'results_dir'</span>])
-    
-    best_model_name, best_model, best_model_info = evaluator.select_best_model(
-        test_results, final_models, X_test_engineered, y_test, <span class="string">'f2'</span>
-    )
-    
-    <span class="comment"># 6. Save Results and Generate Reports</span>
-    trainer.save_models(directories[<span class="string">'results_dir'</span>])
-    generate_summary_report(start_time, X_train_engineered, y_train, final_models, 
-                          best_model_name, best_model_info, run_id, directories[<span class="string">'results_dir'</span>])
-    
-    logger.info(<span class="string">f"✅ Pipeline completed successfully in {time.time() - start_time:.2f} seconds"</span>)
-    logger.info(<span class="string">f"📁 Results saved to: {directories['results_dir']}"</span>)
-
-<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
-    main()
-            </div>
-            
-            <h3>Bash Execution Script: <span class="file-path">run.sh</span></h3>
-            <div class="code-block">
-<span class="comment">#!/bin/bash</span>
-<span class="comment"># AIAP Bank Marketing Prediction Pipeline Execution Script</span>
-
-set -e  <span class="comment"># Exit on any error</span>
-
-echo <span class="string">"🏦 AIAP Bank Marketing ML Pipeline"</span>
-echo <span class="string">"=================================="</span>
-echo <span class="string">"Starting pipeline execution..."</span>
-echo
-
-<span class="comment"># Activate virtual environment if it exists</span>
-<span class="keyword">if</span> [ -d <span class="string">"venv"</span> ]; then
-    echo <span class="string">"📦 Activating virtual environment..."</span>
-    source venv/bin/activate
-<span class="keyword">fi</span>
-
-<span class="comment"># Check if Python and required packages are available</span>
-echo <span class="string">"🔍 Checking Python environment..."</span>
-python --version
-pip list | grep -E <span class="string">"(pandas|scikit-learn|xgboost)"</span> || {
-    echo <span class="string">"❌ Required packages not found. Installing from requirements.txt..."</span>
-    pip install -r requirements.txt
-}
-
-<span class="comment"># Run the main pipeline</span>
-echo <span class="string">"🚀 Executing ML pipeline..."</span>
-python main.py
-
-echo
-echo <span class="string">"✅ Pipeline execution completed!"</span>
-echo <span class="string">"📁 Check the 'results/' directory for outputs"</span>
-            </div>
-        </section>
-
-        <!-- Key Implementation Decisions -->
-        <section class="section">
-            <h2>🎯 Key Implementation Decisions</h2>
-            <p>Critical design decisions that ensure <span class="highlight">production readiness and robustness</span> of the ML pipeline.</p>
-            
-            <div class="component-grid">
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🔄</span>
-                        <div>
-                            <div class="component-title">Nested Cross-Validation</div>
-                            <div class="component-subtitle">Unbiased Model Evaluation</div>
-                        </div>
-                    </div>
-                    <div class="code-block">
-<span class="comment"># Outer CV: Unbiased performance estimation</span>
-outer_cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-
-<span class="comment"># Inner CV: Hyperparameter optimization</span>
-inner_cv = StratifiedKFold(n_splits=3, shuffle=True, random_state=42)
-
-<span class="keyword">for</span> train_idx, test_idx <span class="keyword">in</span> outer_cv.split(X, y):
-    <span class="comment"># Inner loop optimizes hyperparameters</span>
-    <span class="comment"># Outer loop evaluates generalization</span>
-                    </div>
-                    <p><strong>Why:</strong> Provides unbiased estimate of model performance by separating hyperparameter optimization from performance evaluation. Essential for reliable model selection.</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🏷️</span>
-                        <div>
-                            <div class="component-title">Suffix-Based Feature Naming</div>
-                            <div class="component-subtitle">Clear Preprocessing Strategy</div>
-                        </div>
-                    </div>
-                    <div class="code-block">
-<span class="comment"># Clear feature type indication</span>
-features = {
-    <span class="string">'age_num'</span>: <span class="string">'Numerical feature (scaled for LR)'</span>,
-    <span class="string">'occupation_group_cat'</span>: <span class="string">'Categorical (one-hot encoded)'</span>,
-    <span class="string">'is_senior_bin'</span>: <span class="string">'Binary feature (kept as-is)'</span>,
-    <span class="string">'campaign_calls_cnt'</span>: <span class="string">'Count feature (numerical)'</span>,
-    <span class="string">'engagement_score'</span>: <span class="string">'Calculated score (numerical)'</span>
-}
-                    </div>
-                    <p><strong>Why:</strong> Eliminates ambiguity in preprocessing. The ModelFactory automatically detects feature types and applies appropriate transformations (scaling, encoding, etc.).</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">⚖️</span>
-                        <div>
-                            <div class="component-title">Class Imbalance Handling</div>
-                            <div class="component-subtitle">8:1 Ratio Management</div>
-                        </div>
-                    </div>
-                    <div class="code-block">
-<span class="comment"># Model-specific imbalance handling</span>
-models = {
-    <span class="string">'logistic_regression'</span>: {<span class="string">'class_weight'</span>: <span class="string">'balanced'</span>},
-    <span class="string">'random_forest'</span>: {<span class="string">'class_weight'</span>: <span class="string">'balanced'</span>},
-    <span class="string">'xgboost'</span>: {<span class="string">'scale_pos_weight'</span>: 8}
-}
-
-<span class="comment"># F2 score prioritizes recall for minority class</span>
-primary_metric = <span class="string">'f2'</span>
-                    </div>
-                    <p><strong>Why:</strong> Dataset has significant class imbalance (subscription rate ~11%). Using balanced class weights and F2 score ensures models don't simply predict majority class.</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🎯</span>
-                        <div>
-                            <div class="component-title">Threshold Optimization</div>
-                            <div class="component-subtitle">Business-Focused Optimization</div>
-                        </div>
-                    </div>
-                    <div class="code-block">
-<span class="comment"># Optimize threshold for business metric</span>
-thresholds = np.arange(0.1, 0.9, 0.01)
-<span class="keyword">for</span> threshold <span class="keyword">in</span> thresholds:
-    y_pred = (y_proba >= threshold).astype(int)
-    f2_score = fbeta_score(y_true, y_pred, beta=2)
-    
-optimal_threshold = thresholds[np.argmax(f2_scores)]
-                    </div>
-                    <p><strong>Why:</strong> Default 0.5 threshold rarely optimal for imbalanced datasets. Optimizing for F2 score balances precision and recall with emphasis on capturing positive cases.</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">🔍</span>
-                        <div>
-                            <div class="component-title">Feature Importance Analysis</div>
-                            <div class="component-subtitle">Interpretability & Insights</div>
-                        </div>
-                    </div>
-                    <div class="code-block">
-<span class="comment"># Extract and aggregate feature importance</span>
-<span class="keyword">def</span> <span class="function">get_feature_importance_by_original</span>(model, X):
-    <span class="comment"># Map transformed features back to originals</span>
-    <span class="comment"># Aggregate importance for grouped features</span>
-    <span class="keyword">return</span> aggregated_importance
-                    </div>
-                    <p><strong>Why:</strong> Provides business insights into which client characteristics drive subscription decisions. Essential for stakeholder communication and feature prioritization.</p>
-                </div>
-                
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-icon">💾</span>
-                        <div>
-                            <div class="component-title">Comprehensive Artifacts</div>
-                            <div class="component-subtitle">Production Readiness</div>
-                        </div>
-                    </div>
-                    <div class="code-block">
-<span class="comment"># Save all pipeline artifacts</span>
-artifacts = {
-    <span class="string">'models'</span>: <span class="string">'trained_models/*.pkl'</span>,
-    <span class="string">'metrics'</span>: <span class="string">'model_evaluation_results.csv'</span>,
-    <span class="string">'features'</span>: <span class="string">'feature_importance.csv'</span>,
-    <span class="string">'visualizations'</span>: <span class="string">'figures/*.png'</span>,
-    <span class="string">'config'</span>: <span class="string">'run_config.yaml'</span>
-}
-                    </div>
-                    <p><strong>Why:</strong> Enables model deployment, monitoring, and debugging. All artifacts are timestamped and version-controlled for reproducibility and auditability.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer style="background: var(--primary-color); color: white; text-align: center; padding: 2rem 0; margin-top: 3rem;">
-        <div class="container">
-            <p>&copy; 2025 AIAP Bank Marketing ML Pipeline Architecture Documentation</p>
-            <p style="margin-top: 0.5rem; opacity: 0.8;">Built for AI Singapore Technical Assessment - Focus on Production-Ready ML Engineering</p>
         </div>
-    </footer>
 
-    <script>
-        // Add smooth scrolling and simple animations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate cards on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
+        <!-- Pipeline Workflow -->
+        <div class="section">
+            <h2>🔄 Pipeline Workflow</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Configuration</h4>
+                    <p>Load YAML config, validate settings, setup logging</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Data Loading</h4>
+                    <p>Download SQLite DB, establish connection, extract data</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Preprocessing</h4>
+                    <p>Data quality fixes, standardization, train/test split</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Feature Engineering</h4>
+                    <p>Suffix-based features, temporal analysis, validation</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h4>Model Training</h4>
+                    <p>Nested CV, hyperparameter tuning, multiple algorithms</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h4>Evaluation</h4>
+                    <p>Metrics calculation, threshold optimization, selection</p>
+                </div>
+            </div>
+        </div>
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animation = 'slideInUp 0.6s ease forwards';
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all cards
-            document.querySelectorAll('.component-card, .principle-card').forEach(card => {
-                observer.observe(card);
-            });
-
-            // Add CSS animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
+        <!-- Key Features -->
+        <div class="section">
+            <h2>⭐ Key Architecture Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>🏷️ Suffix-Based Feature Engineering</h4>
+                    <p>Systematic naming convention for feature types:</p>
+                    <div style="margin-top: 10px;">
+                        <span class="badge">_cat: Categorical</span>
+                        <span class="badge">_bin: Binary</span>
+                        <span class="badge">_num: Numeric</span>
+                        <span class="badge">_cnt: Count</span>
+                        <span class="badge">_score: Score</span>
+                        <span class="badge">_pct: Percentage</span>
+                    </div>
+                </div>
                 
-                .component-card, .principle-card {
-                    opacity: 0;
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
+                <div class="feature-card">
+                    <h4>🔄 Nested Cross-Validation</h4>
+                    <p>Robust model evaluation with:</p>
+                    <ul>
+                        <li>Outer CV for unbiased performance estimation</li>
+                        <li>Inner CV for hyperparameter tuning</li>
+                        <li>Multiple random seeds for stability</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🤖 Multiple Model Support</h4>
+                    <p>Comprehensive algorithm comparison:</p>
+                    <ul>
+                        <li>Logistic Regression (with regularization)</li>
+                        <li>Random Forest (tree-based ensemble)</li>
+                        <li>XGBoost (gradient boosting)</li>
+                        <li>Ensemble models (voting classifiers)</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📊 Advanced Evaluation</h4>
+                    <p>Comprehensive performance analysis:</p>
+                    <ul>
+                        <li>Multiple metrics (F1, F2, MCC, ROC-AUC)</li>
+                        <li>Threshold optimization</li>
+                        <li>Feature importance analysis</li>
+                        <li>Automated visualizations</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>⚙️ Configuration-Driven</h4>
+                    <p>Flexible pipeline management:</p>
+                    <ul>
+                        <li>YAML-based configuration</li>
+                        <li>Easy parameter modification</li>
+                        <li>Environment-specific settings</li>
+                        <li>Comprehensive validation</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📈 Temporal Features</h4>
+                    <p>Advanced time-based analysis:</p>
+                    <ul>
+                        <li>Client ID quantile features</li>
+                        <li>Campaign phase indicators</li>
+                        <li>Interaction features</li>
+                        <li>Strategic scoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pipeline Statistics -->
+        <div class="section">
+            <h2>📊 Pipeline Statistics</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>Core Components</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div>ML Algorithms</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>Feature Types</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8+</div>
+                    <div>Evaluation Metrics</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Implementation -->
+        <div class="section">
+            <h2>🛠️ Technical Implementation Details</h2>
+            
+            <h3>🗃️ Data Processing Strategy</h3>
+            <p>Our pipeline separates data cleaning from feature engineering, ensuring clean separation of concerns:</p>
+            <ul>
+                <li><strong>Data Cleaning</strong>: Quality fixes, standardization, missing value handling</li>
+                <li><strong>Feature Engineering</strong>: Advanced feature creation with domain knowledge</li>
+                <li><strong>Validation</strong>: Comprehensive checks at each stage</li>
+            </ul>
+            
+            <h3>🎯 Model Training Approach</h3>
+            <p>Implements best practices for robust machine learning:</p>
+            <ul>
+                <li><strong>Stratified Sampling</strong>: Maintains class distribution across splits</li>
+                <li><strong>Nested Cross-Validation</strong>: Unbiased performance estimation</li>
+                <li><strong>Hyperparameter Optimization</strong>: Grid search with inner CV</li>
+                <li><strong>Feature Importance</strong>: Analysis by suffix type and original features</li>
+            </ul>
+            
+            <h3>📈 Evaluation Framework</h3>
+            <p>Comprehensive model assessment covering multiple aspects:</p>
+            <ul>
+                <li><strong>Performance Metrics</strong>: F1, F2, MCC, ROC-AUC, Average Precision</li>
+                <li><strong>Threshold Optimization</strong>: Finding optimal decision boundaries</li>
+                <li><strong>Model Comparison</strong>: Statistical significance testing</li>
+                <li><strong>Visualization</strong>: ROC curves, PR curves, confusion matrices</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 40px; padding: 20px; color: #5f6368; border-top: 1px solid #dadce0;">
+            <p><strong>AIAP® Batch 20 Technical Assessment</strong></p>
+            <p>Bank Marketing Prediction Pipeline | Machine Learning Architecture</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Built with scikit-learn, XGBoost, and modern ML best practices</p>
+        </div>
+    </div>
 </body>
 </html>

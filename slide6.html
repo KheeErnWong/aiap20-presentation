@@ -127,6 +127,31 @@
             justify-content: center;
         }
 
+        /* Business Impact Summary */
+        .business-summary {
+            background: rgba(16, 185, 129, 0.1);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideSummary var(--timing-medium) var(--easing-smooth) 2.0s forwards;
+        }
+
+        .business-summary-text {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .highlight-text {
+            color: #10b981;
+            font-weight: 600;
+        }
+
         .impact-table {
             background: rgba(255, 255, 255, 0.02);
             border-radius: 8px;
@@ -160,9 +185,9 @@
             align-items: center;
         }
 
-        .impact-table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.2s forwards; }
-        .impact-table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.4s forwards; }
-        .impact-table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.6s forwards; }
+        .impact-table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.4s forwards; }
+        .impact-table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.6s forwards; }
+        .impact-table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.8s forwards; }
 
         .impact-table-row:hover {
             background: rgba(16, 185, 129, 0.1);
@@ -201,7 +226,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem; /* Reduced gap */
             opacity: 0;
-            animation: revealContent var(--timing-slow) var(--easing-smooth) 2.8s forwards;
+            animation: revealContent var(--timing-slow) var(--easing-smooth) 3.0s forwards;
         }
 
         .section {
@@ -218,11 +243,11 @@
         }
 
         .section.performance {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.2s forwards;
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.4s forwards;
         }
 
         .section.metrics-dashboard {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.6s forwards;
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.8s forwards;
         }
 
         .section:hover {
@@ -283,16 +308,16 @@
         }
 
         /* Staggered animation for table rows */
-        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.0s forwards; }
-        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.2s forwards; }
-        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.4s forwards; }
-        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
-        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.8s forwards; }
-        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.0s forwards; }
-        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.2s forwards; }
-        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.4s forwards; }
-        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.6s forwards; }
-        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.8s forwards; }
+        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.2s forwards; }
+        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.4s forwards; }
+        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
+        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.8s forwards; }
+        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.0s forwards; }
+        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.2s forwards; }
+        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.4s forwards; }
+        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.6s forwards; }
+        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.8s forwards; }
+        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 6.0s forwards; }
 
         .table-row:hover {
             background: rgba(59, 130, 246, 0.1);
@@ -443,7 +468,7 @@
             text-align: center;
             opacity: 0;
             transform: scale(0.95);
-            animation: scaleIn var(--timing-medium) var(--easing-bounce) 4.2s forwards;
+            animation: scaleIn var(--timing-medium) var(--easing-bounce) 4.4s forwards;
         }
 
         .hero-score {
@@ -484,10 +509,10 @@
             transform: translateY(20px);
         }
 
-        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.4s forwards; }
-        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
-        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.8s forwards; }
-        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 5.0s forwards; }
+        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
+        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.8s forwards; }
+        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 5.0s forwards; }
+        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 5.2s forwards; }
 
         .metric-card:hover {
             background: rgba(59, 130, 246, 0.08);
@@ -719,6 +744,11 @@
             from { transform: scaleX(0); }
             to { transform: scaleX(1); }
         }
+
+        @keyframes slideSummary {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -736,6 +766,13 @@
                 <span>📊</span>
                 Business Impact
             </h2>
+            
+            <!-- Business Summary -->
+            <div class="business-summary">
+                <p class="business-summary-text">
+                    The model delivers <span class="highlight-text">70% of subscription results</span> using only <span class="highlight-text">35% of resources</span>, effectively doubling <span class="highlight-text">Al-Vive bank marketing team's conversion efficiency</span> while maintaining strong performance.
+                </p>
+            </div>
             
             <div class="impact-table">
                 <div class="impact-table-header">
@@ -994,7 +1031,7 @@
                     const width = fill.getAttribute('data-width');
                     fill.style.width = width + '%';
                 });
-            }, 4000); // Adjusted timing
+            }, 4200); // Adjusted timing
         });
 
         // Keyboard navigation

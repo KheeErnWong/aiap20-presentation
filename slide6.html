@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AIAP Batch 20: Bank Marketing ML Pipeline Architecture</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#4285f4',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#1a73e8',
+                lineColor: '#5f6368',
+                sectionBkgColor: '#f8f9fa',
+                altSectionBkgColor: '#e8eaed',
+                gridColor: '#dadce0',
+                tertiaryColor: '#fff'
+            },
+            flowchart: {
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            class: {
+                htmlLabels: true
+            }
+        });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #1a73e8, #4285f4);
+            color: white;
+            border-radius: 8px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4285f4;
+        }
+        
+        .section h2 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .section h3 {
+            color: #5f6368;
+            margin: 20px 0 10px 0;
+            font-size: 1.3em;
+        }
+        
+        .diagram-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 3px solid #4285f4;
+        }
+        
+        .feature-card h4 {
+            color: #1a73e8;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .badge {
+            background: #e8f0fe;
+            color: #1a73e8;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 2px;
+            display: inline-block;
+        }
+        
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 10px;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .step-number {
+            background: #4285f4;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .mermaid {
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .workflow-steps {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏦 Bank Marketing ML Pipeline</h1>
+            <p>AIAP® Batch 20 Technical Assessment - Advanced Machine Learning Architecture</p>
+        </div>
+
+        <!-- Architecture Overview -->
+        <div class="section">
+            <h2>🏗️ System Architecture Overview</h2>
+            <p>Our ML pipeline implements a sophisticated, configuration-driven architecture with modular components, suffix-based feature engineering, and robust model evaluation through nested cross-validation.</p>
+            
+            <div class="diagram-container">
+                <pre class="mermaid">
+flowchart TD
+    subgraph "Configuration Layer"
+        Config[ConfigManager<br/>📋 YAML Config<br/>🔧 Setup & Validation]
+    end
+    
+    subgraph "Data Pipeline"
+        DB[(SQLite Database<br/>bmarket.db)]
+        DL[DataLoader<br/>📥 Auto Download<br/>🔗 SQLAlchemy Engine]
+        DP[DataPreprocessor<br/>🧹 Data Quality Fixes<br/>📊 Train/Test Split]
+        FE[FeatureEngineer<br/>⚡ Suffix Convention<br/>🎯 Advanced Features]
+    end
+    
+    subgraph "ML Pipeline"
+        MT[ModelTrainer<br/>🤖 3+ Models<br/>🔄 Nested CV<br/>🎛️ Hyperparameter Tuning]
+        ME[ModelEvaluator<br/>📈 Multi-Metrics<br/>🎯 Threshold Optimization<br/>📊 Visualizations]
+    end
+    
+    subgraph "Model Factory"
+        MF[ModelFactory<br/>🏭 Model Creation<br/>🔍 Feature Type Detection<br/>⚙️ Pipeline Assembly]
+        FIE[FeatureImportanceExtractor<br/>🎯 Importance Analysis<br/>📊 Suffix-based Grouping]
+    end
+    
+    Config -.->|configures| DL
+    Config -.->|configures| DP
+    Config -.->|configures| FE
+    Config -.->|configures| MT
+    Config -.->|configures| ME
+    
+    DB --> DL
+    DL -->|Raw Data| DP
+    DP -->|Cleaned Data| FE
+    FE -->|Engineered Features| MT
+    
+    MF -.->|creates models| MT
+    FIE -.->|analyzes| MT
+    
+    MT -->|Trained Models| ME
+    ME -->|Best Model + Metrics| Output[📤 Final Results<br/>📊 Performance Reports<br/>💾 Saved Models]
+    
+    classDef configStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef dataStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
+    classDef mlStyle fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
+    classDef factoryStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef outputStyle fill:#ffebee,stroke:#d32f2f,stroke-width:2px
+    
+    class Config configStyle
+    class DL,DP,FE,DB dataStyle
+    class MT,ME mlStyle
+    class MF,FIE factoryStyle
+    class Output outputStyle
+                </pre>
+            </div>
+        </div>
+
+        <!-- Detailed Class Architecture -->
+        <div class="section">
+            <h2>🔧 Detailed Component Architecture</h2>
+            <p>Complete class diagram showing all components, methods, and relationships in the ML pipeline.</p>
+            
+            <div class="diagram-container">
+                <pre class="mermaid">
+classDiagram
+    %% Configuration and Utilities
+    class ConfigManager {
+        +dict config
+        +load_config() dict
+        +validate_config(config)
+        +setup_logging(config)
+        +setup_directories(config) dict
+        +timer(description) context
+        +generate_summary_report(...)
+    }
+
+    %% Data Loading
+    class DataLoader {
+        -dict config
+        -Engine _engine
+        +__init__(config)
+        +download_database(url, save_path) bool
+        +get_db_path() Path
+        +get_engine() Engine
+        +get_table_names() List[str]
+        +load_data(query, table_name) DataFrame
+        +get_data() DataFrame
+    }
+
+    %% Data Preprocessing
+    class DataPreprocessor {
+        -dict config
+        -dict preprocess_config
+        +__init__(config)
+        +preprocess(df) DataFrame
+        +prepare_target(df) Series
+        +create_train_test_split(X, y) tuple
+        +create_cv_splitter() CVSplitter
+        +create_nested_cv(X, y) tuple
+        +get_data_for_modeling(df) tuple
+        -_clean_age_column(df, config) DataFrame
+        -_clean_occupation(df, config) DataFrame
+        -_clean_campaign_calls(df, config) DataFrame
+        -_validate_overall_cleaning(df)
+    }
+
+    %% Feature Engineering
+    class FeatureEngineer {
+        -dict config
+        -dict feature_eng_config
+        -dict validation_results
+        +__init__(config)
+        +engineer_features(df) DataFrame
+        -_create_client_id_features(df) DataFrame
+        -_create_age_features(df) DataFrame
+        -_create_occupation_features(df) DataFrame
+        -_create_campaign_features(df) DataFrame
+        -_create_temporal_features(df) DataFrame
+        -_apply_final_cleanup(df) DataFrame
+        -_validate_features(df, original_df)
+    }
+
+    %% Model Factory and Utilities
+    class ModelFactory {
+        -dict config
+        -dict model_config
+        -dict global_config
+        -int random_state
+        +__init__(config)
+        +detect_feature_types(X) tuple
+        +create_model(model_name, X) Pipeline
+        -_get_model_params(model_name) dict
+        -_create_specific_model(model_name, params) Any
+        -_detect_by_suffix(column_name) bool
+        -_is_categorical_by_suffix(column_name) bool
+    }
+
+    class FeatureImportanceExtractor {
+        <<static>>
+        +get_feature_importance(model, X) DataFrame
+        +get_feature_importance_by_original_feature(model, X) DataFrame
+    }
+
+    class ModelUtils {
+        <<static>>
+        +get_scoring_metric(metric_name) scorer
+        +get_most_common_params(param_lists) dict
+    }
+
+    %% Model Training
+    class ModelTrainer {
+        -dict config
+        -dict model_config
+        -dict global_config
+        -ModelFactory model_factory
+        -FeatureImportanceExtractor feature_extractor
+        -ModelUtils model_utils
+        -dict cv_results
+        -dict final_models
+        -dict feature_analysis
+        +__init__(config)
+        +analyze_feature_distribution(X) dict
+        +train_all_models(X_train, y_train, outer_cv, inner_cv) dict
+        +train_final_models(X_train, y_train) dict
+        +save_models(output_dir, models_to_save)
+        +get_cv_results() dict
+        +get_final_models() dict
+        +get_feature_analysis() dict
+        -_analyze_model_feature_importance(model, X_train, model_name)
+    }
+
+    %% Model Evaluation
+    class ModelEvaluator {
+        -dict config
+        -dict eval_config
+        -list primary_metrics
+        -list secondary_metrics
+        +__init__(config)
+        +calculate_metrics(y_true, y_pred, y_proba) dict
+        +evaluate_single_model(model, X_test, y_test, model_name) dict
+        +evaluate_multiple_models(models_dict, X_test, y_test, output_dir) dict
+        +optimize_threshold(model, X_test, y_test, metric) tuple
+        +select_best_model(results_dict, models_dict, X_test, y_test, selection_metric) tuple
+        -_create_model_plots(y_true, y_pred, y_proba, model_name, output_dir)
+        -_create_comparison_plots(results_dict, predictions_dict, y_true, output_dir)
+        -_save_results_csv(results_dict, output_dir)
+    }
+
+    %% Relationships
+    ConfigManager ||--o DataLoader : configures
+    ConfigManager ||--o DataPreprocessor : configures
+    ConfigManager ||--o FeatureEngineer : configures
+    ConfigManager ||--o ModelFactory : configures
+    ConfigManager ||--o ModelTrainer : configures
+    ConfigManager ||--o ModelEvaluator : configures
+    
+    DataLoader --> DataPreprocessor : provides raw data
+    DataPreprocessor --> FeatureEngineer : provides cleaned data
+    FeatureEngineer --> ModelTrainer : provides engineered features
+    
+    ModelFactory --* ModelTrainer : creates models
+    FeatureImportanceExtractor --* ModelTrainer : extracts importance
+    ModelUtils --* ModelTrainer : provides utilities
+    
+    ModelTrainer --> ModelEvaluator : provides trained models
+                </pre>
+            </div>
+        </div>
+
+        <!-- Pipeline Workflow -->
+        <div class="section">
+            <h2>🔄 Pipeline Workflow</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Configuration</h4>
+                    <p>Load YAML config, validate settings, setup logging</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Data Loading</h4>
+                    <p>Download SQLite DB, establish connection, extract data</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Preprocessing</h4>
+                    <p>Data quality fixes, standardization, train/test split</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Feature Engineering</h4>
+                    <p>Suffix-based features, temporal analysis, validation</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h4>Model Training</h4>
+                    <p>Nested CV, hyperparameter tuning, multiple algorithms</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h4>Evaluation</h4>
+                    <p>Metrics calculation, threshold optimization, selection</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Features -->
+        <div class="section">
+            <h2>⭐ Key Architecture Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>🏷️ Suffix-Based Feature Engineering</h4>
+                    <p>Systematic naming convention for feature types:</p>
+                    <div style="margin-top: 10px;">
+                        <span class="badge">_cat: Categorical</span>
+                        <span class="badge">_bin: Binary</span>
+                        <span class="badge">_num: Numeric</span>
+                        <span class="badge">_cnt: Count</span>
+                        <span class="badge">_score: Score</span>
+                        <span class="badge">_pct: Percentage</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🔄 Nested Cross-Validation</h4>
+                    <p>Robust model evaluation with:</p>
+                    <ul>
+                        <li>Outer CV for unbiased performance estimation</li>
+                        <li>Inner CV for hyperparameter tuning</li>
+                        <li>Multiple random seeds for stability</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>🤖 Multiple Model Support</h4>
+                    <p>Comprehensive algorithm comparison:</p>
+                    <ul>
+                        <li>Logistic Regression (with regularization)</li>
+                        <li>Random Forest (tree-based ensemble)</li>
+                        <li>XGBoost (gradient boosting)</li>
+                        <li>Ensemble models (voting classifiers)</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📊 Advanced Evaluation</h4>
+                    <p>Comprehensive performance analysis:</p>
+                    <ul>
+                        <li>Multiple metrics (F1, F2, MCC, ROC-AUC)</li>
+                        <li>Threshold optimization</li>
+                        <li>Feature importance analysis</li>
+                        <li>Automated visualizations</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>⚙️ Configuration-Driven</h4>
+                    <p>Flexible pipeline management:</p>
+                    <ul>
+                        <li>YAML-based configuration</li>
+                        <li>Easy parameter modification</li>
+                        <li>Environment-specific settings</li>
+                        <li>Comprehensive validation</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <h4>📈 Temporal Features</h4>
+                    <p>Advanced time-based analysis:</p>
+                    <ul>
+                        <li>Client ID quantile features</li>
+                        <li>Campaign phase indicators</li>
+                        <li>Interaction features</li>
+                        <li>Strategic scoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pipeline Statistics -->
+        <div class="section">
+            <h2>📊 Pipeline Statistics</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>Core Components</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3+</div>
+                    <div>ML Algorithms</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div>Feature Types</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8+</div>
+                    <div>Evaluation Metrics</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Implementation -->
+        <div class="section">
+            <h2>🛠️ Technical Implementation Details</h2>
+            
+            <h3>🗃️ Data Processing Strategy</h3>
+            <p>Our pipeline separates data cleaning from feature engineering, ensuring clean separation of concerns:</p>
+            <ul>
+                <li><strong>Data Cleaning</strong>: Quality fixes, standardization, missing value handling</li>
+                <li><strong>Feature Engineering</strong>: Advanced feature creation with domain knowledge</li>
+                <li><strong>Validation</strong>: Comprehensive checks at each stage</li>
+            </ul>
+            
+            <h3>🎯 Model Training Approach</h3>
+            <p>Implements best practices for robust machine learning:</p>
+            <ul>
+                <li><strong>Stratified Sampling</strong>: Maintains class distribution across splits</li>
+                <li><strong>Nested Cross-Validation</strong>: Unbiased performance estimation</li>
+                <li><strong>Hyperparameter Optimization</strong>: Grid search with inner CV</li>
+                <li><strong>Feature Importance</strong>: Analysis by suffix type and original features</li>
+            </ul>
+            
+            <h3>📈 Evaluation Framework</h3>
+            <p>Comprehensive model assessment covering multiple aspects:</p>
+            <ul>
+                <li><strong>Performance Metrics</strong>: F1, F2, MCC, ROC-AUC, Average Precision</li>
+                <li><strong>Threshold Optimization</strong>: Finding optimal decision boundaries</li>
+                <li><strong>Model Comparison</strong>: Statistical significance testing</li>
+                <li><strong>Visualization</strong>: ROC curves, PR curves, confusion matrices</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; margin-top: 40px; padding: 20px; color: #5f6368; border-top: 1px solid #dadce0;">
+            <p><strong>AIAP® Batch 20 Technical Assessment</strong></p>
+            <p>Bank Marketing Prediction Pipeline | Machine Learning Architecture</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Built with scikit-learn, XGBoost, and modern ML best practices</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -24,6 +24,14 @@
             --timing-slow: 1.2s;
             --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
             --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            
+            /* Crown colors */
+            --gold: #ffd700;
+            --gold-dark: #ffb700;
+            --silver: #c0c0c0;
+            --silver-dark: #a0a0a0;
+            --bronze: #cd7f32;
+            --bronze-dark: #b8692a;
         }
 
         * {
@@ -81,6 +89,71 @@
             animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
         }
 
+        /* Business Impact Section */
+        .business-impact {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1));
+            margin: 2rem;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 1.4s forwards;
+        }
+
+        .business-impact-title {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            justify-content: center;
+        }
+
+        .business-impact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .impact-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .impact-item:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 1.8s forwards; }
+        .impact-item:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 2.0s forwards; }
+        .impact-item:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 2.2s forwards; }
+
+        .impact-item:hover {
+            background: rgba(16, 185, 129, 0.08);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .impact-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #10b981;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .impact-desc {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
         .content {
             flex: 1;
             padding: 2rem;
@@ -88,7 +161,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             opacity: 0;
-            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+            animation: revealContent var(--timing-slow) var(--easing-smooth) 2.4s forwards;
         }
 
         .section {
@@ -105,11 +178,11 @@
         }
 
         .section.performance {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 1.8s forwards;
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 2.8s forwards;
         }
 
         .section.metrics-dashboard {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 2.2s forwards;
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.2s forwards;
         }
 
         .section:hover {
@@ -170,19 +243,18 @@
         }
 
         /* Staggered animation for table rows */
-        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.5s forwards; }
-        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.7s forwards; }
-        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.9s forwards; }
-        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.1s forwards; }
-        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.3s forwards; }
-        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.5s forwards; }
-        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.7s forwards; }
-        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.9s forwards; }
-        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.1s forwards; }
-        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.3s forwards; }
+        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.5s forwards; }
+        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.7s forwards; }
+        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.9s forwards; }
+        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.1s forwards; }
+        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.3s forwards; }
+        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.5s forwards; }
+        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.7s forwards; }
+        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.9s forwards; }
+        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.1s forwards; }
+        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.3s forwards; }
 
         .table-row:hover {
-            background: rgba(59, 130, 246, 0.1);
             transform: translateX(5px);
         }
 
@@ -190,14 +262,32 @@
             border-bottom: none;
         }
 
-        /* Top 3 performers styling */
-        .table-row.top-performer {
-            background: rgba(96, 165, 250, 0.08);
-            border-left: 3px solid var(--accent-light);
+        /* Top 3 performers styling with crown colors */
+        .table-row.rank-1 {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 183, 0, 0.1));
+            border-left: 3px solid var(--gold);
         }
 
-        .table-row.top-performer:hover {
-            background: rgba(96, 165, 250, 0.15);
+        .table-row.rank-1:hover {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.25), rgba(255, 183, 0, 0.15));
+        }
+
+        .table-row.rank-2 {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.15), rgba(160, 160, 160, 0.1));
+            border-left: 3px solid var(--silver);
+        }
+
+        .table-row.rank-2:hover {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.25), rgba(160, 160, 160, 0.15));
+        }
+
+        .table-row.rank-3 {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.15), rgba(184, 105, 42, 0.1));
+            border-left: 3px solid var(--bronze);
+        }
+
+        .table-row.rank-3:hover {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.25), rgba(184, 105, 42, 0.15));
         }
 
         .rank-cell {
@@ -208,11 +298,6 @@
             color: var(--text-secondary);
         }
 
-        .rank-cell.top-rank {
-            color: var(--accent-light);
-            font-weight: 700;
-        }
-
         .model-cell {
             display: flex;
             align-items: center;
@@ -221,14 +306,24 @@
             color: var(--text-primary);
         }
 
-        .optimization-badge {
-            background: rgba(96, 165, 250, 0.2);
-            color: var(--accent-light);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
+        .crown-icon {
+            font-size: 1.2rem;
+            margin-left: 0.3rem;
+        }
+
+        .crown-gold {
+            color: var(--gold);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        .crown-silver {
+            color: var(--silver);
+            text-shadow: 0 0 8px rgba(192, 192, 192, 0.5);
+        }
+
+        .crown-bronze {
+            color: var(--bronze);
+            text-shadow: 0 0 8px rgba(205, 127, 50, 0.5);
         }
 
         .score-cell {
@@ -241,8 +336,18 @@
             color: var(--text-primary);
         }
 
-        .score-cell.top-score {
-            color: var(--accent-light);
+        .rank-1 .score-cell {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .rank-2 .score-cell {
+            color: var(--silver);
+            font-weight: 700;
+        }
+
+        .rank-3 .score-cell {
+            color: var(--bronze);
             font-weight: 700;
         }
 
@@ -269,8 +374,16 @@
             transition: width 1.5s var(--easing-smooth);
         }
 
-        .top-performer .indicator-fill {
-            background: linear-gradient(90deg, var(--accent-light), #93c5fd);
+        .rank-1 .indicator-fill {
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+        }
+
+        .rank-2 .indicator-fill {
+            background: linear-gradient(90deg, var(--silver-dark), var(--silver));
+        }
+
+        .rank-3 .indicator-fill {
+            background: linear-gradient(90deg, var(--bronze-dark), var(--bronze));
         }
 
         /* Key Metrics Dashboard */
@@ -289,7 +402,7 @@
             text-align: center;
             opacity: 0;
             transform: scale(0.95);
-            animation: scaleIn var(--timing-medium) var(--easing-bounce) 2.8s forwards;
+            animation: scaleIn var(--timing-medium) var(--easing-bounce) 3.8s forwards;
         }
 
         .hero-score {
@@ -330,10 +443,10 @@
             transform: translateY(20px);
         }
 
-        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.0s forwards; }
-        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.2s forwards; }
-        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.4s forwards; }
-        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
+        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.0s forwards; }
+        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.2s forwards; }
+        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.4s forwards; }
+        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
 
         .metric-card:hover {
             background: rgba(59, 130, 246, 0.08);
@@ -365,85 +478,6 @@
             font-size: 0.85rem;
             color: var(--text-secondary);
             line-height: 1.4;
-        }
-
-        /* Business Translation Section */
-        .business-translation {
-            background: rgba(16, 185, 129, 0.1);
-            padding: 1.5rem;
-            border-radius: 10px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp var(--timing-medium) var(--easing-smooth) 3.8s forwards;
-        }
-
-        .translation-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #10b981;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .translation-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .translation-item {
-            text-align: center;
-        }
-
-        .translation-value {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #10b981;
-            display: block;
-            margin-bottom: 0.3rem;
-        }
-
-        .translation-desc {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        /* Production Readiness Checklist */
-        .production-readiness {
-            margin-top: 1rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp var(--timing-medium) var(--easing-smooth) 4.0s forwards;
-        }
-
-        .readiness-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-light);
-            margin-bottom: 0.8rem;
-        }
-
-        .readiness-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .readiness-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .checkmark {
-            color: #10b981;
-            font-weight: bold;
-            font-size: 1.1rem;
         }
 
         /* Navigation */
@@ -516,6 +550,16 @@
         }
 
         @media (max-width: 768px) {
+            .business-impact {
+                margin: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .business-impact-content {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
             .content {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -551,11 +595,6 @@
             }
 
             .metrics-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-            }
-
-            .translation-content {
                 grid-template-columns: 1fr;
                 gap: 0.8rem;
             }
@@ -643,6 +682,28 @@
             </p>
         </header>
 
+        <!-- Business Impact Section -->
+        <section class="business-impact">
+            <h2 class="business-impact-title">
+                <span>📈</span>
+                Business Impact of ML Driven Solution
+            </h2>
+            <div class="business-impact-content">
+                <div class="impact-item">
+                    <span class="impact-value">~35%</span>
+                    <span class="impact-desc">Resource Efficiency</span>
+                </div>
+                <div class="impact-item">
+                    <span class="impact-value">22%</span>
+                    <span class="impact-desc">Success Rate (vs 11% baseline)</span>
+                </div>
+                <div class="impact-item">
+                    <span class="impact-value">65%</span>
+                    <span class="impact-desc">Call Volume Reduction</span>
+                </div>
+            </div>
+        </section>
+
         <main class="content">
             <section class="section performance">
                 <h2 class="section-title">
@@ -660,13 +721,13 @@
                         <div>Performance</div>
                     </div>
                     
-                    <div class="table-row top-performer">
-                        <div class="rank-cell top-rank">1</div>
+                    <div class="table-row rank-1">
+                        <div class="rank-cell">1</div>
                         <div class="model-cell">
                             Best Ensemble
-                            <span class="optimization-badge">OPT</span>
+                            <span class="crown-icon crown-gold">👑</span>
                         </div>
-                        <div class="score-cell top-score">0.474</div>
+                        <div class="score-cell">0.474</div>
                         <div class="indicator-cell">
                             <div class="performance-indicator">
                                 <div class="indicator-fill" data-width="100"></div>
@@ -674,13 +735,13 @@
                         </div>
                     </div>
                     
-                    <div class="table-row top-performer">
-                        <div class="rank-cell top-rank">2</div>
+                    <div class="table-row rank-2">
+                        <div class="rank-cell">2</div>
                         <div class="model-cell">
                             Basic Ensemble
-                            <span class="optimization-badge">OPT</span>
+                            <span class="crown-icon crown-silver">👑</span>
                         </div>
-                        <div class="score-cell top-score">0.472</div>
+                        <div class="score-cell">0.472</div>
                         <div class="indicator-cell">
                             <div class="performance-indicator">
                                 <div class="indicator-fill" data-width="96"></div>
@@ -688,13 +749,13 @@
                         </div>
                     </div>
                     
-                    <div class="table-row top-performer">
-                        <div class="rank-cell top-rank">3</div>
+                    <div class="table-row rank-3">
+                        <div class="rank-cell">3</div>
                         <div class="model-cell">
                             Balanced Bagging
-                            <span class="optimization-badge">OPT</span>
+                            <span class="crown-icon crown-bronze">👑</span>
                         </div>
-                        <div class="score-cell top-score">0.468</div>
+                        <div class="score-cell">0.468</div>
                         <div class="indicator-cell">
                             <div class="performance-indicator">
                                 <div class="indicator-fill" data-width="88"></div>
@@ -841,47 +902,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Business Translation -->
-                    <div class="business-translation">
-                        <div class="translation-title">
-                            <span>📊</span>
-                            Business Translation
-                        </div>
-                        <div class="translation-content">
-                            <div class="translation-item">
-                                <span class="translation-value">~35%</span>
-                                <span class="translation-desc">Resource Efficiency</span>
-                            </div>
-                            <div class="translation-item">
-                                <span class="translation-value">22%</span>
-                                <span class="translation-desc">Success Rate (vs 11% baseline)</span>
-                            </div>
-                            <div class="translation-item">
-                                <span class="translation-value">65%</span>
-                                <span class="translation-desc">Call Volume Reduction</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Production Readiness -->
-                    <div class="production-readiness">
-                        <div class="readiness-title">Production Readiness</div>
-                        <div class="readiness-list">
-                            <div class="readiness-item">
-                                <span class="checkmark">✅</span>
-                                <span>Strong foundation for deployment - meaningful improvement over random targeting</span>
-                            </div>
-                            <div class="readiness-item">
-                                <span class="checkmark">✅</span>
-                                <span>Threshold optimization crucial (0.46 vs default 0.5)</span>
-                            </div>
-                            <div class="readiness-item">
-                                <span class="checkmark">✅</span>
-                                <span>Recall-focused approach aligns with business priorities</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
         </main>
@@ -906,7 +926,7 @@
                     const width = fill.getAttribute('data-width');
                     fill.style.width = width + '%';
                 });
-            }, 2500);
+            }, 3500);
         });
 
         // Keyboard navigation

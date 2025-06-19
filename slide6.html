@@ -12,14 +12,17 @@
             --accent-blue: #3b82f6;
             --accent-light: #60a5fa;
             --blue-light: #1d4ed8;
+            --accent-amber: #f59e0b;
+            --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             --accent-teal: #14b8a6;
-            --accent-gold: #f59e0b;
-            --accent-silver: #6b7280;
-            --accent-bronze: #d97706;
+            --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             --text-primary: #f9fafb;
             --text-secondary: #d1d5db;
             --text-muted: #9ca3af;
             --border-blue: rgba(59, 130, 246, 0.3);
+            --border-amber: rgba(245, 158, 11, 0.3);
+            --border-teal: rgba(20, 184, 166, 0.3);
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.4);
             --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.6);
@@ -42,11 +45,10 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
-            height: 100vh;
         }
 
         .container {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
@@ -54,7 +56,7 @@
         /* 🚀 2. SEQUENTIAL REVEAL SYSTEM */
         .header {
             background: var(--secondary-bg);
-            padding: 1.2rem 2rem;
+            padding: 1.5rem 2rem 1rem 2rem; /* Reduced padding */
             text-align: center;
             box-shadow: var(--shadow-sm);
             flex-shrink: 0;
@@ -64,10 +66,10 @@
         }
 
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem; /* Reduced from 2.8rem */
             font-weight: 700;
             color: var(--accent-light);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.6rem; /* Reduced margin */
             text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
             opacity: 0;
             transform: translateY(20px);
@@ -75,78 +77,136 @@
         }
 
         .subtitle {
-            font-size: 1rem;
+            font-size: 1.1rem; /* Reduced from 1.2rem */
             color: var(--text-secondary);
             font-weight: 300;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
-            line-height: 1.4;
+            line-height: 1.5;
             opacity: 0;
             transform: translateY(15px);
             animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
         }
 
         /* Business Impact Section - Full Width */
-        .business-impact {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.05));
-            padding: 1.2rem 2rem;
+        .business-impact-section {
+            background: var(--secondary-bg);
+            padding: 1.5rem 2rem; /* Compact padding */
+            margin: 1.5rem 2rem; /* Reduced margin */
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
             border: 1px solid rgba(16, 185, 129, 0.3);
-            margin: 1rem 2rem 0 2rem;
-            border-radius: 10px;
             opacity: 0;
-            transform: translateY(20px);
-            animation: slideUp var(--timing-medium) var(--easing-smooth) 1.4s forwards;
+            transform: translateY(30px);
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 1.4s forwards;
+            position: relative;
+            overflow: hidden;
         }
 
-        .business-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--accent-teal);
-            margin-bottom: 0.8rem;
+        .business-impact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #059669);
+            transform: scaleX(0);
+            animation: slideTopBar var(--timing-slow) var(--easing-smooth) 1.8s forwards;
+        }
+
+        .business-impact-title {
+            font-size: 1.8rem; /* Reduced from 2rem */
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 1.2rem; /* Reduced margin */
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            text-align: center;
             justify-content: center;
         }
 
-        .business-content {
+        .impact-table {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .impact-table-header {
+            background: rgba(16, 185, 129, 0.15);
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #10b981;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .business-item {
-            text-align: center;
+        .impact-table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            opacity: 0;
+            transform: translateX(-30px);
+            align-items: center;
         }
 
-        .business-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--accent-teal);
-            display: block;
-            margin-bottom: 0.3rem;
+        .impact-table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.2s forwards; }
+        .impact-table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.4s forwards; }
+        .impact-table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.6s forwards; }
+
+        .impact-table-row:hover {
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateX(5px);
         }
 
-        .business-desc {
-            font-size: 0.85rem;
+        .impact-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .impact-cell {
+            font-size: 0.9rem;
             color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .impact-cell.approach {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .impact-cell.positive {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .impact-cell.negative {
+            color: #ef4444;
+            font-weight: 600;
         }
 
         .content {
             flex: 1;
-            padding: 1rem 2rem;
+            padding: 1.5rem 2rem; /* Reduced padding */
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 1.5rem; /* Reduced gap */
             opacity: 0;
-            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.8s forwards;
+            animation: revealContent var(--timing-slow) var(--easing-smooth) 2.8s forwards;
         }
 
         .section {
             background: var(--secondary-bg);
-            padding: 1.5rem;
+            padding: 1.5rem; /* Reduced from 2rem */
             border-radius: 12px;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--border-blue);
@@ -158,11 +218,11 @@
         }
 
         .section.performance {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 2.2s forwards;
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.2s forwards;
         }
 
         .section.metrics-dashboard {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 2.6s forwards;
+            animation: revealSection var(--timing-medium) var(--easing-smooth) 3.6s forwards;
         }
 
         .section:hover {
@@ -173,9 +233,9 @@
         }
 
         .section-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem; /* Reduced from 2rem */
             color: var(--accent-blue);
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem; /* Reduced margin */
             display: flex;
             align-items: center;
             gap: 0.8rem;
@@ -183,8 +243,8 @@
         }
 
         .section-icon {
-            width: 1.4rem;
-            height: 1.4rem;
+            width: 1.6rem; /* Reduced from 1.8rem */
+            height: 1.6rem;
             filter: brightness(0) saturate(100%) invert(47%) sepia(82%) saturate(1352%) hue-rotate(204deg) brightness(98%) contrast(91%);
         }
 
@@ -201,9 +261,9 @@
             display: grid;
             grid-template-columns: 60px 1fr 80px 100px;
             gap: 1rem;
-            padding: 0.8rem 1.2rem;
+            padding: 0.8rem 1.2rem; /* Reduced padding */
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--accent-light);
             border-bottom: 1px solid rgba(59, 130, 246, 0.3);
             text-transform: uppercase;
@@ -214,7 +274,7 @@
             display: grid;
             grid-template-columns: 60px 1fr 80px 100px;
             gap: 1rem;
-            padding: 0.8rem 1.2rem;
+            padding: 0.8rem 1.2rem; /* Reduced padding */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             transition: all var(--timing-fast) var(--easing-smooth);
             opacity: 0;
@@ -223,16 +283,16 @@
         }
 
         /* Staggered animation for table rows */
-        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 2.9s forwards; }
-        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.0s forwards; }
-        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.1s forwards; }
-        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.2s forwards; }
-        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.3s forwards; }
-        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.4s forwards; }
-        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.5s forwards; }
-        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
-        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.7s forwards; }
-        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 3.8s forwards; }
+        .table-row:nth-child(2) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.0s forwards; }
+        .table-row:nth-child(3) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.2s forwards; }
+        .table-row:nth-child(4) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.4s forwards; }
+        .table-row:nth-child(5) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
+        .table-row:nth-child(6) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 4.8s forwards; }
+        .table-row:nth-child(7) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.0s forwards; }
+        .table-row:nth-child(8) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.2s forwards; }
+        .table-row:nth-child(9) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.4s forwards; }
+        .table-row:nth-child(10) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.6s forwards; }
+        .table-row:nth-child(11) { animation: slideInRow var(--timing-medium) var(--easing-smooth) 5.8s forwards; }
 
         .table-row:hover {
             background: rgba(59, 130, 246, 0.1);
@@ -246,7 +306,7 @@
         /* Top 3 performers styling with crown colors */
         .table-row.rank-1 {
             background: rgba(245, 158, 11, 0.08);
-            border-left: 3px solid var(--accent-gold);
+            border-left: 3px solid var(--accent-amber);
         }
 
         .table-row.rank-1:hover {
@@ -254,21 +314,21 @@
         }
 
         .table-row.rank-2 {
-            background: rgba(107, 114, 128, 0.08);
-            border-left: 3px solid var(--accent-silver);
+            background: rgba(59, 130, 246, 0.08);
+            border-left: 3px solid var(--accent-blue);
         }
 
         .table-row.rank-2:hover {
-            background: rgba(107, 114, 128, 0.15);
+            background: rgba(59, 130, 246, 0.15);
         }
 
         .table-row.rank-3 {
-            background: rgba(217, 119, 6, 0.08);
-            border-left: 3px solid var(--accent-bronze);
+            background: rgba(20, 184, 166, 0.08);
+            border-left: 3px solid var(--accent-teal);
         }
 
         .table-row.rank-3:hover {
-            background: rgba(217, 119, 6, 0.15);
+            background: rgba(20, 184, 166, 0.15);
         }
 
         .rank-cell {
@@ -279,20 +339,19 @@
             color: var(--text-secondary);
         }
 
-        .rank-cell.top-rank {
+        .rank-cell.rank-1 {
+            color: var(--accent-amber);
             font-weight: 700;
         }
 
-        .rank-cell.rank-1 {
-            color: var(--accent-gold);
-        }
-
         .rank-cell.rank-2 {
-            color: var(--accent-silver);
+            color: var(--accent-blue);
+            font-weight: 700;
         }
 
         .rank-cell.rank-3 {
-            color: var(--accent-bronze);
+            color: var(--accent-teal);
+            font-weight: 700;
         }
 
         .model-cell {
@@ -305,6 +364,7 @@
 
         .crown-icon {
             font-size: 1.2rem;
+            margin-right: 0.3rem;
         }
 
         .score-cell {
@@ -313,22 +373,22 @@
             justify-content: center;
             font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-primary);
         }
 
         .score-cell.rank-1 {
-            color: var(--accent-gold);
+            color: var(--accent-amber);
             font-weight: 700;
         }
 
         .score-cell.rank-2 {
-            color: var(--accent-silver);
+            color: var(--accent-blue);
             font-weight: 700;
         }
 
         .score-cell.rank-3 {
-            color: var(--accent-bronze);
+            color: var(--accent-teal);
             font-weight: 700;
         }
 
@@ -339,8 +399,8 @@
         }
 
         .performance-indicator {
-            width: 70px;
-            height: 5px;
+            width: 80px;
+            height: 6px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
             overflow: hidden;
@@ -356,67 +416,67 @@
         }
 
         .rank-1 .indicator-fill {
-            background: linear-gradient(90deg, var(--accent-gold), #fbbf24);
+            background: var(--amber-gradient);
         }
 
         .rank-2 .indicator-fill {
-            background: linear-gradient(90deg, var(--accent-silver), #9ca3af);
+            background: var(--blue-gradient);
         }
 
         .rank-3 .indicator-fill {
-            background: linear-gradient(90deg, var(--accent-bronze), #f97316);
+            background: var(--teal-gradient);
         }
 
         /* Key Metrics Dashboard */
         .dashboard-container {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem; /* Reduced gap */
         }
 
         /* Hero F2 Score Section */
         .hero-metric {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(96, 165, 250, 0.1));
-            padding: 1.5rem;
+            padding: 1.5rem; /* Reduced padding */
             border-radius: 12px;
             border: 1px solid var(--accent-blue);
             text-align: center;
             opacity: 0;
             transform: scale(0.95);
-            animation: scaleIn var(--timing-medium) var(--easing-bounce) 3.2s forwards;
+            animation: scaleIn var(--timing-medium) var(--easing-bounce) 4.2s forwards;
         }
 
         .hero-score {
-            font-size: 2.8rem;
+            font-size: 3rem; /* Reduced from 3.5rem */
             font-weight: 700;
             color: var(--accent-light);
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.4rem; /* Reduced margin */
             font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
         }
 
         .hero-label {
-            font-size: 1rem;
+            font-size: 1.1rem; /* Reduced from 1.2rem */
             color: var(--text-secondary);
             font-weight: 600;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.8rem; /* Reduced margin */
         }
 
         .hero-description {
-            font-size: 0.8rem;
+            font-size: 0.9rem; /* Reduced from 0.95rem */
             color: var(--text-secondary);
-            line-height: 1.4;
+            line-height: 1.4; /* Reduced line height */
         }
 
         /* Metrics Grid */
         .metrics-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
+            gap: 0.8rem; /* Reduced gap */
         }
 
         .metric-card {
             background: rgba(255, 255, 255, 0.03);
-            padding: 1rem;
+            padding: 1.2rem; /* Reduced padding */
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all var(--timing-fast) var(--easing-smooth);
@@ -424,10 +484,10 @@
             transform: translateY(20px);
         }
 
-        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.4s forwards; }
-        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.5s forwards; }
-        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.6s forwards; }
-        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 3.7s forwards; }
+        .metric-card:nth-child(1) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.4s forwards; }
+        .metric-card:nth-child(2) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.6s forwards; }
+        .metric-card:nth-child(3) { animation: slideUp var(--timing-medium) var(--easing-smooth) 4.8s forwards; }
+        .metric-card:nth-child(4) { animation: slideUp var(--timing-medium) var(--easing-smooth) 5.0s forwards; }
 
         .metric-card:hover {
             background: rgba(59, 130, 246, 0.08);
@@ -439,40 +499,40 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem; /* Reduced margin */
         }
 
         .metric-name {
-            font-size: 0.95rem;
+            font-size: 1rem; /* Reduced from 1.1rem */
             font-weight: 600;
             color: var(--accent-light);
         }
 
         .metric-value {
-            font-size: 1.2rem;
+            font-size: 1.3rem; /* Reduced from 1.4rem */
             font-weight: 700;
             color: var(--text-primary);
             font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
         }
 
         .metric-description {
-            font-size: 0.75rem;
+            font-size: 0.8rem; /* Reduced from 0.85rem */
             color: var(--text-secondary);
-            line-height: 1.3;
+            line-height: 1.3; /* Reduced line height */
         }
 
         /* Navigation */
         .navigation {
             position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
+            bottom: 2rem;
+            right: 2rem;
             display: flex;
-            gap: 0.8rem;
+            gap: 1rem;
             z-index: 1000;
         }
 
         .nav-btn {
-            padding: 0.6rem 1.2rem;
+            padding: 0.8rem 1.6rem;
             background: var(--accent-blue);
             color: var(--text-primary);
             border: none;
@@ -483,7 +543,6 @@
             box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
             position: relative;
             overflow: hidden;
-            font-size: 0.9rem;
         }
 
         .nav-btn::before {
@@ -508,35 +567,57 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1400px) {
+            .content {
+                padding: 1.2rem;
+                gap: 1.2rem;
+            }
+            
+            .header h1 { font-size: 2.2rem; }
+            .subtitle { font-size: 1rem; }
+            
+            .section-icon {
+                width: 1.4rem;
+                height: 1.4rem;
+            }
+
+            .table-header,
+            .table-row {
+                padding: 0.7rem 1rem;
+                gap: 0.8rem;
+            }
+
+            .hero-score { font-size: 2.5rem; }
+        }
+
         @media (max-width: 768px) {
             .content {
                 grid-template-columns: 1fr;
-                gap: 1rem;
-                padding: 1rem;
+                gap: 1.2rem;
+                padding: 1.2rem;
             }
             
-            .business-impact {
-                margin: 0.5rem 1rem 0 1rem;
-                padding: 1rem;
-            }
-
-            .business-content {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
+            .header {
+                padding: 1.2rem;
             }
             
             .header h1 { 
-                font-size: 1.8rem; 
+                font-size: 2rem; 
             }
             
             .subtitle { 
                 font-size: 0.9rem; 
             }
+            
+            .section-icon {
+                width: 1.2rem;
+                height: 1.2rem;
+            }
 
             .table-header,
             .table-row {
                 grid-template-columns: 40px 1fr 70px;
-                padding: 0.6rem;
+                padding: 0.7rem;
                 gap: 0.5rem;
             }
 
@@ -549,6 +630,18 @@
                 gap: 0.6rem;
             }
 
+            .impact-table-header,
+            .impact-table-row {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 0.5rem;
+                padding: 0.8rem;
+            }
+
+            .impact-cell:nth-child(4),
+            .impact-cell:nth-child(5) {
+                display: none;
+            }
+
             .hero-score { font-size: 2.2rem; }
             
             .navigation {
@@ -558,8 +651,18 @@
             }
             
             .nav-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-height: 900px) {
+            .header { 
+                padding: 1.2rem 2rem; 
+            }
+            
+            .content { 
+                padding: 1.2rem 2rem; 
             }
         }
 
@@ -611,35 +714,60 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        @keyframes slideTopBar {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>Performance Results</h1>
+            <h1>Model Evaluation</h1>
             <p class="subtitle">
                 F2 Score emphasizes recall over precision - optimizing for identifying potential subscribers while minimizing missed opportunities
             </p>
         </header>
 
         <!-- Business Impact Section - Full Width -->
-        <section class="business-impact">
-            <div class="business-title">
+        <section class="business-impact-section">
+            <h2 class="business-impact-title">
                 <span>📊</span>
-                Business Impact of ML Driven Solution
-            </div>
-            <div class="business-content">
-                <div class="business-item">
-                    <span class="business-value">~35%</span>
-                    <span class="business-desc">Resource Efficiency</span>
+                Business Impact
+            </h2>
+            
+            <div class="impact-table">
+                <div class="impact-table-header">
+                    <div>Approach</div>
+                    <div>Calls Made</div>
+                    <div>Subscriptions</div>
+                    <div>Success Rate</div>
+                    <div>Resource Usage</div>
                 </div>
-                <div class="business-item">
-                    <span class="business-value">22%</span>
-                    <span class="business-desc">Success Rate (vs 11% baseline)</span>
+                
+                <div class="impact-table-row">
+                    <div class="impact-cell approach">Without Model</div>
+                    <div class="impact-cell">40,000 (100%)</div>
+                    <div class="impact-cell">4,510</div>
+                    <div class="impact-cell">11.3% (base-subscription rate)</div>
+                    <div class="impact-cell">100%</div>
                 </div>
-                <div class="business-item">
-                    <span class="business-value">65%</span>
-                    <span class="business-desc">Call Volume Reduction</span>
+                
+                <div class="impact-table-row">
+                    <div class="impact-cell approach">With Model</div>
+                    <div class="impact-cell positive">14,000 (35%)</div>
+                    <div class="impact-cell">3,157</div>
+                    <div class="impact-cell positive">22.6%</div>
+                    <div class="impact-cell positive">35%</div>
+                </div>
+                
+                <div class="impact-table-row">
+                    <div class="impact-cell approach">Difference</div>
+                    <div class="impact-cell negative">-26,000 calls</div>
+                    <div class="impact-cell negative">-1,353 subs</div>
+                    <div class="impact-cell positive">+11.3%</div>
+                    <div class="impact-cell positive">-65%</div>
                 </div>
             </div>
         </section>
@@ -662,10 +790,10 @@
                     </div>
                     
                     <div class="table-row rank-1">
-                        <div class="rank-cell top-rank rank-1">1</div>
+                        <div class="rank-cell rank-1">1</div>
                         <div class="model-cell">
+                            <span class="crown-icon">👑</span>
                             Best Ensemble
-                            <span class="crown-icon">🥇</span>
                         </div>
                         <div class="score-cell rank-1">0.474</div>
                         <div class="indicator-cell">
@@ -676,10 +804,10 @@
                     </div>
                     
                     <div class="table-row rank-2">
-                        <div class="rank-cell top-rank rank-2">2</div>
+                        <div class="rank-cell rank-2">2</div>
                         <div class="model-cell">
-                            Basic Ensemble
                             <span class="crown-icon">🥈</span>
+                            Basic Ensemble
                         </div>
                         <div class="score-cell rank-2">0.472</div>
                         <div class="indicator-cell">
@@ -690,10 +818,10 @@
                     </div>
                     
                     <div class="table-row rank-3">
-                        <div class="rank-cell top-rank rank-3">3</div>
+                        <div class="rank-cell rank-3">3</div>
                         <div class="model-cell">
-                            Balanced Bagging
                             <span class="crown-icon">🥉</span>
+                            Balanced Bagging
                         </div>
                         <div class="score-cell rank-3">0.468</div>
                         <div class="indicator-cell">
@@ -796,7 +924,7 @@
                         <div class="hero-score">0.474</div>
                         <div class="hero-label">F2 Score (Primary Metric)</div>
                         <div class="hero-description">
-                            Prioritizes recall over precision - optimal threshold at 0.46 brings meaningful improvement
+                            Prioritizes recall over precision - optimal threshold at 0.46 brings meaningful improvement for identifying potential subscribers
                         </div>
                     </div>
 
@@ -808,7 +936,7 @@
                                 <span class="metric-value">0.817</span>
                             </div>
                             <div class="metric-description">
-                                Captures 82% of actual subscribers - maximizes customer identification
+                                Identifies 4 out of 5 potential term deposit subscribers
                             </div>
                         </div>
 
@@ -818,7 +946,7 @@
                                 <span class="metric-value">0.177</span>
                             </div>
                             <div class="metric-description">
-                                ~18% conversion rate - acceptable trade-off for recall-focused strategy
+                                Trade-off: Only 1 out of 5 chance that identified potential customers will convert to subscribers
                             </div>
                         </div>
 
@@ -828,7 +956,7 @@
                                 <span class="metric-value">0.212</span>
                             </div>
                             <div class="metric-description">
-                                Shows genuine predictive power beyond random chance
+                                Shows genuine predictive power beyond random chance - reasonable performance considering dataset's class imbalance
                             </div>
                         </div>
 
@@ -838,7 +966,7 @@
                                 <span class="metric-value">0.291</span>
                             </div>
                             <div class="metric-description">
-                                Balanced metric confirms solid overall performance
+                                Balanced precision-recall metric confirms model's solid overall performance despite missing financial data
                             </div>
                         </div>
                     </div>
@@ -866,7 +994,7 @@
                     const width = fill.getAttribute('data-width');
                     fill.style.width = width + '%';
                 });
-            }, 2900);
+            }, 4000); // Adjusted timing
         });
 
         // Keyboard navigation

@@ -1,865 +1,986 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Pipeline Architecture - Term Deposit Prediction</title>
-    <style>
-        :root {
-            --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
-            --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-            --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
-            --text-primary: #ffffff;
-            --text-secondary: #cbd5e0;
-            --text-muted: #94a3b8;
-            --accent-blue: #3b82f6;
-            --accent-light: #60a5fa;
-            --accent-amber: #f59e0b;
-            --accent-teal: #14b8a6;
-            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
-            --border-blue: rgba(59, 130, 246, 0.2);
-            --border-amber: rgba(245, 158, 11, 0.2);
-            --border-teal: rgba(20, 184, 166, 0.2);
-            
-            --timing-fast: 0.3s;
-            --timing-medium: 0.6s;
-            --timing-slow: 1.2s;
-            --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-            --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--primary-bg);
-            color: var(--text-primary);
-            min-height: 100vh;
-            overflow: auto;
-        }
-
-        .slide-container {
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .slide-header {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(45, 55, 72, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-blue);
-            z-index: 100;
-            opacity: 0;
-            animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
-        }
-
-        .header {
-            background: var(--secondary-bg);
-            padding: 1.5rem 2rem 1rem 2rem;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            flex-shrink: 0;
-            opacity: 0;
-            transform: translateY(-50px);
-            animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-light);
-            margin-bottom: 0.6rem;
-            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            font-weight: 300;
-            max-width: 1000px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(15px);
-            animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
-        }
-
-        .content {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            opacity: 0;
-            animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
-        }
-
-        /* Main Workflow Container */
-        .workflow-container {
-            max-width: 1600px;
-            width: 100%;
-            position: relative;
-            margin-bottom: 2rem;
-        }
-
-        /* Workflow Phases */
-        .workflow-phases {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .phase-card {
-            background: var(--secondary-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-blue);
-            box-shadow: var(--shadow-md);
-            transition: all var(--timing-fast) var(--easing-smooth);
-            opacity: 0;
-            transform: translateY(30px);
-            overflow: hidden;
-            position: relative;
-            padding: 1.5rem;
-        }
-
-        .phase-card.setup {
-            border-color: var(--border-blue);
-            animation: revealPhase var(--timing-medium) var(--easing-smooth) 1.8s forwards;
-        }
-
-        .phase-card.data-preprocessing {
-            border-color: var(--border-amber);
-            animation: revealPhase var(--timing-medium) var(--easing-smooth) 2.1s forwards;
-        }
-
-        .phase-card.model-development {
-            border-color: var(--border-teal);
-            animation: revealPhase var(--timing-medium) var(--easing-smooth) 2.4s forwards;
-        }
-
-        .phase-card.evaluation {
-            border-color: var(--border-blue);
-            animation: revealPhase var(--timing-medium) var(--easing-smooth) 2.7s forwards;
-        }
-
-        .phase-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            transform: scaleX(0);
-            animation: slideTopBar var(--timing-slow) var(--easing-tech) 0.5s forwards;
-        }
-
-        .phase-card.setup::before { background: var(--blue-gradient); }
-        .phase-card.data-preprocessing::before { background: var(--amber-gradient); }
-        .phase-card.model-development::before { background: var(--teal-gradient); }
-        .phase-card.evaluation::before { background: var(--blue-gradient); }
-
-        .phase-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .phase-card.setup:hover { border-color: rgba(59, 130, 246, 0.6); }
-        .phase-card.data-preprocessing:hover { border-color: rgba(245, 158, 11, 0.6); }
-        .phase-card.model-development:hover { border-color: rgba(20, 184, 166, 0.6); }
-        .phase-card.evaluation:hover { border-color: rgba(59, 130, 246, 0.6); }
-
-        .phase-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .phase-icon {
-            width: 2.5rem;
-            height: 2.5rem;
-            object-fit: contain;
-            margin-bottom: 0.8rem;
-            opacity: 0;
-            transform: scale(0);
-            animation: revealIcon var(--timing-fast) var(--easing-bounce) 0.8s forwards;
-        }
-
-        .phase-card.setup .phase-icon { animation-delay: 2.2s; }
-        .phase-card.data-preprocessing .phase-icon { animation-delay: 2.5s; }
-        .phase-card.model-development .phase-icon { animation-delay: 2.8s; }
-        .phase-card.evaluation .phase-icon { animation-delay: 3.1s; }
-
-        .phase-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Phase Details - Always Visible */
-        .phase-details {
-            display: block;
-        }
-
-        .detail-section {
-            margin-bottom: 1.2rem;
-        }
-
-        .detail-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .detail-title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-primary);
-        }
-
-        /* Add colored titles for each section */
-        .phase-card.setup .detail-title { color: var(--accent-blue); }
-        .phase-card.data-preprocessing .detail-title { color: var(--accent-amber); }
-        .phase-card.model-development .detail-title { color: var(--accent-teal); }
-        .phase-card.evaluation .detail-title { color: var(--accent-blue); }
-
-        .detail-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.6rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        .detail-bullet {
-            color: var(--accent-light);
-            font-weight: 700;
-            font-size: 0.8rem;
-            margin-top: 2px;
-        }
-
-        .code-snippet {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-            padding: 0.3rem 0.5rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-light);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        /* Flow Arrows */
-        .flow-arrows {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .flow-arrow {
-            position: absolute;
-            top: -1px;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            opacity: 0;
-            animation: revealArrow var(--timing-fast) var(--easing-smooth) forwards;
-        }
-
-        .arrow-1 {
-            left: 23%;
-            border-top: 4px solid var(--accent-blue);
-            animation-delay: 3.4s;
-        }
-
-        .arrow-2 {
-            left: 48%;
-            border-top: 4px solid var(--accent-amber);
-            animation-delay: 3.6s;
-        }
-
-        .arrow-3 {
-            left: 73%;
-            border-top: 4px solid var(--accent-teal);
-            animation-delay: 3.8s;
-        }
-
-        /* Key Features Section */
-        .key-features-section {
-            background: var(--secondary-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-blue);
-            max-width: 1600px;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: revealFeatures var(--timing-medium) var(--easing-smooth) 4.2s forwards;
-        }
-
-        .features-header {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin-bottom: 1.5rem;
-            justify-content: center;
-        }
-
-        .features-icon {
-            width: 2rem;
-            height: 2rem;
-            object-fit: contain;
-        }
-
-        .features-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .feature-item {
-            background: var(--card-bg);
-            padding: 1.2rem;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-light);
-            transition: all var(--timing-fast) var(--easing-smooth);
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
-        .feature-item:nth-child(1) { animation: slideInFeature var(--timing-fast) var(--easing-smooth) 4.6s forwards; }
-        .feature-item:nth-child(2) { animation: slideInFeature var(--timing-fast) var(--easing-smooth) 4.8s forwards; }
-        .feature-item:nth-child(3) { animation: slideInFeature var(--timing-fast) var(--easing-smooth) 5s forwards; }
-
-        .feature-item:hover {
-            transform: translateX(5px);
-            border-left-color: #93c5fd;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
-        }
-
-        .feature-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--accent-light);
-            margin-bottom: 0.6rem;
-        }
-
-        .feature-description {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .navigation {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            display: flex;
-            gap: 1rem;
-            z-index: 100;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: revealNavigation var(--timing-medium) var(--easing-smooth) 5.4s forwards;
-        }
-
-        .nav-btn {
-            background: var(--blue-gradient);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all var(--timing-fast) var(--easing-smooth);
-            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left var(--timing-medium) var(--easing-smooth);
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
-            background: var(--blue-light);
-        }
-
-        .nav-btn:hover::before {
-            left: 100%;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1400px) {
-            .workflow-phases {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(2, 1fr);
-                gap: 1.2rem;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .content {
-                padding: 1.5rem;
-            }
-            
-            .header {
-                padding: 1.2rem;
-            }
-            
-            .header h1 { 
-                font-size: 2rem; 
-            }
-            
-            .subtitle { 
-                font-size: 1rem; 
-            }
-
-            .workflow-phases {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .phase-header {
-                margin-bottom: 1rem;
-            }
-
-            .features-header {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-
-            .features-title {
-                font-size: 1.5rem;
-            }
-            
-            .navigation {
-                bottom: 1rem;
-                right: 1rem;
-                gap: 0.5rem;
-            }
-            
-            .nav-btn {
-                padding: 0.6rem 1.2rem;
-                font-size: 0.9rem;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* Keyframe Animations */
-        @keyframes slideHeader {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes revealHeader {
-            from { opacity: 0; transform: translateY(-50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes revealTitle {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes revealSubtitle {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes revealContent {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes revealPhase {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideTopBar {
-            from { transform: scaleX(0); }
-            to { transform: scaleX(1); }
-        }
-
-        @keyframes revealIcon {
-            from { opacity: 0; transform: scale(0); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @keyframes revealArrow {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes revealFeatures {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInFeature {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes revealNavigation {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>ML Pipeline Architecture - Term Deposit Prediction</title>
+   <style>
+       :root {
+           --primary-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           --secondary-bg: linear-gradient(135deg, #1e2a3a 0%, #2d3748 100%);
+           --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+           --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+           --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+           --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+           --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
+           --text-primary: #ffffff;
+           --text-secondary: #cbd5e0;
+           --text-muted: #94a3b8;
+           --accent-blue: #3b82f6;
+           --accent-light: #60a5fa;
+           --accent-amber: #f59e0b;
+           --accent-teal: #14b8a6;
+           --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+           --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
+           --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
+           --border-blue: rgba(59, 130, 246, 0.2);
+           --border-amber: rgba(245, 158, 11, 0.2);
+           --border-teal: rgba(20, 184, 166, 0.2);
+           
+           --timing-fast: 0.3s;
+           --timing-medium: 0.6s;
+           --timing-slow: 1.2s;
+           --easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+           --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+           --easing-tech: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+       }
+
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: var(--primary-bg);
+           color: var(--text-primary);
+           min-height: 100vh;
+           overflow: auto;
+       }
+
+       .slide-container {
+           width: 100vw;
+           min-height: 100vh;
+           display: flex;
+           flex-direction: column;
+       }
+
+       .slide-header {
+           position: fixed;
+           top: 20px;
+           right: 20px;
+           background: rgba(45, 55, 72, 0.9);
+           backdrop-filter: blur(10px);
+           padding: 8px 16px;
+           border-radius: 6px;
+           font-size: 14px;
+           color: var(--text-secondary);
+           border: 1px solid var(--border-blue);
+           z-index: 100;
+           opacity: 0;
+           animation: slideHeader var(--timing-medium) var(--easing-smooth) 0.2s forwards;
+       }
+
+       .header {
+           background: var(--secondary-bg);
+           padding: 1.5rem 2rem 1rem 2rem;
+           text-align: center;
+           box-shadow: var(--shadow-sm);
+           flex-shrink: 0;
+           opacity: 0;
+           transform: translateY(-50px);
+           animation: revealHeader var(--timing-slow) var(--easing-smooth) 0s forwards;
+       }
+
+       .header h1 {
+           font-size: 2.5rem;
+           font-weight: 700;
+           color: var(--accent-light);
+           margin-bottom: 0.6rem;
+           text-shadow: 0 2px 10px rgba(96, 165, 250, 0.3);
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealTitle var(--timing-medium) var(--easing-bounce) 0.6s forwards;
+       }
+
+       .subtitle {
+           font-size: 1.2rem;
+           color: var(--text-secondary);
+           font-weight: 300;
+           max-width: 1000px;
+           margin: 0 auto;
+           opacity: 0;
+           transform: translateY(15px);
+           animation: revealSubtitle var(--timing-medium) var(--easing-smooth) 1s forwards;
+       }
+
+       .content {
+           flex: 1;
+           padding: 2rem;
+           display: flex;
+           flex-direction: column;
+           align-items: center;
+           justify-content: flex-start;
+           opacity: 0;
+           animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+       }
+
+       /* Key Architecture Features Section - NEW */
+       .architecture-features-section {
+           background: var(--secondary-bg);
+           padding: 2rem;
+           border-radius: 12px;
+           box-shadow: var(--shadow-md);
+           border: 1px solid var(--border-blue);
+           max-width: 1600px;
+           width: 100%;
+           margin-bottom: 2rem;
+           opacity: 0;
+           transform: translateY(30px);
+           animation: revealArchFeatures var(--timing-medium) var(--easing-smooth) 1.8s forwards;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .architecture-features-section::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 4px;
+           background: var(--blue-gradient);
+           transform: scaleX(0);
+           animation: slideArchBar var(--timing-slow) var(--easing-tech) 2.2s forwards;
+       }
+
+       .arch-features-header {
+           text-align: center;
+           margin-bottom: 2rem;
+       }
+
+       .arch-features-title {
+           font-size: 2rem;
+           font-weight: 700;
+           color: var(--accent-blue);
+           margin-bottom: 0.5rem;
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealArchTitle var(--timing-medium) var(--easing-bounce) 2.4s forwards;
+       }
+
+       .arch-features-grid {
+           display: grid;
+           grid-template-columns: 1fr 1fr;
+           gap: 2rem;
+       }
+
+       .arch-feature-column {
+           background: var(--card-bg);
+           padding: 1.5rem;
+           border-radius: 10px;
+           border-left: 4px solid var(--accent-light);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateX(-30px);
+       }
+
+       .arch-feature-column.core {
+           animation: slideInArchColumn var(--timing-medium) var(--easing-smooth) 2.8s forwards;
+           border-left-color: var(--accent-blue);
+       }
+
+       .arch-feature-column.production {
+           animation: slideInArchColumn var(--timing-medium) var(--easing-smooth) 3.1s forwards;
+           border-left-color: var(--accent-teal);
+       }
+
+       .arch-feature-column:hover {
+           transform: translateX(5px);
+           box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+       }
+
+       .arch-feature-column.core:hover {
+           border-left-color: #93c5fd;
+       }
+
+       .arch-feature-column.production:hover {
+           border-left-color: #5eead4;
+       }
+
+       .arch-column-title {
+           font-size: 1.3rem;
+           font-weight: 600;
+           margin-bottom: 1rem;
+           color: var(--text-primary);
+       }
+
+       .arch-feature-column.core .arch-column-title {
+           color: var(--accent-blue);
+       }
+
+       .arch-feature-column.production .arch-column-title {
+           color: var(--accent-teal);
+       }
+
+       .arch-feature-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .arch-feature-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 0.8rem;
+           margin-bottom: 0.8rem;
+           font-size: 0.95rem;
+           color: var(--text-secondary);
+           line-height: 1.5;
+           opacity: 0;
+           transform: translateX(-20px);
+       }
+
+       .arch-feature-column.core .arch-feature-item:nth-child(1) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 3.4s forwards;
+       }
+       .arch-feature-column.core .arch-feature-item:nth-child(2) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 3.6s forwards;
+       }
+       .arch-feature-column.core .arch-feature-item:nth-child(3) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 3.8s forwards;
+       }
+       .arch-feature-column.core .arch-feature-item:nth-child(4) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 4s forwards;
+       }
+
+       .arch-feature-column.production .arch-feature-item:nth-child(1) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 3.5s forwards;
+       }
+       .arch-feature-column.production .arch-feature-item:nth-child(2) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 3.7s forwards;
+       }
+       .arch-feature-column.production .arch-feature-item:nth-child(3) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 3.9s forwards;
+       }
+       .arch-feature-column.production .arch-feature-item:nth-child(4) {
+           animation: slideInArchItem var(--timing-fast) var(--easing-smooth) 4.1s forwards;
+       }
+
+       .arch-feature-bullet {
+           color: var(--accent-light);
+           font-weight: 700;
+           font-size: 0.9rem;
+           margin-top: 3px;
+           min-width: 16px;
+       }
+
+       .arch-feature-text {
+           flex: 1;
+       }
+
+       .arch-feature-bold {
+           color: var(--text-primary);
+           font-weight: 600;
+       }
+
+       /* Main Workflow Container */
+       .workflow-container {
+           max-width: 1600px;
+           width: 100%;
+           position: relative;
+       }
+
+       /* Workflow Phases */
+       .workflow-phases {
+           display: grid;
+           grid-template-columns: repeat(4, 1fr);
+           gap: 1.5rem;
+           margin-bottom: 2rem;
+       }
+
+       .phase-card {
+           background: var(--secondary-bg);
+           border-radius: 12px;
+           border: 1px solid var(--border-blue);
+           box-shadow: var(--shadow-md);
+           transition: all var(--timing-fast) var(--easing-smooth);
+           opacity: 0;
+           transform: translateY(30px);
+           overflow: hidden;
+           position: relative;
+           padding: 1.5rem;
+       }
+
+       .phase-card.setup {
+           border-color: var(--border-blue);
+           animation: revealPhase var(--timing-medium) var(--easing-smooth) 4.4s forwards;
+       }
+
+       .phase-card.data-preprocessing {
+           border-color: var(--border-amber);
+           animation: revealPhase var(--timing-medium) var(--easing-smooth) 4.7s forwards;
+       }
+
+       .phase-card.model-development {
+           border-color: var(--border-teal);
+           animation: revealPhase var(--timing-medium) var(--easing-smooth) 5s forwards;
+       }
+
+       .phase-card.evaluation {
+           border-color: var(--border-blue);
+           animation: revealPhase var(--timing-medium) var(--easing-smooth) 5.3s forwards;
+       }
+
+       .phase-card::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 4px;
+           transform: scaleX(0);
+           animation: slideTopBar var(--timing-slow) var(--easing-tech) 0.5s forwards;
+       }
+
+       .phase-card.setup::before { 
+           background: var(--blue-gradient);
+           animation-delay: 4.8s;
+       }
+       .phase-card.data-preprocessing::before { 
+           background: var(--amber-gradient);
+           animation-delay: 5.1s;
+       }
+       .phase-card.model-development::before { 
+           background: var(--teal-gradient);
+           animation-delay: 5.4s;
+       }
+       .phase-card.evaluation::before { 
+           background: var(--blue-gradient);
+           animation-delay: 5.7s;
+       }
+
+       .phase-card:hover {
+           transform: translateY(-8px);
+           box-shadow: var(--shadow-lg);
+       }
+
+       .phase-card.setup:hover { border-color: rgba(59, 130, 246, 0.6); }
+       .phase-card.data-preprocessing:hover { border-color: rgba(245, 158, 11, 0.6); }
+       .phase-card.model-development:hover { border-color: rgba(20, 184, 166, 0.6); }
+       .phase-card.evaluation:hover { border-color: rgba(59, 130, 246, 0.6); }
+
+       .phase-header {
+           text-align: center;
+           margin-bottom: 1.5rem;
+       }
+
+       .phase-icon {
+           width: 2.5rem;
+           height: 2.5rem;
+           object-fit: contain;
+           margin-bottom: 0.8rem;
+           opacity: 0;
+           transform: scale(0);
+           animation: revealIcon var(--timing-fast) var(--easing-bounce) 0.8s forwards;
+       }
+
+       .phase-card.setup .phase-icon { animation-delay: 4.8s; }
+       .phase-card.data-preprocessing .phase-icon { animation-delay: 5.1s; }
+       .phase-card.model-development .phase-icon { animation-delay: 5.4s; }
+       .phase-card.evaluation .phase-icon { animation-delay: 5.7s; }
+
+       .phase-description {
+           font-size: 0.9rem;
+           color: var(--text-secondary);
+           line-height: 1.4;
+           margin-bottom: 1.5rem;
+       }
+
+       /* Phase Details - Always Visible */
+       .phase-details {
+           display: block;
+       }
+
+       .detail-section {
+           margin-bottom: 1.2rem;
+       }
+
+       .detail-section:last-child {
+           margin-bottom: 0;
+       }
+
+       .detail-title {
+           font-size: 1rem;
+           font-weight: 600;
+           margin-bottom: 0.6rem;
+           display: flex;
+           align-items: center;
+           gap: 0.5rem;
+           color: var(--text-primary);
+       }
+
+       .phase-card.setup .detail-title { color: var(--accent-blue); }
+       .phase-card.data-preprocessing .detail-title { color: var(--accent-amber); }
+       .phase-card.model-development .detail-title { color: var(--accent-teal); }
+       .phase-card.evaluation .detail-title { color: var(--accent-blue); }
+
+       .detail-list {
+           list-style: none;
+           padding: 0;
+           margin: 0;
+       }
+
+       .detail-item {
+           display: flex;
+           align-items: flex-start;
+           gap: 0.6rem;
+           margin-bottom: 0.5rem;
+           font-size: 0.85rem;
+           color: var(--text-secondary);
+           line-height: 1.4;
+       }
+
+       .detail-bullet {
+           color: var(--accent-light);
+           font-weight: 700;
+           font-size: 0.8rem;
+           margin-top: 2px;
+       }
+
+       .code-snippet {
+           background: rgba(0, 0, 0, 0.3);
+           border-radius: 4px;
+           padding: 0.3rem 0.5rem;
+           font-family: 'Courier New', monospace;
+           font-size: 0.75rem;
+           color: var(--accent-light);
+           border: 1px solid rgba(59, 130, 246, 0.2);
+       }
+
+       /* Flow Arrows */
+       .flow-arrows {
+           position: absolute;
+           top: 50%;
+           left: 0;
+           right: 0;
+           height: 2px;
+           pointer-events: none;
+           z-index: 1;
+       }
+
+       .flow-arrow {
+           position: absolute;
+           top: -1px;
+           width: 0;
+           height: 0;
+           border-left: 8px solid transparent;
+           border-right: 8px solid transparent;
+           opacity: 0;
+           animation: revealArrow var(--timing-fast) var(--easing-smooth) forwards;
+       }
+
+       .arrow-1 {
+           left: 23%;
+           border-top: 4px solid var(--accent-blue);
+           animation-delay: 6s;
+       }
+
+       .arrow-2 {
+           left: 48%;
+           border-top: 4px solid var(--accent-amber);
+           animation-delay: 6.2s;
+       }
+
+       .arrow-3 {
+           left: 73%;
+           border-top: 4px solid var(--accent-teal);
+           animation-delay: 6.4s;
+       }
+
+       .navigation {
+           position: fixed;
+           bottom: 2rem;
+           right: 2rem;
+           display: flex;
+           gap: 1rem;
+           z-index: 100;
+           opacity: 0;
+           transform: translateY(20px);
+           animation: revealNavigation var(--timing-medium) var(--easing-smooth) 6.8s forwards;
+       }
+
+       .nav-btn {
+           background: var(--blue-gradient);
+           color: white;
+           border: none;
+           padding: 0.8rem 1.5rem;
+           border-radius: 10px;
+           cursor: pointer;
+           font-size: 1rem;
+           font-weight: 600;
+           transition: all var(--timing-fast) var(--easing-smooth);
+           box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+           position: relative;
+           overflow: hidden;
+       }
+
+       .nav-btn::before {
+           content: '';
+           position: absolute;
+           top: 0;
+           left: -100%;
+           width: 100%;
+           height: 100%;
+           background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+           transition: left var(--timing-medium) var(--easing-smooth);
+       }
+
+       .nav-btn:hover {
+           transform: translateY(-3px);
+           box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+           background: var(--blue-light);
+       }
+
+       .nav-btn:hover::before {
+           left: 100%;
+       }
+
+       /* Responsive Design */
+       @media (max-width: 1400px) {
+           .workflow-phases {
+               grid-template-columns: repeat(2, 1fr);
+               grid-template-rows: repeat(2, 1fr);
+               gap: 1.2rem;
+           }
+       }
+
+       @media (max-width: 768px) {
+           .content {
+               padding: 1.5rem;
+           }
+           
+           .header {
+               padding: 1.2rem;
+           }
+           
+           .header h1 { 
+               font-size: 2rem; 
+           }
+           
+           .subtitle { 
+               font-size: 1rem; 
+           }
+
+           .arch-features-grid {
+               grid-template-columns: 1fr;
+               gap: 1rem;
+           }
+
+           .workflow-phases {
+               grid-template-columns: 1fr;
+               gap: 1rem;
+           }
+
+           .phase-header {
+               margin-bottom: 1rem;
+           }
+           
+           .navigation {
+               bottom: 1rem;
+               right: 1rem;
+               gap: 0.5rem;
+           }
+           
+           .nav-btn {
+               padding: 0.6rem 1.2rem;
+               font-size: 0.9rem;
+           }
+       }
+
+       @media (prefers-reduced-motion: reduce) {
+           *, *::before, *::after {
+               animation-duration: 0.01ms !important;
+               animation-iteration-count: 1 !important;
+               transition-duration: 0.01ms !important;
+           }
+       }
+
+       /* Keyframe Animations */
+       @keyframes slideHeader {
+           from { opacity: 0; transform: translateY(-20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealHeader {
+           from { opacity: 0; transform: translateY(-50px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealTitle {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealSubtitle {
+           from { opacity: 0; transform: translateY(15px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes revealContent {
+           from { opacity: 0; }
+           to { opacity: 1; }
+       }
+
+       @keyframes revealArchFeatures {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideArchBar {
+           from { transform: scaleX(0); }
+           to { transform: scaleX(1); }
+       }
+
+       @keyframes revealArchTitle {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideInArchColumn {
+           from { opacity: 0; transform: translateX(-30px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes slideInArchItem {
+           from { opacity: 0; transform: translateX(-20px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes revealPhase {
+           from { opacity: 0; transform: translateY(30px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+
+       @keyframes slideTopBar {
+           from { transform: scaleX(0); }
+           to { transform: scaleX(1); }
+       }
+
+       @keyframes revealIcon {
+           from { opacity: 0; transform: scale(0); }
+           to { opacity: 1; transform: scale(1); }
+       }
+
+       @keyframes revealArrow {
+           from { opacity: 0; transform: translateX(-10px); }
+           to { opacity: 1; transform: translateX(0); }
+       }
+
+       @keyframes revealNavigation {
+           from { opacity: 0; transform: translateY(20px); }
+           to { opacity: 1; transform: translateY(0); }
+       }
+   </style>
 </head>
 <body>
-    <div class="slide-container">
-        <div class="slide-header">
-            Slide 5 of 10
-        </div>
+   <div class="slide-container">
+       <div class="slide-header">
+           Slide 5 of 10
+       </div>
 
-        <header class="header">
-            <h1>ML Pipeline Architecture</h1>
-            <p class="subtitle">
-                Systematic approach to term deposit prediction with automated workflow orchestration and comprehensive validation
-            </p>
-        </header>
+       <header class="header">
+           <h1>ML Pipeline Architecture</h1>
+           <p class="subtitle">
+               Systematic approach to term deposit prediction with automated workflow orchestration and comprehensive validation
+           </p>
+       </header>
 
-        <main class="content">
-            <div class="workflow-container">
-                <!-- Flow Arrows -->
-                <div class="flow-arrows">
-                    <div class="flow-arrow arrow-1"></div>
-                    <div class="flow-arrow arrow-2"></div>
-                    <div class="flow-arrow arrow-3"></div>
-                </div>
+       <main class="content">
+           <!-- Key Architecture Features Section - NEW TOP SECTION -->
+           <div class="architecture-features-section">
+               <div class="arch-features-header">
+                   <h2 class="arch-features-title">Key ML Architecture Features</h2>
+               </div>
+               <div class="arch-features-grid">
+                   <div class="arch-feature-column core">
+                       <h3 class="arch-column-title">Core Capabilities</h3>
+                       <ul class="arch-feature-list">
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text"><span class="arch-feature-bold">Configuration-driven architecture</span> for rapid experimentation</span>
+                           </li>
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text"><span class="arch-feature-bold">Nested CV with multi-seed validation</span> for robust, unbiased evaluation</span>
+                           </li>
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text"><span class="arch-feature-bold">Automated feature engineering</span> with intelligent preprocessing</span>
+                           </li>
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text"><span class="arch-feature-bold">Multi-algorithm support</span> including ensemble methods</span>
+                           </li>
+                       </ul>
+                   </div>
+                   <div class="arch-feature-column production">
+                       <h3 class="arch-column-title">Production Features</h3>
+                       <ul class="arch-feature-list">
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text">Comprehensive logging and monitoring</span>
+                           </li>
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text">Automated threshold optimization</span>
+                           </li>
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text">Feature importance analysis</span>
+                           </li>
+                           <li class="arch-feature-item">
+                               <span class="arch-feature-bullet">•</span>
+                               <span class="arch-feature-text">Comprehensive visualization suite for stakeholder reporting</span>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+           </div>
 
-                <!-- Workflow Phases -->
-                <div class="workflow-phases">
-                    <div class="phase-card setup">
-                        <div class="phase-header">
-                            <img src="icons/setup.png" alt="Setup" class="phase-icon">
-                            <p class="phase-description">Configuration, logging, and environment initialization</p>
-                        </div>
-                        <div class="phase-details">
-                            <div class="detail-section">
-                                <h4 class="detail-title">📋 Configuration</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>YAML-based configuration management</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Configuration validation and consistency checks</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">📁 Directory Management</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Automated results, models, and figures directories</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Timestamped run organization</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">📝 Logging System</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Comprehensive logging to file and console</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Performance timing and validation tracking</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+           <div class="workflow-container">
+               <!-- Flow Arrows -->
+               <div class="flow-arrows">
+                   <div class="flow-arrow arrow-1"></div>
+                   <div class="flow-arrow arrow-2"></div>
+                   <div class="flow-arrow arrow-3"></div>
+               </div>
 
-                    <div class="phase-card data-preprocessing">
-                        <div class="phase-header">
-                            <img src="icons/data-processing.png" alt="Data Preprocessing" class="phase-icon">
-                            <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
-                        </div>
-                        <div class="phase-details">
-                            <div class="detail-section">
-                                <h4 class="detail-title">📥 Data Loading</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>SQLite database connection with automatic download</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Configuration-driven data loading</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">🧹 Data Cleaning</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Outliers, negative values, missing data handling</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Column naming and value format standardization</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">⚙️ Feature Engineering</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Suffix-based features: <span class="code-snippet">_cat, _bin, _num</span></span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Age groups, occupation categories, temporal indicators</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+               <!-- Workflow Phases -->
+               <div class="workflow-phases">
+                   <div class="phase-card setup">
+                       <div class="phase-header">
+                           <img src="icons/setup.png" alt="Setup" class="phase-icon">
+                           <p class="phase-description">Configuration, logging, and environment initialization</p>
+                       </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">📋 Configuration</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>YAML-based configuration management</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Configuration validation and consistency checks</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">📁 Directory Management</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Automated results, models, and figures directories</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Timestamped run organization</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">📝 Logging System</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Comprehensive logging to file and console</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Performance timing and validation tracking</span>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
 
-                    <div class="phase-card model-development">
-                        <div class="phase-header">
-                            <img src="icons/model-development.png" alt="Model Development" class="phase-icon">
-                            <p class="phase-description">Algorithm selection, tuning, and cross-validation</p>
-                        </div>
-                        <div class="phase-details">
-                            <div class="detail-section">
-                                <h4 class="detail-title">🏭 Model Factory</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Automatic feature type detection and preprocessing</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Pipeline creation with appropriate transformers</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">🎯 Algorithms</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Logistic Regression, Random Forest, XGBoost</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Ensemble methods with soft voting</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">🔄 Nested Cross-Validation</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>5-fold outer CV × 3-fold inner CV</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Hyperparameter tuning with GridSearchCV</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                   <div class="phase-card data-preprocessing">
+                       <div class="phase-header">
+                           <img src="icons/data-processing.png" alt="Data Preprocessing" class="phase-icon">
+                           <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
+                       </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">📥 Data Loading</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>SQLite database connection with automatic download</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Configuration-driven data loading</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🧹 Data Cleaning</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Outliers, negative values, missing data handling</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Column naming and value format standardization</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">⚙️ Feature Engineering</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Suffix-based features: <span class="code-snippet">_cat, _bin, _num</span></span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Age groups, occupation categories, temporal indicators</span>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
 
-                    <div class="phase-card evaluation">
-                        <div class="phase-header">
-                            <img src="icons/evaluation.png" alt="Evaluation" class="phase-icon">
-                            <p class="phase-description">Performance metrics, model comparison, and deployment</p>
-                        </div>
-                        <div class="phase-details">
-                            <div class="detail-section">
-                                <h4 class="detail-title">📊 Performance Metrics</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span><span class="code-snippet">F2 Score</span> (optimized for recall)</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Matthews Correlation Coefficient (MCC)</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>ROC-AUC, Average Precision</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">🔍 Model Selection</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>CV vs Test performance comparison</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Threshold optimization for F2 score</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="detail-section">
-                                <h4 class="detail-title">💾 Output Generation</h4>
-                                <ul class="detail-list">
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Serialized models, evaluation reports</span>
-                                    </li>
-                                    <li class="detail-item">
-                                        <span class="detail-bullet">•</span>
-                                        <span>Performance visualizations, feature analysis</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                   <div class="phase-card model-development">
+                       <div class="phase-header">
+                           <img src="icons/model-development.png" alt="Model Development" class="phase-icon">
+                           <p class="phase-description">Algorithm selection, tuning, and cross-validation</p>
+                       </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">🏭 Model Factory</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Automatic feature type detection and preprocessing</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Pipeline creation with appropriate transformers</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🎯 Algorithms</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Logistic Regression, Random Forest, XGBoost</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Ensemble methods with soft voting</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🔄 Nested Cross-Validation</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>5-fold outer CV × 3-fold inner CV</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Hyperparameter tuning with GridSearchCV</span>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
 
-            <!-- Key Features Section -->
-            <div class="key-features-section">
-                <div class="features-header">
-                    <img src="icons/key-features.png" alt="Key Features" class="features-icon">
-                    <h2 class="features-title">Key Technical Features</h2>
-                </div>
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <h3 class="feature-title">Automated Orchestration</h3>
-                        <p class="feature-description">
-                            Complete pipeline orchestration through <strong>main.py</strong> with comprehensive logging, 
-                            directory management, and configuration validation
-                        </p>
-                    </div>
-                    <div class="feature-item">
-                        <h3 class="feature-title">Suffix-Based Architecture</h3>
-                        <p class="feature-description">
-                            Systematic feature naming convention enabling automatic preprocessing: 
-                            categorical, binary, numerical, count, score, and percentage features
-                        </p>
-                    </div>
-                    <div class="feature-item">
-                        <h3 class="feature-title">Class Imbalance Handling</h3>
-                        <p class="feature-description">
-                            F2-optimized scoring, balanced sampling techniques, and stratified cross-validation 
-                            for the 11.3% subscription rate dataset
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </main>
+                   <div class="phase-card evaluation">
+                       <div class="phase-header">
+                           <img src="icons/evaluation.png" alt="Evaluation" class="phase-icon">
+                           <p class="phase-description">Performance metrics, model comparison, and deployment</p>
+                       </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">📊 Performance Metrics</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span><span class="code-snippet">F2 Score</span> (optimized for recall)</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Matthews Correlation Coefficient (MCC)</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>ROC-AUC, Average Precision</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🔍 Model Selection</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>CV vs Test performance comparison</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Threshold optimization for F2 score</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">💾 Output Generation</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Serialized models, evaluation reports</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Performance visualizations, feature analysis</span>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </main>
 
-        <nav class="navigation">
-            <button class="nav-btn" onclick="navigateToSlide('slide4.html')">← Previous</button>
-            <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
-            <button class="nav-btn" onclick="navigateToSlide('slide6.html')">Next →</button>
-        </nav>
-    </div>
+       <nav class="navigation">
+           <button class="nav-btn" onclick="navigateToSlide('slide4.html')">← Previous</button>
+           <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
+           <button class="nav-btn" onclick="navigateToSlide('slide6.html')">Next →</button>
+       </nav>
+   </div>
 
-    <script>
-        function navigateToSlide(url) {
-            window.location.href = url;
-        }
+   <script>
+       function navigateToSlide(url) {
+           window.location.href = url;
+       }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const keyActions = {
-                'ArrowLeft': () => navigateToSlide('slide4.html'),
-                'Backspace': () => navigateToSlide('slide4.html'),
-                'ArrowRight': () => navigateToSlide('slide6.html'),
-                ' ': () => navigateToSlide('slide6.html'),
-                'h': () => navigateToSlide('index.html'),
-                'H': () => navigateToSlide('index.html'),
-                'f': () => document.documentElement.requestFullscreen?.(),
-                'F': () => document.documentElement.requestFullscreen?.(),
-                '0': () => navigateToSlide('slide10.html')
-            };
-            
-            if (e.key >= '1' && e.key <= '9') {
-                navigateToSlide(`slide${e.key}.html`);
-            } else if (keyActions[e.key]) {
-                e.preventDefault();
-                keyActions[e.key]();
-            }
-        });
-    </script>
+       // Keyboard navigation
+       document.addEventListener('keydown', (e) => {
+           const keyActions = {
+               'ArrowLeft': () => navigateToSlide('slide4.html'),
+               'Backspace': () => navigateToSlide('slide4.html'),
+               'ArrowRight': () => navigateToSlide('slide6.html'),
+               ' ': () => navigateToSlide('slide6.html'),
+               'h': () => navigateToSlide('index.html'),
+               'H': () => navigateToSlide('index.html'),
+               'f': () => document.documentElement.requestFullscreen?.(),
+               'F': () => document.documentElement.requestFullscreen?.(),
+               '0': () => navigateToSlide('slide10.html')
+           };
+           
+           if (e.key >= '1' && e.key <= '9') {
+               navigateToSlide(`slide${e.key}.html`);
+           } else if (keyActions[e.key]) {
+               e.preventDefault();
+               keyActions[e.key]();
+           }
+       });
+   </script>
 </body>
 </html>

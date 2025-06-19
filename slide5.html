@@ -147,7 +147,7 @@
 
        .arch-features-header {
            text-align: center;
-           margin-bottom: 1.2rem; /* Reduced from 2rem */
+           margin-bottom: 1.5rem; /* Reduced from 2rem */
        }
 
        .arch-features-title {
@@ -261,7 +261,7 @@
        .arch-feature-bullet {
            color: var(--accent-light);
            font-weight: 700;
-           font-size: 0.9rem;
+           font-size: 0.8rem; /* Reduced from 0.9rem */
            margin-top: 3px;
            min-width: 16px;
        }
@@ -381,18 +381,26 @@
        .phase-card.model-development .phase-icon { animation-delay: 5.4s; }
        .phase-card.evaluation .phase-icon { animation-delay: 5.7s; }
 
-       /* ADD COLORED PHASE TITLES - MISSING FROM PREVIOUS VERSION */
-       .phase-title {
+       /* ADDED: Main colored titles for workflow cards */
+       .phase-main-title {
            font-size: 1.4rem;
            font-weight: 600;
            margin-bottom: 0.5rem;
-           color: var(--text-primary);
+           text-align: center;
        }
 
-       .phase-card.setup .phase-title { color: var(--accent-blue); }
-       .phase-card.data-preprocessing .phase-title { color: var(--accent-amber); }
-       .phase-card.model-development .phase-title { color: var(--accent-teal); }
-       .phase-card.evaluation .phase-title { color: var(--accent-blue); }
+       .phase-card.setup .phase-main-title { 
+           color: var(--accent-blue); 
+       }
+       .phase-card.data-preprocessing .phase-main-title { 
+           color: var(--accent-amber); 
+       }
+       .phase-card.model-development .phase-main-title { 
+           color: var(--accent-teal); 
+       }
+       .phase-card.evaluation .phase-main-title { 
+           color: var(--accent-blue); 
+       }
 
        .phase-description {
            font-size: 0.9rem;
@@ -765,7 +773,7 @@
                    <div class="phase-card setup">
                        <div class="phase-header">
                            <img src="icons/setup.png" alt="Setup" class="phase-icon">
-                           <h3 class="phase-title">Setup</h3>
+                           <h3 class="phase-main-title">Setup</h3>
                            <p class="phase-description">Configuration, logging, and environment initialization</p>
                        </div>
                        <div class="phase-details">
@@ -814,7 +822,7 @@
                    <div class="phase-card data-preprocessing">
                        <div class="phase-header">
                            <img src="icons/data-processing.png" alt="Data Preprocessing" class="phase-icon">
-                           <h3 class="phase-title">Data Preprocessing</h3>
+                           <h3 class="phase-main-title">Data Preprocessing</h3>
                            <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
                        </div>
                        <div class="phase-details">
@@ -863,7 +871,7 @@
                    <div class="phase-card model-development">
                        <div class="phase-header">
                            <img src="icons/model-development.png" alt="Model Development" class="phase-icon">
-                           <h3 class="phase-title">Model Development</h3>
+                           <h3 class="phase-main-title">Model Development</h3>
                            <p class="phase-description">Algorithm selection, tuning, and cross-validation</p>
                        </div>
                        <div class="phase-details">
@@ -912,7 +920,7 @@
                    <div class="phase-card evaluation">
                        <div class="phase-header">
                            <img src="icons/evaluation.png" alt="Evaluation" class="phase-icon">
-                           <h3 class="phase-title">Evaluation</h3>
+                           <h3 class="phase-main-title">Evaluation</h3>
                            <p class="phase-description">Performance metrics, model comparison, and deployment</p>
                        </div>
                        <div class="phase-details">

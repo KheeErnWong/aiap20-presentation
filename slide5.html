@@ -384,6 +384,27 @@
        .phase-card.model-development .phase-icon { animation-delay: 5.4s; }
        .phase-card.evaluation .phase-icon { animation-delay: 5.7s; }
 
+       /* ADDED: Main colored titles for workflow cards */
+       .phase-main-title {
+           font-size: 1.4rem;
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+           text-align: center;
+       }
+
+       .phase-card.setup .phase-main-title { 
+           color: var(--accent-blue); 
+       }
+       .phase-card.data-preprocessing .phase-main-title { 
+           color: var(--accent-amber); 
+       }
+       .phase-card.model-development .phase-main-title { 
+           color: var(--accent-teal); 
+       }
+       .phase-card.evaluation .phase-main-title { 
+           color: var(--accent-purple); 
+       }
+
        .phase-description {
            font-size: 0.9rem;
            color: var(--text-secondary);
@@ -755,6 +776,7 @@
                    <div class="phase-card setup">
                        <div class="phase-header">
                            <img src="icons/setup.png" alt="Setup" class="phase-icon">
+                           <h3 class="phase-main-title">Setup</h3>
                            <p class="phase-description">Configuration, logging, and environment initialization</p>
                        </div>
                        <div class="phase-details">
@@ -803,6 +825,7 @@
                    <div class="phase-card data-preprocessing">
                        <div class="phase-header">
                            <img src="icons/data-processing.png" alt="Data Preprocessing" class="phase-icon">
+                           <h3 class="phase-main-title">Data Preprocessing</h3>
                            <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
                        </div>
                        <div class="phase-details">
@@ -851,6 +874,7 @@
                    <div class="phase-card model-development">
                        <div class="phase-header">
                            <img src="icons/model-development.png" alt="Model Development" class="phase-icon">
+                           <h3 class="phase-main-title">Model Development</h3>
                            <p class="phase-description">Algorithm selection, tuning, and cross-validation</p>
                        </div>
                        <div class="phase-details">
@@ -899,6 +923,7 @@
                    <div class="phase-card evaluation">
                        <div class="phase-header">
                            <img src="icons/evaluation.png" alt="Evaluation" class="phase-icon">
+                           <h3 class="phase-main-title">Evaluation</h3>
                            <p class="phase-description">Performance metrics, model comparison, and deployment</p>
                        </div>
                        <div class="phase-details">
@@ -941,7 +966,7 @@
                                    </li>
                                    <li class="detail-item">
                                        <span class="detail-bullet">•</span>
-                                       <span>Comprehensive performance visualizations, feature analysis</span>
+                                       <span>Performance visualizations, feature analysis</span>
                                    </li>
                                </ul>
                            </div>

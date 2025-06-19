@@ -11,24 +11,21 @@
            --card-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
            --blue-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
            --blue-light: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
-           --green-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
-           --purple-gradient: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
-           --orange-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+           --amber-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+           --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #0f766e 100%);
            --text-primary: #ffffff;
            --text-secondary: #cbd5e0;
            --text-muted: #94a3b8;
            --accent-blue: #3b82f6;
            --accent-light: #60a5fa;
-           --accent-green: #10b981;
-           --accent-purple: #8b5cf6;
-           --accent-orange: #f59e0b;
+           --accent-amber: #f59e0b;
+           --accent-teal: #14b8a6;
            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
            --border-blue: rgba(59, 130, 246, 0.2);
-           --border-green: rgba(16, 185, 129, 0.2);
-           --border-purple: rgba(139, 92, 246, 0.2);
-           --border-orange: rgba(245, 158, 11, 0.2);
+           --border-amber: rgba(245, 158, 11, 0.2);
+           --border-teal: rgba(20, 184, 166, 0.2);
            
            --timing-fast: 0.3s;
            --timing-medium: 0.6s;
@@ -145,26 +142,26 @@
            transform: translateY(30px);
            overflow: hidden;
            position: relative;
-           cursor: pointer;
+           padding: 1.5rem;
        }
 
-       .phase-card.data-processing {
+       .phase-card.setup {
            border-color: var(--border-blue);
            animation: revealPhase var(--timing-medium) var(--easing-smooth) 1.8s forwards;
        }
 
-       .phase-card.model-development {
-           border-color: var(--border-green);
+       .phase-card.data-preprocessing {
+           border-color: var(--border-amber);
            animation: revealPhase var(--timing-medium) var(--easing-smooth) 2.1s forwards;
        }
 
-       .phase-card.evaluation {
-           border-color: var(--border-purple);
+       .phase-card.model-development {
+           border-color: var(--border-teal);
            animation: revealPhase var(--timing-medium) var(--easing-smooth) 2.4s forwards;
        }
 
-       .phase-card.deployment {
-           border-color: var(--border-orange);
+       .phase-card.evaluation {
+           border-color: var(--border-blue);
            animation: revealPhase var(--timing-medium) var(--easing-smooth) 2.7s forwards;
        }
 
@@ -179,24 +176,24 @@
            animation: slideTopBar var(--timing-slow) var(--easing-tech) 0.5s forwards;
        }
 
-       .phase-card.data-processing::before { background: var(--blue-gradient); }
-       .phase-card.model-development::before { background: var(--green-gradient); }
-       .phase-card.evaluation::before { background: var(--purple-gradient); }
-       .phase-card.deployment::before { background: var(--orange-gradient); }
+       .phase-card.setup::before { background: var(--blue-gradient); }
+       .phase-card.data-preprocessing::before { background: var(--amber-gradient); }
+       .phase-card.model-development::before { background: var(--teal-gradient); }
+       .phase-card.evaluation::before { background: var(--blue-gradient); }
 
        .phase-card:hover {
            transform: translateY(-8px);
            box-shadow: var(--shadow-lg);
        }
 
-       .phase-card.data-processing:hover { border-color: rgba(59, 130, 246, 0.6); }
-       .phase-card.model-development:hover { border-color: rgba(16, 185, 129, 0.6); }
-       .phase-card.evaluation:hover { border-color: rgba(139, 92, 246, 0.6); }
-       .phase-card.deployment:hover { border-color: rgba(245, 158, 11, 0.6); }
+       .phase-card.setup:hover { border-color: rgba(59, 130, 246, 0.6); }
+       .phase-card.data-preprocessing:hover { border-color: rgba(245, 158, 11, 0.6); }
+       .phase-card.model-development:hover { border-color: rgba(20, 184, 166, 0.6); }
+       .phase-card.evaluation:hover { border-color: rgba(59, 130, 246, 0.6); }
 
        .phase-header {
-           padding: 1.5rem 1.5rem 1rem 1.5rem;
            text-align: center;
+           margin-bottom: 1.5rem;
        }
 
        .phase-icon {
@@ -209,10 +206,10 @@
            animation: revealIcon var(--timing-fast) var(--easing-bounce) 0.8s forwards;
        }
 
-       .phase-card.data-processing .phase-icon { animation-delay: 2.2s; }
-       .phase-card.model-development .phase-icon { animation-delay: 2.5s; }
-       .phase-card.evaluation .phase-icon { animation-delay: 2.8s; }
-       .phase-card.deployment .phase-icon { animation-delay: 3.1s; }
+       .phase-card.setup .phase-icon { animation-delay: 2.2s; }
+       .phase-card.data-preprocessing .phase-icon { animation-delay: 2.5s; }
+       .phase-card.model-development .phase-icon { animation-delay: 2.8s; }
+       .phase-card.evaluation .phase-icon { animation-delay: 3.1s; }
 
        .phase-title {
            font-size: 1.4rem;
@@ -221,31 +218,21 @@
            color: var(--text-primary);
        }
 
-       .phase-card.data-processing .phase-title { color: var(--accent-blue); }
-       .phase-card.model-development .phase-title { color: var(--accent-green); }
-       .phase-card.evaluation .phase-title { color: var(--accent-purple); }
-       .phase-card.deployment .phase-title { color: var(--accent-orange); }
+       .phase-card.setup .phase-title { color: var(--accent-blue); }
+       .phase-card.data-preprocessing .phase-title { color: var(--accent-amber); }
+       .phase-card.model-development .phase-title { color: var(--accent-teal); }
+       .phase-card.evaluation .phase-title { color: var(--accent-blue); }
 
        .phase-description {
            font-size: 0.9rem;
            color: var(--text-secondary);
            line-height: 1.4;
+           margin-bottom: 1.5rem;
        }
 
-       /* Expandable Content */
-       .phase-content {
-           max-height: 0;
-           overflow: hidden;
-           transition: max-height var(--timing-medium) var(--easing-smooth);
-           border-top: 1px solid rgba(255, 255, 255, 0.1);
-       }
-
-       .phase-card.expanded .phase-content {
-           max-height: 500px;
-       }
-
+       /* Phase Details - Always Visible */
        .phase-details {
-           padding: 1.5rem;
+           display: block;
        }
 
        .detail-section {
@@ -263,6 +250,7 @@
            display: flex;
            align-items: center;
            gap: 0.5rem;
+           color: var(--text-primary);
        }
 
        .detail-list {
@@ -328,28 +316,14 @@
 
        .arrow-2 {
            left: 48%;
-           border-top: 4px solid var(--accent-green);
+           border-top: 4px solid var(--accent-amber);
            animation-delay: 3.6s;
        }
 
        .arrow-3 {
            left: 73%;
-           border-top: 4px solid var(--accent-purple);
+           border-top: 4px solid var(--accent-teal);
            animation-delay: 3.8s;
-       }
-
-       /* Expand Indicators */
-       .expand-indicator {
-           position: absolute;
-           top: 15px;
-           right: 15px;
-           color: var(--text-muted);
-           font-size: 0.9rem;
-           transition: transform var(--timing-fast) var(--easing-smooth);
-       }
-
-       .phase-card.expanded .expand-indicator {
-           transform: rotate(180deg);
        }
 
        /* Key Features Section */
@@ -510,7 +484,7 @@
            }
 
            .phase-header {
-               padding: 1rem;
+               margin-bottom: 1rem;
            }
 
            .phase-title {
@@ -633,214 +607,202 @@
 
                <!-- Workflow Phases -->
                <div class="workflow-phases">
-                   <div class="phase-card data-processing" onclick="togglePhase(this)">
-                       <div class="expand-indicator">▼</div>
+                   <div class="phase-card setup">
                        <div class="phase-header">
-                           <img src="icons/data-processing.png" alt="Data Processing" class="phase-icon">
-                           <h3 class="phase-title">Data Processing</h3>
-                           <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
+                           <img src="icons/setup.png" alt="Setup" class="phase-icon">
+                           <h3 class="phase-title">Setup</h3>
+                           <p class="phase-description">Configuration, logging, and environment initialization</p>
                        </div>
-                       <div class="phase-content">
-                           <div class="phase-details">
-                               <div class="detail-section">
-                                   <h4 class="detail-title">📥 Data Loading</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>SQLite database connection with automatic download</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Configuration-driven data loading</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">🧹 Preprocessing</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Data quality fixes: outliers, negative values, missing data</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Standardization: column naming, value formats</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">⚙️ Feature Engineering</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Suffix-based features: <span class="code-snippet">_cat, _bin, _num</span></span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Age groups, occupation categories, temporal indicators</span>
-                                       </li>
-                                   </ul>
-                               </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">📋 Configuration</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>YAML-based configuration management</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Configuration validation and consistency checks</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">📁 Directory Management</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Automated results, models, and figures directories</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Timestamped run organization</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">📝 Logging System</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Comprehensive logging to file and console</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Performance timing and validation tracking</span>
+                                   </li>
+                               </ul>
                            </div>
                        </div>
                    </div>
 
-                   <div class="phase-card model-development" onclick="togglePhase(this)">
-                       <div class="expand-indicator">▼</div>
+                   <div class="phase-card data-preprocessing">
+                       <div class="phase-header">
+                           <img src="icons/data-processing.png" alt="Data Preprocessing" class="phase-icon">
+                           <h3 class="phase-title">Data Preprocessing</h3>
+                           <p class="phase-description">Loading, cleaning, and feature engineering pipeline</p>
+                       </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">📥 Data Loading</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>SQLite database connection with automatic download</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Configuration-driven data loading</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🧹 Data Cleaning</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Outliers, negative values, missing data handling</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Column naming and value format standardization</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">⚙️ Feature Engineering</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Suffix-based features: <span class="code-snippet">_cat, _bin, _num</span></span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Age groups, occupation categories, temporal indicators</span>
+                                   </li>
+                               </ul>
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="phase-card model-development">
                        <div class="phase-header">
                            <img src="icons/model-development.png" alt="Model Development" class="phase-icon">
                            <h3 class="phase-title">Model Development</h3>
                            <p class="phase-description">Algorithm selection, tuning, and cross-validation</p>
                        </div>
-                       <div class="phase-content">
-                           <div class="phase-details">
-                               <div class="detail-section">
-                                   <h4 class="detail-title">🏭 Model Factory</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Automatic feature type detection and preprocessing</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Pipeline creation with appropriate transformers</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">🎯 Algorithms</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Logistic Regression, Random Forest, XGBoost</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Ensemble methods with soft voting</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">🔄 Nested Cross-Validation</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>5-fold outer CV × 3-fold inner CV</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Hyperparameter tuning with GridSearchCV</span>
-                                       </li>
-                                   </ul>
-                               </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">🏭 Model Factory</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Automatic feature type detection and preprocessing</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Pipeline creation with appropriate transformers</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🎯 Algorithms</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Logistic Regression, Random Forest, XGBoost</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Ensemble methods with soft voting</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🔄 Nested Cross-Validation</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>5-fold outer CV × 3-fold inner CV</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Hyperparameter tuning with GridSearchCV</span>
+                                   </li>
+                               </ul>
                            </div>
                        </div>
                    </div>
 
-                   <div class="phase-card evaluation" onclick="togglePhase(this)">
-                       <div class="expand-indicator">▼</div>
+                   <div class="phase-card evaluation">
                        <div class="phase-header">
                            <img src="icons/evaluation.png" alt="Evaluation" class="phase-icon">
                            <h3 class="phase-title">Evaluation</h3>
-                           <p class="phase-description">Performance metrics and model comparison</p>
+                           <p class="phase-description">Performance metrics, model comparison, and deployment</p>
                        </div>
-                       <div class="phase-content">
-                           <div class="phase-details">
-                               <div class="detail-section">
-                                   <h4 class="detail-title">📊 Primary Metrics</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span><span class="code-snippet">F2 Score</span> (optimized for recall)</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Matthews Correlation Coefficient (MCC)</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>ROC-AUC, Average Precision</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">🔍 Model Selection</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>CV vs Test performance comparison</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Threshold optimization for F2 score</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">📈 Visualizations</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>ROC curves, Precision-Recall curves</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Confusion matrices, feature importance plots</span>
-                                       </li>
-                                   </ul>
-                               </div>
+                       <div class="phase-details">
+                           <div class="detail-section">
+                               <h4 class="detail-title">📊 Performance Metrics</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span><span class="code-snippet">F2 Score</span> (optimized for recall)</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Matthews Correlation Coefficient (MCC)</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>ROC-AUC, Average Precision</span>
+                                   </li>
+                               </ul>
                            </div>
-                       </div>
-                   </div>
-
-                   <div class="phase-card deployment" onclick="togglePhase(this)">
-                       <div class="expand-indicator">▼</div>
-                       <div class="phase-header">
-                           <img src="icons/deployment.png" alt="Deployment" class="phase-icon">
-                           <h3 class="phase-title">Deployment Ready</h3>
-                           <p class="phase-description">Final training and business impact analysis</p>
-                       </div>
-                       <div class="phase-content">
-                           <div class="phase-details">
-                               <div class="detail-section">
-                                   <h4 class="detail-title">🎯 Final Training</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Best parameters from CV applied to full training set</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Feature importance analysis with suffix grouping</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">💼 Business Impact</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>65% resource reduction analysis</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Campaign optimization recommendations</span>
-                                       </li>
-                                   </ul>
-                               </div>
-                               <div class="detail-section">
-                                   <h4 class="detail-title">💾 Artifacts</h4>
-                                   <ul class="detail-list">
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Serialized models, evaluation reports</span>
-                                       </li>
-                                       <li class="detail-item">
-                                           <span class="detail-bullet">•</span>
-                                           <span>Performance visualizations, feature analysis</span>
-                                       </li>
-                                   </ul>
-                               </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">🔍 Model Selection</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>CV vs Test performance comparison</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Threshold optimization for F2 score</span>
+                                   </li>
+                               </ul>
+                           </div>
+                           <div class="detail-section">
+                               <h4 class="detail-title">💾 Output Generation</h4>
+                               <ul class="detail-list">
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Serialized models, evaluation reports</span>
+                                   </li>
+                                   <li class="detail-item">
+                                       <span class="detail-bullet">•</span>
+                                       <span>Performance visualizations, feature analysis</span>
+                                   </li>
+                               </ul>
                            </div>
                        </div>
                    </div>
@@ -890,20 +852,6 @@
        function navigateToSlide(url) {
            window.location.href = url;
        }
-
-       function togglePhase(card) {
-           card.classList.toggle('expanded');
-       }
-
-       // Auto-expand first card on load with delay
-       window.addEventListener('load', () => {
-           setTimeout(() => {
-               const firstCard = document.querySelector('.phase-card');
-               if (firstCard) {
-                   firstCard.classList.add('expanded');
-               }
-           }, 3500); // Expand after initial animations complete
-       });
 
        // Keyboard navigation
        document.addEventListener('keydown', (e) => {

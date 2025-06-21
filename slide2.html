@@ -102,15 +102,16 @@
        }
 
        .content {
-           flex: 1;
-           padding: 0.8rem;
-           display: grid;
-           grid-template-columns: 1fr 1fr;
-           grid-template-rows: auto 1fr;
-           gap: 0.5rem;
-           opacity: 0;
-           animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
-       }
+          flex: 1;
+          padding: 0.8rem;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto auto;  /* Back to auto auto */
+          gap: 0.5rem;
+          opacity: 0;
+          animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
+          align-content: start;  /* ADD THIS - keeps content at top */
+      }
 
        .section {
            background: var(--secondary-bg);

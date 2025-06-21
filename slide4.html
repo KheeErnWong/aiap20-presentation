@@ -16,6 +16,8 @@
             --text-muted: #94a3b8;
             --accent-blue: #3b82f6;
             --accent-light: #60a5fa;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
             --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
             --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.3);
             --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -103,245 +105,280 @@
         .content {
             flex: 1;
             padding: 2rem;
-            display: grid;
-            grid-template-columns: 3fr 2fr; /* Changed from 1fr 1fr to 3fr 2fr for 60%-40% split */
-            gap: 2rem;
             opacity: 0;
             animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
         }
 
-        .section {
-            background: var(--secondary-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border-blue);
-            transition: all var(--timing-fast) var(--easing-smooth);
-            display: flex;
-            flex-direction: column;
-            height: fit-content;
-            transform: translateY(30px);
-            opacity: 0;
-        }
-
-        .section.enhancements {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 1.8s forwards;
-        }
-
-        .section.strategy {
-            animation: revealSection var(--timing-medium) var(--easing-smooth) 2.2s forwards;
-        }
-
-        .section:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(59, 130, 246, 0.6);
-            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-        }
-
-        .section-title {
-            font-size: 2rem;
-            color: var(--accent-blue);
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            border-bottom: 2px solid var(--accent-blue);
-            padding-bottom: 0.5rem;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: var(--blue-gradient);
-            animation: underlineSlide var(--timing-slow) var(--easing-tech) 0.5s forwards;
-        }
-
-        /* Custom icon styling for PNG images - NO COLOR FILTER */
-        .section-icon {
-            width: 1.8rem;
-            height: 1.8rem;
-            object-fit: contain;
-            transition: all var(--timing-fast) var(--easing-smooth);
-        }
-
-        /* Hover effect for section icons - simple scale, no color change */
-        .section:hover .section-icon {
-            transform: scale(1.1);
-        }
-
-        /* Data Enhancement Cards - 2x2 GRID LAYOUT */
-        .enhancement-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 columns */
-            grid-template-rows: 1fr 1fr; /* 2 rows */
-            gap: 1rem;
-        }
-
-        .enhancement-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            border: 1px solid var(--border-blue);
-            transition: all var(--timing-fast) var(--easing-smooth);
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .enhancement-card:nth-child(1) { animation: slideInCard var(--timing-fast) var(--easing-smooth) 2.6s forwards; }
-        .enhancement-card:nth-child(2) { animation: slideInCard var(--timing-fast) var(--easing-smooth) 2.8s forwards; }
-        .enhancement-card:nth-child(3) { animation: slideInCard var(--timing-fast) var(--easing-smooth) 3s forwards; }
-        .enhancement-card:nth-child(4) { animation: slideInCard var(--timing-fast) var(--easing-smooth) 3.2s forwards; }
-
-        .enhancement-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-light);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
-        }
-
-        .card-header {
-            padding: 1rem 1.2rem 0.8rem 1.2rem;
-            background: rgba(59, 130, 246, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            border-bottom: 1px solid var(--border-blue);
-        }
-
-        /* Updated card icon styling for PNG images */
-        .card-icon {
-            width: 1.3rem;
-            height: 1.3rem;
-            object-fit: contain;
-            transition: all var(--timing-fast) var(--easing-smooth);
-            flex-shrink: 0;
-        }
-
-        /* Hover effect for card icons */
-        .enhancement-card:hover .card-icon {
-            transform: scale(1.1);
-        }
-
-        .card-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        /* Card content - always visible, no expansion */
-        .card-content {
-            flex: 1;
-            padding: 1rem 1.2rem;
-        }
-
-        .enhancement-item {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            line-height: 1.4;
-            margin-bottom: 0.4rem;
-            padding-left: 1rem;
-            position: relative;
-        }
-
-        .enhancement-item::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--accent-light);
-            font-weight: 700;
-        }
-
-        .enhancement-item:last-child {
-            margin-bottom: 0;
-        }
-
-        /* Execution Strategy Timeline */
-        .strategy-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .timeline-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 1rem;
-            border-left: 4px solid;
-            transition: all var(--timing-fast) var(--easing-smooth);
-            opacity: 0;
-            transform: translateX(20px);
-        }
-
-        .timeline-card.short-term {
-            border-left-color: #10b981;
-            animation: slideInTimeline var(--timing-fast) var(--easing-smooth) 3.6s forwards;
-        }
-
-        .timeline-card.medium-term {
-            border-left-color: var(--accent-blue);
-            animation: slideInTimeline var(--timing-fast) var(--easing-smooth) 3.8s forwards;
-        }
-
-        .timeline-card.long-term {
-            border-left-color: #8b5cf6;
-            animation: slideInTimeline var(--timing-fast) var(--easing-smooth) 4s forwards;
-        }
-
-        .timeline-card:hover {
-            transform: translateX(-5px);
-            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
-        }
-
-        .timeline-card.short-term:hover {
-            border-left-color: #34d399;
-            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-        }
-
-        .timeline-card.long-term:hover {
-            border-left-color: #a78bfa;
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+        /* Horizontal Timeline Styles */
+        .timeline-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
         }
 
         .timeline-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-title {
+            font-size: 2.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .timeline-icon {
+            width: 2rem;
+            height: 2rem;
+            object-fit: contain;
+        }
+
+        .timeline-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* Timeline Rail */
+        .timeline-rail {
+            position: relative;
+            margin: 3rem 0 4rem 0;
+            height: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple));
+            border-radius: 4px;
+            animation: progressFill 2s var(--easing-smooth) 2s forwards;
+        }
+
+        .timeline-nodes {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 2rem;
+        }
+
+        .timeline-node {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-bg);
+            border: 3px solid;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all var(--timing-fast) var(--easing-smooth);
+        }
+
+        .timeline-node.short-term {
+            border-color: var(--accent-green);
+            animation: nodeReveal var(--timing-medium) var(--easing-bounce) 2.2s forwards;
+        }
+
+        .timeline-node.medium-term {
+            border-color: var(--accent-blue);
+            animation: nodeReveal var(--timing-medium) var(--easing-bounce) 2.6s forwards;
+        }
+
+        .timeline-node.long-term {
+            border-color: var(--accent-purple);
+            animation: nodeReveal var(--timing-medium) var(--easing-bounce) 3s forwards;
+        }
+
+        .timeline-node:hover {
+            transform: scale(1.1);
+        }
+
+        .node-icon {
+            width: 1.2rem;
+            height: 1.2rem;
+            object-fit: contain;
+        }
+
+        .node-label {
+            position: absolute;
+            top: -2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-primary);
+        }
+
+        /* Phase Cards */
+        .timeline-phases {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .phase-card {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-blue);
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all var(--timing-fast) var(--easing-smooth);
+            position: relative;
+        }
+
+        .phase-card.short-term {
+            border-top: 4px solid var(--accent-green);
+            animation: phaseReveal var(--timing-medium) var(--easing-smooth) 3.4s forwards;
+        }
+
+        .phase-card.medium-term {
+            border-top: 4px solid var(--accent-blue);
+            animation: phaseReveal var(--timing-medium) var(--easing-smooth) 3.8s forwards;
+        }
+
+        .phase-card.long-term {
+            border-top: 4px solid var(--accent-purple);
+            animation: phaseReveal var(--timing-medium) var(--easing-smooth) 4.2s forwards;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .phase-header {
             display: flex;
             align-items: center;
             gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .phase-card.short-term .phase-title {
+            color: var(--accent-green);
+        }
+
+        .phase-card.medium-term .phase-title {
+            color: var(--accent-blue);
+        }
+
+        .phase-card.long-term .phase-title {
+            color: var(--accent-purple);
+        }
+
+        .phase-strategy {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid;
+        }
+
+        .phase-card.short-term .phase-strategy {
+            border-left-color: var(--accent-green);
+        }
+
+        .phase-card.medium-term .phase-strategy {
+            border-left-color: var(--accent-blue);
+        }
+
+        .phase-card.long-term .phase-strategy {
+            border-left-color: var(--accent-purple);
+        }
+
+        .strategy-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 0.5rem;
         }
 
-        .timeline-phase {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-light);
-        }
-
-        .timeline-card.short-term .timeline-phase {
-            color: #10b981;
-        }
-
-        .timeline-card.long-term .timeline-phase {
-            color: #8b5cf6;
-        }
-
-        .timeline-content {
+        .strategy-text {
             color: var(--text-secondary);
             font-size: 0.9rem;
             line-height: 1.4;
         }
 
-        /* Strong text styling */
-        .timeline-content strong {
+        .strategy-text strong {
             color: var(--text-primary);
             font-weight: 600;
+        }
+
+        /* Data Enhancement Sections */
+        .data-enhancements {
+            margin-top: 1rem;
+        }
+
+        .enhancements-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .enhancement-mini-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .enhancement-mini-card {
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 6px;
+            padding: 0.6rem 0.8rem;
+            transition: all var(--timing-fast) var(--easing-smooth);
+        }
+
+        .enhancement-mini-card:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .mini-card-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-light);
+            margin-bottom: 0.3rem;
+        }
+
+        .mini-card-items {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.3;
         }
 
         .navigation {
@@ -353,7 +390,7 @@
             z-index: 100;
             opacity: 0;
             transform: translateY(20px);
-            animation: revealNavigation var(--timing-medium) var(--easing-smooth) 4.4s forwards;
+            animation: revealNavigation var(--timing-medium) var(--easing-smooth) 4.6s forwards;
         }
 
         .nav-btn {
@@ -392,51 +429,44 @@
             left: 100%;
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 1400px) {
-            .content {
-                padding: 1.5rem;
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .timeline-phases {
                 gap: 1.5rem;
             }
             
-            .header h1 { font-size: 2.3rem; }
-            .subtitle { font-size: 1.1rem; }
-            
-            .section-icon {
-                width: 1.6rem;
-                height: 1.6rem;
-            }
-            
-            .card-icon {
-                width: 1.2rem;
-                height: 1.2rem;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            .content {
-                grid-template-columns: 1fr; /* Stack sections vertically on smaller screens */
-            }
-            
-            .enhancement-cards {
-                grid-template-columns: 1fr 1fr; /* Keep 2x2 grid on tablets */
+            .phase-card {
+                padding: 1.2rem;
             }
         }
 
         @media (max-width: 768px) {
             .content {
+                padding: 1.5rem;
+            }
+            
+            .timeline-phases {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
-                padding: 1.5rem;
             }
             
-            .enhancement-cards {
-                grid-template-columns: 1fr; /* Single column on mobile */
-                gap: 0.75rem;
+            .timeline-nodes {
+                padding: 0 1rem;
             }
             
-            .header {
-                padding: 1.5rem;
+            .timeline-node {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+            .node-icon {
+                width: 1rem;
+                height: 1rem;
+            }
+            
+            .node-label {
+                font-size: 0.75rem;
+                top: -2rem;
             }
             
             .header h1 { 
@@ -447,14 +477,12 @@
                 font-size: 1rem; 
             }
             
-            .section-icon {
-                width: 1.4rem;
-                height: 1.4rem;
+            .timeline-title {
+                font-size: 1.8rem;
             }
             
-            .card-icon {
-                width: 1.1rem;
-                height: 1.1rem;
+            .timeline-subtitle {
+                font-size: 1rem;
             }
             
             .navigation {
@@ -466,16 +494,6 @@
             .nav-btn {
                 padding: 0.6rem 1.2rem;
                 font-size: 0.9rem;
-            }
-        }
-
-        @media (max-height: 900px) {
-            .header { 
-                padding: 1.5rem 2rem; 
-            }
-            
-            .content { 
-                padding: 1.8rem; 
             }
         }
 
@@ -513,24 +531,19 @@
             to { opacity: 1; }
         }
 
-        @keyframes revealSection {
+        @keyframes progressFill {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes nodeReveal {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes phaseReveal {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes underlineSlide {
-            from { left: -100%; }
-            to { left: 0; }
-        }
-
-        @keyframes slideInCard {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideInTimeline {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes revealNavigation {
@@ -553,96 +566,123 @@
         </header>
 
         <main class="content">
-            <div class="section enhancements">
-                <h2 class="section-title">
-                    <img src="icons/data-enhancement.png" alt="Data Enhancement" class="section-icon">
-                    Potential Data Enhancements
-                </h2>
-                <div class="enhancement-cards">
-                    <div class="enhancement-card">
-                        <div class="card-header">
-                            <img src="icons/economics.png" alt="Economic Data" class="card-icon">
-                            <span class="card-title">Economic Data</span>
-                        </div>
-                        <div class="card-content">
-                            <div class="enhancement-item">FOMC interest rate/trend</div>
-                            <div class="enhancement-item">Singapore T-bills rate/trend</div>
-                            <div class="enhancement-item">Inflation rate/trend</div>
-                            <div class="enhancement-item">Employment rate/trend</div>
-                            <div class="enhancement-item">Consumer confidence</div>
-                        </div>
-                    </div>
+            <div class="timeline-container">
+                <div class="timeline-header">
+                    <h2 class="timeline-title">
+                        <img src="icons/execution-strategy.png" alt="Execution Strategy" class="timeline-icon">
+                        Strategic Implementation Timeline
+                    </h2>
+                    <p class="timeline-subtitle">
+                        A phased approach to data enhancement and model improvement, balancing immediate deployment with long-term strategic capabilities.
+                    </p>
+                </div>
 
-                    <div class="enhancement-card">
-                        <div class="card-header">
-                            <img src="icons/temporal.png" alt="Temporal Data" class="card-icon">
-                            <span class="card-title">Temporal Data</span>
+                <div class="timeline-rail">
+                    <div class="timeline-progress"></div>
+                    <div class="timeline-nodes">
+                        <div class="timeline-node short-term">
+                            <img src="icons/temporal.png" alt="Short-term" class="node-icon">
+                            <div class="node-label">Short-term</div>
                         </div>
-                        <div class="card-content">
-                            <div class="enhancement-item">Month of contact</div>
-                            <div class="enhancement-item">Holiday season</div>
-                            <div class="enhancement-item">Bonus season</div>
-                            <div class="enhancement-item">Days since current campaign started</div>
-                            <div class="enhancement-item">Weekend vs weekday</div>
+                        <div class="timeline-node medium-term">
+                            <img src="icons/economics.png" alt="Medium-term" class="node-icon">
+                            <div class="node-label">Medium-term</div>
                         </div>
-                    </div>
-
-                    <div class="enhancement-card">
-                        <div class="card-header">
-                            <img src="icons/campaign-history.png" alt="Campaign History Data" class="card-icon">
-                            <span class="card-title">Campaign History Data</span>
-                        </div>
-                        <div class="card-content">
-                            <div class="enhancement-item">Previous campaign outcome</div>
-                            <div class="enhancement-item">Total previous contact</div>
-                            <div class="enhancement-item">Days since last successful contact</div>
-                        </div>
-                    </div>
-
-                    <div class="enhancement-card">
-                        <div class="card-header">
-                            <img src="icons/target-audience.png" alt="Customer Profile" class="card-icon">
-                            <span class="card-title">Customer Profile</span>
-                        </div>
-                        <div class="card-content">
-                            <div class="enhancement-item">Account tenure</div>
-                            <div class="enhancement-item">Customer lifetime value</div>
-                            <div class="enhancement-item">Spending habits</div>
+                        <div class="timeline-node long-term">
+                            <img src="icons/campaign-history.png" alt="Long-term" class="node-icon">
+                            <div class="node-label">Long-term</div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="section strategy">
-                <h2 class="section-title">
-                    <img src="icons/execution-strategy.png" alt="Execution Strategy" class="section-icon">
-                    Execution Strategy
-                </h2>
-                <div class="strategy-timeline">
-                    <div class="timeline-card short-term">
-                        <div class="timeline-header">
-                            <span class="timeline-phase">Short-term</span>
+                <div class="timeline-phases">
+                    <div class="phase-card short-term">
+                        <div class="phase-header">
+                            <h3 class="phase-title">Short-term (0-3 months)</h3>
                         </div>
-                        <div class="timeline-content">
-                            <strong>Deploy current model</strong> while systematically capturing missing features in financial data (personal/housing loan, credit default)
+                        
+                        <div class="phase-strategy">
+                            <div class="strategy-label">Strategy</div>
+                            <div class="strategy-text">
+                                <strong>Deploy current model</strong> while systematically capturing missing features in financial data (personal/housing loan, credit default)
+                            </div>
+                        </div>
+
+                        <div class="data-enhancements">
+                            <div class="enhancements-label">
+                                <img src="icons/data-enhancement.png" alt="Data" style="width: 1rem; height: 1rem;">
+                                Priority Data Collection
+                            </div>
+                            <div class="enhancement-mini-cards">
+                                <div class="enhancement-mini-card">
+                                    <div class="mini-card-title">Customer Profile</div>
+                                    <div class="mini-card-items">Account tenure • Customer lifetime value • Spending habits</div>
+                                </div>
+                                <div class="enhancement-mini-card">
+                                    <div class="mini-card-title">Financial Data</div>
+                                    <div class="mini-card-items">Personal loans • Housing loans • Credit default history</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="timeline-card medium-term">
-                        <div class="timeline-header">
-                            <span class="timeline-phase">Medium-term</span>
+                    <div class="phase-card medium-term">
+                        <div class="phase-header">
+                            <h3 class="phase-title">Medium-term (3-12 months)</h3>
                         </div>
-                        <div class="timeline-content">
-                            <strong>Reach out to economics team and marketing team</strong> to collect additional data or refine data collection methods
+                        
+                        <div class="phase-strategy">
+                            <div class="strategy-label">Strategy</div>
+                            <div class="strategy-text">
+                                <strong>Reach out to economics team and marketing team</strong> to collect additional data or refine data collection methods
+                            </div>
+                        </div>
+
+                        <div class="data-enhancements">
+                            <div class="enhancements-label">
+                                <img src="icons/data-enhancement.png" alt="Data" style="width: 1rem; height: 1rem;">
+                                Enhanced Data Sources
+                            </div>
+                            <div class="enhancement-mini-cards">
+                                <div class="enhancement-mini-card">
+                                    <div class="mini-card-title">Economic Indicators</div>
+                                    <div class="mini-card-items">FOMC rates • Singapore T-bills • Inflation • Employment • Consumer confidence</div>
+                                </div>
+                                <div class="enhancement-mini-card">
+                                    <div class="mini-card-title">Temporal Features</div>
+                                    <div class="mini-card-items">Contact timing • Holiday seasons • Bonus periods • Campaign duration</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="timeline-card long-term">
-                        <div class="timeline-header">
-                            <span class="timeline-phase">Long-term</span>
+                    <div class="phase-card long-term">
+                        <div class="phase-header">
+                            <h3 class="phase-title">Long-term (12+ months)</h3>
                         </div>
-                        <div class="timeline-content">
-                            <strong>Build comprehensive customer journey tracking</strong> for campaign optimization
+                        
+                        <div class="phase-strategy">
+                            <div class="strategy-label">Strategy</div>
+                            <div class="strategy-text">
+                                <strong>Build comprehensive customer journey tracking</strong> for campaign optimization and advanced predictive analytics
+                            </div>
+                        </div>
+
+                        <div class="data-enhancements">
+                            <div class="enhancements-label">
+                                <img src="icons/data-enhancement.png" alt="Data" style="width: 1rem; height: 1rem;">
+                                Advanced Analytics
+                            </div>
+                            <div class="enhancement-mini-cards">
+                                <div class="enhancement-mini-card">
+                                    <div class="mini-card-title">Campaign History</div>
+                                    <div class="mini-card-items">Previous outcomes • Contact frequency • Success patterns • Channel effectiveness</div>
+                                </div>
+                                <div class="enhancement-mini-card">
+                                    <div class="mini-card-title">Journey Tracking</div>
+                                    <div class="mini-card-items">Customer lifecycle • Behavioral patterns • Predictive modeling • Real-time optimization</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

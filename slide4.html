@@ -104,7 +104,7 @@
             flex: 1;
             padding: 2rem;
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 3fr 2fr; /* Changed from 1fr 1fr to 3fr 2fr for 60%-40% split */
             gap: 2rem;
             opacity: 0;
             animation: revealContent var(--timing-slow) var(--easing-smooth) 1.4s forwards;
@@ -177,11 +177,12 @@
             transform: scale(1.1);
         }
 
-        /* Data Enhancement Cards - MODIFIED FOR COMPACTNESS */
+        /* Data Enhancement Cards - 2x2 GRID LAYOUT */
         .enhancement-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem; /* Reduced from 1rem */
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 columns */
+            grid-template-rows: 1fr 1fr; /* 2 rows */
+            gap: 1rem;
         }
 
         .enhancement-card {
@@ -191,7 +192,9 @@
             transition: all var(--timing-fast) var(--easing-smooth);
             overflow: hidden;
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateY(20px);
+            display: flex;
+            flex-direction: column;
         }
 
         .enhancement-card:nth-child(1) { animation: slideInCard var(--timing-fast) var(--easing-smooth) 2.6s forwards; }
@@ -200,31 +203,27 @@
         .enhancement-card:nth-child(4) { animation: slideInCard var(--timing-fast) var(--easing-smooth) 3.2s forwards; }
 
         .enhancement-card:hover {
-            transform: translateX(5px);
+            transform: translateY(-5px);
             border-color: var(--accent-light);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
         }
 
         .card-header {
-            padding: 0.8rem 1.2rem; /* Reduced from 1.2rem 1.5rem */
+            padding: 1rem 1.2rem 0.8rem 1.2rem;
             background: rgba(59, 130, 246, 0.1);
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            cursor: pointer;
-            transition: all var(--timing-fast) var(--easing-smooth);
-        }
-
-        .card-header:hover {
-            background: rgba(59, 130, 246, 0.15);
+            border-bottom: 1px solid var(--border-blue);
         }
 
         /* Updated card icon styling for PNG images */
         .card-icon {
-            width: 1.4rem;
-            height: 1.4rem;
+            width: 1.3rem;
+            height: 1.3rem;
             object-fit: contain;
             transition: all var(--timing-fast) var(--easing-smooth);
+            flex-shrink: 0;
         }
 
         /* Hover effect for card icons */
@@ -233,40 +232,22 @@
         }
 
         .card-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        .expand-indicator {
-            margin-left: auto;
-            color: var(--accent-light);
-            transition: transform var(--timing-fast) var(--easing-smooth);
-        }
-
-        .enhancement-card.expanded .expand-indicator {
-            transform: rotate(180deg);
-        }
-
+        /* Card content - always visible, no expansion */
         .card-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height var(--timing-medium) var(--easing-smooth);
-        }
-
-        .enhancement-card.expanded .card-content {
-            max-height: 300px;
-        }
-
-        .card-items {
-            padding: 0.6rem 1.2rem 0.8rem 1.2rem; /* Reduced from 1rem 1.5rem 1.5rem 1.5rem */
+            flex: 1;
+            padding: 1rem 1.2rem;
         }
 
         .enhancement-item {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.3; /* Reduced from 1.5 */
-            margin-bottom: 0.3rem; /* Reduced from 0.6rem */
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 0.4rem;
             padding-left: 1rem;
             position: relative;
         }
@@ -411,14 +392,14 @@
             left: 100%;
         }
 
-        /* Responsive adjustments for custom icons */
+        /* Responsive adjustments */
         @media (max-width: 1400px) {
             .content {
                 padding: 1.5rem;
                 gap: 1.5rem;
             }
             
-            .header h1 { font-size: 2.8rem; }
+            .header h1 { font-size: 2.3rem; }
             .subtitle { font-size: 1.1rem; }
             
             .section-icon {
@@ -432,6 +413,16 @@
             }
         }
 
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr; /* Stack sections vertically on smaller screens */
+            }
+            
+            .enhancement-cards {
+                grid-template-columns: 1fr 1fr; /* Keep 2x2 grid on tablets */
+            }
+        }
+
         @media (max-width: 768px) {
             .content {
                 grid-template-columns: 1fr;
@@ -439,12 +430,17 @@
                 padding: 1.5rem;
             }
             
+            .enhancement-cards {
+                grid-template-columns: 1fr; /* Single column on mobile */
+                gap: 0.75rem;
+            }
+            
             .header {
                 padding: 1.5rem;
             }
             
             .header h1 { 
-                font-size: 2.2rem; 
+                font-size: 2rem; 
             }
             
             .subtitle { 
@@ -528,8 +524,8 @@
         }
 
         @keyframes slideInCard {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideInTimeline {
@@ -563,67 +559,55 @@
                     Potential Data Enhancements
                 </h2>
                 <div class="enhancement-cards">
-                    <div class="enhancement-card" onclick="toggleCard(this)">
+                    <div class="enhancement-card">
                         <div class="card-header">
                             <img src="icons/economics.png" alt="Economic Data" class="card-icon">
                             <span class="card-title">Economic Data</span>
-                            <span class="expand-indicator">▼</span>
                         </div>
                         <div class="card-content">
-                            <div class="card-items">
-                                <div class="enhancement-item">FOMC interest rate/trend</div>
-                                <div class="enhancement-item">Singapore T-bills rate/trend</div>
-                                <div class="enhancement-item">Inflation rate/trend</div>
-                                <div class="enhancement-item">Employment rate/trend</div>
-                                <div class="enhancement-item">Consumer confidence</div>
-                            </div>
+                            <div class="enhancement-item">FOMC interest rate/trend</div>
+                            <div class="enhancement-item">Singapore T-bills rate/trend</div>
+                            <div class="enhancement-item">Inflation rate/trend</div>
+                            <div class="enhancement-item">Employment rate/trend</div>
+                            <div class="enhancement-item">Consumer confidence</div>
                         </div>
                     </div>
 
-                    <div class="enhancement-card" onclick="toggleCard(this)">
+                    <div class="enhancement-card">
                         <div class="card-header">
                             <img src="icons/temporal.png" alt="Temporal Data" class="card-icon">
                             <span class="card-title">Temporal Data</span>
-                            <span class="expand-indicator">▼</span>
                         </div>
                         <div class="card-content">
-                            <div class="card-items">
-                                <div class="enhancement-item">Month of contact</div>
-                                <div class="enhancement-item">Holiday season</div>
-                                <div class="enhancement-item">Bonus season</div>
-                                <div class="enhancement-item">Days since current campaign started</div>
-                                <div class="enhancement-item">Weekend vs weekday</div>
-                            </div>
+                            <div class="enhancement-item">Month of contact</div>
+                            <div class="enhancement-item">Holiday season</div>
+                            <div class="enhancement-item">Bonus season</div>
+                            <div class="enhancement-item">Days since current campaign started</div>
+                            <div class="enhancement-item">Weekend vs weekday</div>
                         </div>
                     </div>
 
-                    <div class="enhancement-card" onclick="toggleCard(this)">
+                    <div class="enhancement-card">
                         <div class="card-header">
                             <img src="icons/campaign-history.png" alt="Campaign History Data" class="card-icon">
                             <span class="card-title">Campaign History Data</span>
-                            <span class="expand-indicator">▼</span>
                         </div>
                         <div class="card-content">
-                            <div class="card-items">
-                                <div class="enhancement-item">Previous campaign outcome</div>
-                                <div class="enhancement-item">Total previous contact</div>
-                                <div class="enhancement-item">Days since last successful contact</div>
-                            </div>
+                            <div class="enhancement-item">Previous campaign outcome</div>
+                            <div class="enhancement-item">Total previous contact</div>
+                            <div class="enhancement-item">Days since last successful contact</div>
                         </div>
                     </div>
 
-                    <div class="enhancement-card" onclick="toggleCard(this)">
+                    <div class="enhancement-card">
                         <div class="card-header">
                             <img src="icons/target-audience.png" alt="Customer Profile" class="card-icon">
                             <span class="card-title">Customer Profile</span>
-                            <span class="expand-indicator">▼</span>
                         </div>
                         <div class="card-content">
-                            <div class="card-items">
-                                <div class="enhancement-item">Account tenure</div>
-                                <div class="enhancement-item">Customer lifetime value</div>
-                                <div class="enhancement-item">Spending habits</div>
-                            </div>
+                            <div class="enhancement-item">Account tenure</div>
+                            <div class="enhancement-item">Customer lifetime value</div>
+                            <div class="enhancement-item">Spending habits</div>
                         </div>
                     </div>
                 </div>
@@ -676,20 +660,6 @@
         function navigateToSlide(url) {
             window.location.href = url;
         }
-
-        function toggleCard(card) {
-            card.classList.toggle('expanded');
-        }
-
-        // Auto-expand first card on load with delay
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const firstCard = document.querySelector('.enhancement-card');
-                if (firstCard) {
-                    firstCard.classList.add('expanded');
-                }
-            }, 3000); // Expand after animations complete
-        });
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {

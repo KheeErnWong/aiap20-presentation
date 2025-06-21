@@ -668,4 +668,150 @@
                    </li>
                    <li class="insight-item">
                        <span class="insight-bullet">•</span>
-                       <span class="insight-text">Optimal recontact window: <span class="highlight">within 14 d
+                       <span class="insight-text">Optimal recontact window: <span class="highlight">within 14 days</span> of previous contact</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Contact frequency: <span class="highlight">diminishing returns</span> with repeated contacts</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">High-value segments: <span class="highlight">Students <30</span> and <span class="highlight">retirees >60</span></span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Channel preference: <span class="highlight">Cellular outperforms</span> traditional telephone</span>
+                   </li>
+                   <li class="insight-item">
+                       <span class="insight-bullet">•</span>
+                       <span class="insight-text">Weak predictors: Education, marital status; <span class="highlight">financial data</span> needs improvement</span>
+                   </li>
+               </ul>
+           </div>
+
+           <div class="section pipeline">
+               <h2 class="section-title">
+                   <img src="icons/pipeline.png" alt="ML Pipeline Results" class="section-icon">
+                   ML Pipeline Results
+               </h2>
+               
+               <div class="key-takeaway">
+                   <div class="key-takeaway-title">Key Takeaway</div>
+                   <div class="key-takeaway-content">
+                       <span class="highlight">Significant reduction in cost per acquisition</span> with ML-driven customer targeting
+                   </div>
+               </div>
+
+               <div class="pipeline-table">
+                   <div class="table-header">ML Model Performance Impact</div>
+                   <div class="table-row">
+                       <div class="table-cell metric">Approach</div>
+                       <div class="table-cell metric">Calls Made</div>
+                       <div class="table-cell metric">Subscriptions</div>
+                       <div class="table-cell metric">Success Rate</div>
+                       <div class="table-cell metric">Resource Usage</div>
+                   </div>
+                   <div class="table-row">
+                       <div class="table-cell">Without Model</div>
+                       <div class="table-cell">40,000 (100%)</div>
+                       <div class="table-cell">4,510</div>
+                       <div class="table-cell">11.3%</div>
+                       <div class="table-cell">100%</div>
+                   </div>
+                   <div class="table-row">
+                       <div class="table-cell">With Model</div>
+                       <div class="table-cell">14,000 (35%)</div>
+                       <div class="table-cell">3,157</div>
+                       <div class="table-cell">22.6%</div>
+                       <div class="table-cell">35%</div>
+                   </div>
+                   <div class="table-row difference">
+                       <div class="table-cell"><strong>Difference</strong></div>
+                       <div class="table-cell"><strong>-26,000 calls</strong></div>
+                       <div class="table-cell"><strong>-1,353 subs</strong></div>
+                       <div class="table-cell"><strong>+11.3%</strong></div>
+                       <div class="table-cell"><strong>-65%</strong></div>
+                   </div>
+               </div>
+
+               <div class="algorithm-note">
+                   <div class="algorithm-note-title">Algorithm Optimization Note</div>
+                   <div class="algorithm-note-content">
+                       The algorithm is maximized to identify as many potential customers as possible, including some customers who ultimately won't subscribe
+                   </div>
+               </div>
+           </div>
+
+           <div class="steps-section">
+               <h2 class="steps-title">
+                   <img src="icons/impact.png" alt="Steps to Maximize ML Solution Impact" class="section-icon">
+                   Steps to Maximize ML Solution Impact
+               </h2>
+               <div class="steps-grid">
+                   <div class="step-card">
+                       <div class="step-header">
+                           <img src="icons/metrics.png" alt="Financial Optimization" class="step-icon">
+                           Financial Optimization
+                       </div>
+                       <div class="step-content">
+                           Shift from statistical to profit-based metrics, optimizing for term deposit value and campaign costs with custom weight metrics
+                       </div>
+                   </div>
+                   <div class="step-card">
+                       <div class="step-header">
+                           <img src="icons/data.png" alt="Enhanced Data Sources" class="step-icon">
+                           Enhanced Data Sources
+                       </div>
+                       <div class="step-content">
+                           Leverage account tenure, transaction patterns, comprehensive financial status, and customer lifetime value metrics
+                       </div>
+                   </div>
+                   <div class="step-card">
+                       <div class="step-header">
+                           <img src="icons/channel.png" alt="Multi-Channel Engagement" class="step-icon">
+                           Multi-Channel Engagement
+                       </div>
+                       <div class="step-content">
+                           Expand to social media and mobile apps for students, branch targeting for seniors, new strategies for working adults
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </main>
+
+       <nav class="navigation">
+           <button class="nav-btn" onclick="navigateToSlide('slide1.html')">← Previous</button>
+           <button class="nav-btn" onclick="navigateToSlide('index.html')">🏠 Home</button>
+           <button class="nav-btn" onclick="navigateToSlide('slide3.html')">Next →</button>
+       </nav>
+   </div>
+
+   <script>
+       function navigateToSlide(url) {
+           window.location.href = url;
+       }
+
+       // Keyboard navigation
+       document.addEventListener('keydown', (e) => {
+           const keyActions = {
+               'ArrowLeft': () => navigateToSlide('slide1.html'),
+               'Backspace': () => navigateToSlide('slide1.html'),
+               'ArrowRight': () => navigateToSlide('slide3.html'),
+               ' ': () => navigateToSlide('slide3.html'),
+               'h': () => navigateToSlide('index.html'),
+               'H': () => navigateToSlide('index.html'),
+               'f': () => document.documentElement.requestFullscreen?.(),
+               'F': () => document.documentElement.requestFullscreen?.(),
+               '0': () => navigateToSlide('slide10.html')
+           };
+           
+           if (e.key >= '1' && e.key <= '9') {
+               navigateToSlide(`slide${e.key}.html`);
+           } else if (keyActions[e.key]) {
+               e.preventDefault();
+               keyActions[e.key]();
+           }
+       });
+   </script>
+</body>
+</html>

@@ -1,719 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exploratory Data Analysis Framework - ML Portfolio</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>EDA I - Methodology</title>
+   <style>
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
 
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --accent-color: #f59e0b;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --border-color: #e5e7eb;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
+       body {
+           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+           background: linear-gradient(135deg, #1e3a5f 0%, #2c5282 100%);
+           color: #ffffff;
+           min-height: 100vh;
+           padding: 40px 20px;
+       }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
+       .container {
+           max-width: 1200px;
+           margin: 0 auto;
+       }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+       .header {
+           text-align: center;
+           margin-bottom: 50px;
+       }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: white;
-        }
+       .header h1 {
+           font-size: 3.5rem;
+           font-weight: 300;
+           letter-spacing: 2px;
+           margin-bottom: 15px;
+           background: linear-gradient(45deg, #4299e1, #63b3ed);
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+       }
 
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
+       .header .subtitle {
+           font-size: 1.3rem;
+           color: #a0aec0;
+           font-style: italic;
+           font-weight: 300;
+       }
 
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+       .methodology-grid {
+           display: grid;
+           grid-template-columns: 1fr 2fr;
+           gap: 30px;
+           margin-top: 40px;
+       }
 
-        /* Main Content Card */
-        .main-content {
-            background: var(--bg-white);
-            border-radius: 20px;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-        }
+       .section-card {
+           background: rgba(255, 255, 255, 0.05);
+           border-radius: 15px;
+           padding: 30px;
+           backdrop-filter: blur(10px);
+           border: 1px solid rgba(255, 255, 255, 0.1);
+           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+           transition: transform 0.3s ease, box-shadow 0.3s ease;
+       }
 
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            background: var(--bg-light);
-            border-bottom: 1px solid var(--border-color);
-        }
+       .section-card:hover {
+           transform: translateY(-5px);
+           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+       }
 
-        .nav-tab {
-            flex: 1;
-            padding: 1rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            background: none;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
+       .section-title {
+           font-size: 1.4rem;
+           font-weight: 600;
+           margin-bottom: 15px;
+           padding-bottom: 10px;
+           border-bottom: 2px solid;
+       }
 
-        .nav-tab.active {
-            background: var(--primary-color);
-            color: white;
-        }
+       .data-overview .section-title {
+           color: #4299e1;
+           border-bottom-color: #4299e1;
+       }
 
-        .nav-tab:hover:not(.active) {
-            background: var(--border-color);
-        }
+       .univariate .section-title {
+           color: #ed8936;
+           border-bottom-color: #ed8936;
+       }
 
-        /* Content Sections */
-        .content-section {
-            display: none;
-            padding: 2rem;
-        }
+       .bivariate .section-title {
+           color: #38a169;
+           border-bottom-color: #38a169;
+       }
 
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.5s ease-in;
-        }
+       .section-subtitle {
+           font-size: 1rem;
+           color: #cbd5e0;
+           margin-bottom: 20px;
+           font-weight: 400;
+       }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+       .content-section {
+           margin-bottom: 25px;
+       }
 
-        .section-title {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+       .content-section:last-child {
+           margin-bottom: 0;
+       }
 
-        .section-title i {
-            font-size: 1.5rem;
-        }
+       .content-header {
+           font-size: 1.1rem;
+           font-weight: 600;
+           margin-bottom: 12px;
+           color: #f7fafc;
+       }
 
-        /* Process Cards */
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
+       .univariate .content-header {
+           color: #fed7aa;
+       }
 
-        .process-card {
-            background: var(--bg-light);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border-left: 4px solid var(--accent-color);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+       .bivariate .content-header {
+           color: #c6f6d5;
+       }
 
-        .process-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
+       .content-list {
+           list-style: none;
+           padding-left: 0;
+       }
 
-        .process-card h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+       .content-list li {
+           margin-bottom: 8px;
+           padding-left: 20px;
+           position: relative;
+           color: #e2e8f0;
+           line-height: 1.5;
+       }
 
-        .process-card ul {
-            list-style: none;
-            padding-left: 0;
-        }
+       .content-list li::before {
+           content: "•";
+           position: absolute;
+           left: 0;
+           font-weight: bold;
+           font-size: 1.2rem;
+       }
 
-        .process-card li {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
+       .data-overview .content-list li::before {
+           color: #4299e1;
+       }
 
-        .process-card li::before {
-            content: "▶";
-            color: var(--accent-color);
-            font-size: 0.8rem;
-            margin-top: 0.2rem;
-        }
+       .univariate .content-list li::before {
+           color: #ed8936;
+       }
 
-        /* Methodology Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
+       .bivariate .content-list li::before {
+           color: #38a169;
+       }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 1rem;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--primary-color);
-        }
+       .numbered-list {
+           counter-reset: step-counter;
+           list-style: none;
+           padding-left: 0;
+       }
 
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2rem;
-            background: var(--bg-light);
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin-left: 1rem;
-        }
+       .numbered-list li {
+           counter-increment: step-counter;
+           margin-bottom: 15px;
+           padding-left: 35px;
+           position: relative;
+           line-height: 1.6;
+       }
 
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -1.75rem;
-            top: 1.5rem;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            border: 3px solid var(--bg-white);
-        }
+       .numbered-list li::before {
+           content: counter(step-counter);
+           position: absolute;
+           left: 0;
+           top: 0;
+           background: rgba(255, 255, 255, 0.1);
+           color: #ffffff;
+           width: 25px;
+           height: 25px;
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-size: 0.8rem;
+           font-weight: bold;
+       }
 
-        .timeline-item h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
+       .univariate .numbered-list li::before {
+           background: rgba(237, 137, 54, 0.3);
+           color: #ed8936;
+       }
 
-        /* Feature Engineering Cards */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
+       .bivariate .numbered-list li::before {
+           background: rgba(56, 161, 105, 0.3);
+           color: #38a169;
+       }
 
-        .feature-card {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
+       .sub-list {
+           margin-top: 10px;
+           padding-left: 20px;
+       }
 
-        .feature-card:hover {
-            transform: scale(1.05);
-        }
+       .sub-list li {
+           margin-bottom: 5px;
+           font-size: 0.95rem;
+           color: #cbd5e0;
+       }
 
-        .feature-card i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            opacity: 0.9;
-        }
+       .highlight-text {
+           font-weight: 600;
+           color: #f7fafc;
+       }
 
-        .feature-card h4 {
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .stat-card {
-            background: var(--bg-white);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: var(--shadow);
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            display: block;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Code Blocks */
-        .code-block {
-            background: #2d3748;
-            color: #e2e8f0;
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .nav-tabs {
-                flex-direction: column;
-            }
-
-            .process-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline {
-                padding-left: 1rem;
-            }
-
-            .timeline-item {
-                margin-left: 0.5rem;
-            }
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
+       @media (max-width: 768px) {
+           .methodology-grid {
+               grid-template-columns: 1fr;
+               gap: 20px;
+           }
+           
+           .header h1 {
+               font-size: 2.5rem;
+           }
+           
+           .section-card {
+               padding: 20px;
+           }
+       }
+   </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1><i class="fas fa-chart-line"></i> Exploratory Data Analysis Framework</h1>
-            <p>A comprehensive methodology for machine learning data preparation and feature engineering</p>
-        </header>
+   <div class="container">
+       <div class="header">
+           <h1>EDA I - Methodology</h1>
+           <p class="subtitle">Exploring new data in a systematic approach</p>
+       </div>
 
-        <main class="main-content">
-            <nav class="nav-tabs">
-                <button class="nav-tab active" onclick="showSection('overview')">
-                    <i class="fas fa-eye"></i> Overview
-                </button>
-                <button class="nav-tab" onclick="showSection('numerical')">
-                    <i class="fas fa-calculator"></i> Numerical Analysis
-                </button>
-                <button class="nav-tab" onclick="showSection('categorical')">
-                    <i class="fas fa-tags"></i> Categorical Analysis
-                </button>
-                <button class="nav-tab" onclick="showSection('multivariate')">
-                    <i class="fas fa-project-diagram"></i> Multivariate Analysis
-                </button>
-                <button class="nav-tab" onclick="showSection('feature-engineering')">
-                    <i class="fas fa-cogs"></i> Feature Engineering
-                </button>
-            </nav>
+       <div class="methodology-grid">
+           <!-- Data Overview Section -->
+           <div class="section-card data-overview">
+               <h2 class="section-title">Data Overview</h2>
+               <p class="section-subtitle">Initial dataset exploration</p>
+               <p class="content-header">Explore shape, features, target variable and missing values</p>
+           </div>
 
-            <!-- Overview Section -->
-            <section id="overview" class="content-section active">
-                <h2 class="section-title">
-                    <i class="fas fa-search"></i>
-                    Data Overview & Cleaning
-                </h2>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">5</span>
-                        <span class="stat-label">Analysis Phases</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">12+</span>
-                        <span class="stat-label">Statistical Tests</span>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">4</span>
-                        <span class="stat-label">Feature Groups</span>
-                    </div>
-                </div>
+           <!-- Univariate Feature Analysis Section -->
+           <div class="section-card univariate">
+               <h2 class="section-title">Univariate Feature Analysis + Target Correlation</h2>
+               
+               <div class="content-section">
+                   <h3 class="content-header">Comprehensive analysis for first model run</h3>
+                   <ol class="numbered-list">
+                       <li>
+                           <span class="highlight-text">Understand data distribution with basic statistics</span>
+                           <ul class="content-list sub-list">
+                               <li>mean, std dev, percentile etc.</li>
+                               <li>frequency distribution, cardinality</li>
+                           </ul>
+                       </li>
+                       <li><span class="highlight-text">Visualize outliers and distribution shape</span></li>
+                       <li>
+                           <span class="highlight-text">Assess correlation, statistical significance and effect size against target variable</span>
+                           <ul class="content-list sub-list">
+                               <li>Mann-whitney U test, Cohen's D</li>
+                               <li>Crosstab, Chi-square, Cramer's V</li>
+                           </ul>
+                       </li>
+                       <li><span class="highlight-text">Experiment on different ways to preprocess data</span></li>
+                   </ol>
+               </div>
+           </div>
 
-                <div class="process-grid">
-                    <div class="process-card">
-                        <h3><i class="fas fa-database"></i> Data Structure Analysis</h3>
-                        <ul>
-                            <li>Dataset shape and dimensions</li>
-                            <li>Feature types identification</li>
-                            <li>Target variable analysis</li>
-                            <li>Missing values assessment</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="process-card">
-                        <h3><i class="fas fa-broom"></i> Data Quality Assessment</h3>
-                        <ul>
-                            <li>Duplicate records detection</li>
-                            <li>Data consistency checks</li>
-                            <li>Outlier identification</li>
-                            <li>Data type validation</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="code-block">
-# Initial Data Exploration
-df.info()
-df.describe()
-df.isnull().sum()
-df.duplicated().sum()
-                </div>
-            </section>
-
-            <!-- Numerical Analysis Section -->
-            <section id="numerical" class="content-section">
-                <h2 class="section-title">
-                    <i class="fas fa-chart-bar"></i>
-                    Numerical Data Analysis
-                </h2>
-
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h4>📊 Understanding Data Distribution</h4>
-                        <p><strong>Basic Statistics:</strong> Calculate min, max, mean, standard deviation, and percentiles for each numerical feature.</p>
-                        <p><strong>Visualizations:</strong> Create histograms, box plots, and Q-Q plots to understand distribution patterns and identify outliers.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h4>🎯 Target Variable Relationship</h4>
-                        <p><strong>Statistical Tests:</strong> Apply ANOVA for normally distributed data or Mann-Whitney U test for non-parametric data.</p>
-                        <p><strong>Effect Size:</strong> Calculate Cohen's d to measure the practical significance of relationships.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h4>🔧 Preprocessing Strategy</h4>
-                        <p><strong>Missing Values:</strong> Analyze patterns and implement appropriate imputation strategies (mean, median, KNN, etc.).</p>
-                        <p><strong>Outlier Handling:</strong> Test different approaches like IQR method, Z-score, or robust scaling.</p>
-                        <p><strong>Binning Tests:</strong> Evaluate discretization strategies for continuous variables.</p>
-                    </div>
-                </div>
-
-                <div class="code-block">
-# Numerical Analysis Pipeline
-from scipy import stats
-import seaborn as sns
-
-# Distribution analysis
-for col in numerical_cols:
-    plt.figure(figsize=(12, 4))
-    plt.subplot(1, 3, 1)
-    sns.histplot(df[col])
-    plt.subplot(1, 3, 2)
-    sns.boxplot(y=df[col])
-    plt.subplot(1, 3, 3)
-    stats.probplot(df[col], dist="norm", plot=plt)
-    plt.show()
-
-# Statistical testing
-for col in numerical_cols:
-    if df[target].nunique() == 2:  # Binary target
-        group1 = df[df[target] == 0][col]
-        group2 = df[df[target] == 1][col]
-        stat, p_value = stats.mannwhitneyu(group1, group2)
-        effect_size = stats.cohen_d(group1, group2)
-                </div>
-            </section>
-
-            <!-- Categorical Analysis Section -->
-            <section id="categorical" class="content-section">
-                <h2 class="section-title">
-                    <i class="fas fa-layer-group"></i>
-                    Categorical Data Analysis
-                </h2>
-
-                <div class="process-grid">
-                    <div class="process-card">
-                        <h3><i class="fas fa-list"></i> Data Understanding</h3>
-                        <ul>
-                            <li>Frequency distribution analysis</li>
-                            <li>Cardinality assessment</li>
-                            <li>Category balance evaluation</li>
-                            <li>Rare category identification</li>
-                        </ul>
-                    </div>
-
-                    <div class="process-card">
-                        <h3><i class="fas fa-link"></i> Target Relationship</h3>
-                        <ul>
-                            <li>Cross-tabulation analysis</li>
-                            <li>Chi-square test of independence</li>
-                            <li>Cramér's V for effect size</li>
-                            <li>Conditional probability analysis</li>
-                        </ul>
-                    </div>
-
-                    <div class="process-card">
-                        <h3><i class="fas fa-tools"></i> Preprocessing Tests</h3>
-                        <ul>
-                            <li>Missing value imputation strategies</li>
-                            <li>Rare category grouping tests</li>
-                            <li>Encoding strategy evaluation</li>
-                            <li>Feature interaction exploration</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="code-block">
-# Categorical Analysis Pipeline
-from scipy.stats import chi2_contingency
-import pandas as pd
-
-# Frequency analysis
-for col in categorical_cols:
-    print(f"\n{col} - Value Counts:")
-    print(df[col].value_counts())
-    print(f"Cardinality: {df[col].nunique()}")
-    
-    # Chi-square test with target
-    crosstab = pd.crosstab(df[col], df[target])
-    chi2, p_value, dof, expected = chi2_contingency(crosstab)
-    
-    # Cramér's V calculation
-    n = crosstab.sum().sum()
-    cramers_v = np.sqrt(chi2 / (n * (min(crosstab.shape) - 1)))
-    
-    print(f"Chi-square p-value: {p_value:.4f}")
-    print(f"Cramér's V: {cramers_v:.4f}")
-                </div>
-            </section>
-
-            <!-- Multivariate Analysis Section -->
-            <section id="multivariate" class="content-section">
-                <h2 class="section-title">
-                    <i class="fas fa-network-wired"></i>
-                    Multivariate Analysis
-                </h2>
-
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <h4>🔗 Multicollinearity Detection</h4>
-                        <p>Create correlation matrices and calculate Variance Inflation Factors (VIF) to identify highly correlated features that might cause multicollinearity issues in machine learning models.</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h4>🚀 Feature Engineering Insights</h4>
-                        <p>Identify opportunities for creating new features through interactions, transformations, and domain-specific combinations that could improve model performance.</p>
-                    </div>
-                </div>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <i class="fas fa-user-friends"></i>
-                        <h4>Life Stage Features</h4>
-                        <p>Age + Occupation + Marital Status + Education</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-broadcast-tower"></i>
-                        <h4>Communication Effectiveness</h4>
-                        <p>Contact Method + Previous Contact Days + Campaign Calls</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h4>Combined Life-Communication</h4>
-                        <p>Life Stage × Channel Effectiveness</p>
-                    </div>
-                    <div class="feature-card">
-                        <i class="fas fa-money-check-alt"></i>
-                        <h4>Financial Status</h4>
-                        <p>Housing Loan + Personal Loan + Credit Default</p>
-                    </div>
-                </div>
-
-                <div class="code-block">
-# Multivariate Analysis
-import seaborn as sns
-from statsmodels.stats.outliers_influence import variance_inflation_factor
-
-# Correlation matrix
-plt.figure(figsize=(12, 10))
-correlation_matrix = df[numerical_cols].corr()
-sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', center=0)
-
-# VIF calculation
-def calculate_vif(df, features):
-    vif_data = pd.DataFrame()
-    vif_data["Feature"] = features
-    vif_data["VIF"] = [variance_inflation_factor(df[features].values, i) 
-                       for i in range(len(features))]
-    return vif_data.sort_values('VIF', ascending=False)
-
-# Feature engineering examples
-df['life_stage'] = df['age'].astype(str) + '_' + df['job'] + '_' + df['marital']
-df['financial_burden'] = df['housing'] + df['loan'] + df['default']
-df['contact_effectiveness'] = df['contact'] + '_' + df['pdays'].astype(str)
-                </div>
-            </section>
-
-            <!-- Feature Engineering Section -->
-            <section id="feature-engineering" class="content-section">
-                <h2 class="section-title">
-                    <i class="fas fa-magic"></i>
-                    Advanced Feature Engineering
-                </h2>
-
-                <div class="process-grid">
-                    <div class="process-card">
-                        <h3><i class="fas fa-users"></i> Life Stage Segmentation</h3>
-                        <ul>
-                            <li>Combine age groups with occupation types</li>
-                            <li>Factor in marital status and education level</li>
-                            <li>Create meaningful customer segments</li>
-                            <li>Analyze segment-specific target patterns</li>
-                        </ul>
-                    </div>
-
-                    <div class="process-card">
-                        <h3><i class="fas fa-phone"></i> Communication Patterns</h3>
-                        <ul>
-                            <li>Contact method effectiveness scoring</li>
-                            <li>Previous contact day impact analysis</li>
-                            <li>Campaign frequency optimization</li>
-                            <li>Channel preference modeling</li>
-                        </ul>
-                    </div>
-
-                    <div class="process-card">
-                        <h3><i class="fas fa-calculator"></i> Financial Risk Profiling</h3>
-                        <ul>
-                            <li>Housing loan status integration</li>
-                            <li>Personal loan history analysis</li>
-                            <li>Credit default risk assessment</li>
-                            <li>Overall financial stability scoring</li>
-                        </ul>
-                    </div>
-
-                    <div class="process-card">
-                        <h3><i class="fas fa-sitemap"></i> Interaction Features</h3>
-                        <ul>
-                            <li>Life stage × Communication effectiveness</li>
-                            <li>Financial status × Campaign intensity</li>
-                            <li>Age group × Contact method preferences</li>
-                            <li>Education × Financial product affinity</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="code-block">
-# Advanced Feature Engineering Pipeline
-
-# Life Stage Feature Creation
-def create_life_stage(row):
-    age_group = 'young' if row['age'] < 30 else 'middle' if row['age'] < 55 else 'senior'
-    job_category = 'professional' if row['job'] in ['management', 'technician', 'admin'] else 'other'
-    education_level = 'high' if row['education'] in ['university.degree', 'professional.course'] else 'standard'
-    return f"{age_group}_{job_category}_{row['marital']}_{education_level}"
-
-df['life_stage_detailed'] = df.apply(create_life_stage, axis=1)
-
-# Communication Effectiveness Score
-def communication_score(row):
-    method_score = {'telephone': 3, 'cellular': 4, 'unknown': 1}.get(row['contact'], 2)
-    frequency_penalty = min(row['campaign'], 5) * 0.2  # Diminishing returns
-    recency_bonus = 1 if row['pdays'] < 30 else 0.5 if row['pdays'] < 180 else 0
-    return method_score - frequency_penalty + recency_bonus
-
-df['communication_effectiveness'] = df.apply(communication_score, axis=1)
-
-# Financial Stability Index
-df['financial_stability'] = (
-    (df['housing'] == 'no').astype(int) * 2 +  # No housing loan = more stable
-    (df['loan'] == 'no').astype(int) * 3 +     # No personal loan = more stable  
-    (df['default'] == 'no').astype(int) * 5    # No default = much more stable
-)
-
-# Interaction Features
-df['life_stage_communication'] = df['life_stage_detailed'] + '_' + df['communication_effectiveness'].round().astype(str)
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.content-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.nav-tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
-        }
-
-        // Add some interactive animations
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.process-card, .feature-card');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.animationDelay = Math.random() * 0.5 + 's';
-                        entry.target.style.animation = 'fadeIn 0.6s ease forwards';
-                    }
-                });
-            });
-            
-            cards.forEach(card => observer.observe(card));
-        });
-    </script>
+           <!-- Bivariate Analysis Section -->
+           <div class="section-card bivariate">
+               <h2 class="section-title">Bivariate/Multivariate Analysis + Target Correlation</h2>
+               
+               <div class="content-section">
+                   <h3 class="content-header">Data deep dive to improve model performance</h3>
+                   <ol class="numbered-list">
+                       <li><span class="highlight-text">Detect multicollinearity (correlation matrix)</span></li>
+                       <li>
+                           <span class="highlight-text">Gather insights for feature engineering</span>
+                           <ul class="content-list sub-list">
+                               <li>Life stage (age + occupation + marital status + education)</li>
+                               <li>Channel/communication effectiveness (contact method + previous contact days, campaign calls)</li>
+                               <li>Life stage + channel communication effectiveness</li>
+                               <li>Financial status (housing loan, personal loan, credit default)</li>
+                           </ul>
+                       </li>
+                   </ol>
+               </div>
+           </div>
+       </div>
+   </div>
 </body>
 </html>
